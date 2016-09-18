@@ -7,8 +7,8 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="me.skywave.maternitycarelocker.LockerActivity"
-    android:background="@drawable/sample_background">
+    android:background="@drawable/sample_background"
+    tools:context="me.skywave.maternitycarelocker.LockerActivity">
 
     <TextClock
         android:layout_width="wrap_content"
@@ -22,34 +22,15 @@
         android:layout_marginTop="30dp"
         android:textColor="#ffffff" />
 
-    <LinearLayout
-        android:orientation="horizontal"
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/linearLayout"
-        android:layout_below="@+id/textClock"
-        android:layout_centerHorizontal="true">
-
-        <ImageView
-            android:layout_width="35sp"
-            android:layout_height="35sp"
-            android:id="@+id/imageView"
-            android:background="@drawable/w_01"
-            android:baselineAlignBottom="false"
-            android:layout_gravity="center_vertical"
-            android:contentDescription="맑음" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="30sp"
-            android:text="20도"
-            android:id="@+id/weatherText"
-            android:layout_gravity="center_vertical"
-            android:layout_marginStart="5dp"
-            android:textColor="#ffffff" />
-
-    </LinearLayout>
+        android:textSize="30sp"
+        android:id="@+id/weatherText"
+        android:layout_centerHorizontal="true"
+        android:textColor="#ffffff"
+        android:drawablePadding="5dp"
+        android:layout_below="@+id/textClock" />
 
     <ImageView
         android:layout_width="wrap_content"
