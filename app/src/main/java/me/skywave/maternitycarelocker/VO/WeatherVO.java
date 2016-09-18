@@ -2,9 +2,6 @@ package me.skywave.maternitycarelocker.VO;
 
 import me.skywave.maternitycarelocker.R;
 
-/**
- * Created by Jeong on 2016. 9. 17..
- */
 public class WeatherVO {
     private String temperature;
     private int icon;
