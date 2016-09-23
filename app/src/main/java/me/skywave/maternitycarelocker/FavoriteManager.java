@@ -1,6 +1,8 @@
 package me.skywave.maternitycarelocker;
 
 import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,11 +15,15 @@ public class FavoriteManager {
     }
 
     public List<String> getFavoritePackageNames() {
-        //TODO: get package names from DB
         List<String> packageNames = new ArrayList<>();
 
-        packageNames.add("com.android.calendar");
-        packageNames.add("com.android.email");
+        DBManager dbManager = new DBManager(context);
+        SQLiteDatabase db = dbManager.getReadableDatabase();
+
+        Cursor c = db.rawQuery("SELECT * FROM favorite", null);
+        while (c.moveToNext()) {
+            packageNames.add(c.getString(1));
+        }
         return packageNames;
     }
 }
