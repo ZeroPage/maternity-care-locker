@@ -24,6 +24,8 @@ public class FavoriteManager {
         while (c.moveToNext()) {
             packageNames.add(c.getString(1));
         }
+        c.close();
+        db.close();
         return packageNames;
     }
 }

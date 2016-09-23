@@ -67,7 +67,6 @@ public class FavoriteListAdapter extends BaseAdapter {
         TextView nameView = (TextView) convertView.findViewById(R.id.nameView);
         ImageView iconView = (ImageView) convertView.findViewById(R.id.iconView);
         final CheckBox checkBox = (CheckBox) convertView.findViewById(R.id.checkBox);
-        final int checkPos = position;
 
         try {
             nameView.setText(pm.getApplicationLabel(pm.getApplicationInfo(allPkg.get(position), 0)));
