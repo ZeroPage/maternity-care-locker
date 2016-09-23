@@ -30,7 +30,7 @@ public class DBManager extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         String CREATE_FAVORITE_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_FAVORITE +
                 "(" +
-                KEY_FAVORITE_ID + " TEXT PRIMARY KEY," +
+                KEY_FAVORITE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
                 KEY_FAVORITE_PKG + " TEXT" +
                 ")";
 
