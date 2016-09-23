@@ -2,6 +2,7 @@ package me.skywave.maternitycarelocker;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
@@ -13,33 +14,35 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.List;
 
 public class FavoriteListAdapter extends BaseAdapter {
     private Context context;
     private int resource;
-    private int checkLimit;
-    private ArrayList<String> pkgName;
+    private ArrayList<String> allPkg;
     private PackageManager pm;
-    private boolean[] checkList;
+    private ArrayList<String> selectedPkg = new ArrayList<>();
 
-    public FavoriteListAdapter(Context context, int resource, ArrayList<String> pkgName) {
+    public FavoriteListAdapter(Context context, int resource) {
         this.context = context;
         this.resource = resource;
-        this.pkgName = pkgName;
         pm = context.getPackageManager();
-        checkList = new boolean[pkgName.size()];
-        Arrays.fill(checkList, false);
+
+        List<PackageInfo> packages = pm.getInstalledPackages(0);
+        allPkg = new ArrayList<>();
+        for(PackageInfo pkg : packages) {
+            allPkg.add(pkg.packageName);
+        }
     }
 
     @Override
     public int getCount() {
-        return pkgName.size();
+        return allPkg.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return pkgName.get(position);
+        return allPkg.get(position);
     }
 
     @Override
@@ -48,7 +51,7 @@ public class FavoriteListAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         if (convertView == null) {
             LayoutInflater inflater = ((Activity) context).getLayoutInflater();
             convertView = inflater.inflate(resource, parent, false);
@@ -56,7 +59,7 @@ public class FavoriteListAdapter extends BaseAdapter {
 
         Drawable icon = null;
         try {
-            icon = context.getPackageManager().getApplicationIcon(pkgName.get(position));
+            icon = context.getPackageManager().getApplicationIcon(allPkg.get(position));
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
@@ -67,20 +70,20 @@ public class FavoriteListAdapter extends BaseAdapter {
         final int checkPos = position;
 
         try {
-            nameView.setText(pm.getApplicationLabel(pm.getApplicationInfo(pkgName.get(position), 0)));
+            nameView.setText(pm.getApplicationLabel(pm.getApplicationInfo(allPkg.get(position), 0)));
             iconView.setImageDrawable(icon);
             checkBox.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (checkBox.isChecked()) {
-                        if (getCheckedNum() == 2) {
+                        if (selectedPkg.size() == 2) {
                             checkBox.setChecked(false);
                             return;
                         }
-                        checkList[checkPos] = true;
+                        selectedPkg.add(allPkg.get(position));
                     }
                     else {
-                        checkList[checkPos] = false;
+                        selectedPkg.remove(allPkg.get(position));
                     }
 
                 }
@@ -89,7 +92,7 @@ public class FavoriteListAdapter extends BaseAdapter {
             e.printStackTrace();
         }
 
-        if (!checkList[position]) {
+        if (!selectedPkg.contains(allPkg.get(position))) {
             checkBox.setChecked(false);
         } else {
             checkBox.setChecked(true);
@@ -97,13 +100,7 @@ public class FavoriteListAdapter extends BaseAdapter {
         return convertView;
     }
 
-    private int getCheckedNum() {
-        int num = 0;
-        for (int i = 0; i < pkgName.size(); i++) {
-            if (checkList[i]) {
-                num++;
-            }
-        }
-        return num;
+    public List<String> getCheckedList() {
+        return selectedPkg;
     }
 }
