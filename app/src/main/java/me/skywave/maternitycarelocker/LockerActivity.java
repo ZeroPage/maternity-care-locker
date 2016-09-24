@@ -35,42 +35,8 @@ public class LockerActivity extends AppCompatActivity implements OnTaskCompleted
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_locker);
-
-        ImageView imageView1 = (ImageView) findViewById(R.id.imageView2);
-        ImageView imageView2 = (ImageView) findViewById(R.id.imageView3);
-
-        PackageManager pm = getPackageManager();
-        FavoriteManager favorite = new FavoriteManager(this);
-        final List<String> packages = favorite.getFavoritePackageNames();
-
-        try {
-            ApplicationInfo ai =pm.getApplicationInfo(packages.get(0), 0);
-            imageView1.setImageDrawable(ai.loadIcon(pm));
-            ai = pm.getApplicationInfo(packages.get(1), 0);
-            imageView2.setImageDrawable(ai.loadIcon(pm));
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-        }
-
-        imageView1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent();
-                intent.setPackage(packages.get(0));
-                intent.setAction(Intent.ACTION_MAIN);
-                startActivity(intent);
-            }
-        });
-
-        imageView2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent();
-                intent.setPackage(packages.get(1));
-                intent.setAction(Intent.ACTION_MAIN);
-                startActivity(intent);
-            }
-        });
+        Intent intent = new Intent(this, AppSelectActivity.class);
+        startActivity(intent);
     }
 
     @Override
@@ -85,6 +51,7 @@ public class LockerActivity extends AppCompatActivity implements OnTaskCompleted
     protected void onResume() {
         super.onResume();
         setWeather();
+        setFavorite();
     }
 
     private void initTypeFace() {
@@ -146,6 +113,56 @@ public class LockerActivity extends AppCompatActivity implements OnTaskCompleted
         }
     }
 
+    private void setFavorite() {
+        ImageView imageView1 = (ImageView) findViewById(R.id.imageView2);
+        ImageView imageView2 = (ImageView) findViewById(R.id.imageView3);
+
+        PackageManager pm = getPackageManager();
+        FavoriteManager favorite = new FavoriteManager(this);
+
+        final List<String> packages = favorite.getFavoritePackageNames();
+
+        if (packages.isEmpty()) {
+            imageView1.setVisibility(View.INVISIBLE);
+            imageView2.setVisibility(View.INVISIBLE);
+        }
+        try {
+            ApplicationInfo ai;
+            if(packages.size() >= 1) {
+                imageView1.setVisibility(View.VISIBLE);
+                ai = pm.getApplicationInfo(packages.get(0), 0);
+                imageView1.setImageDrawable(ai.loadIcon(pm));
+                imageView1.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent();
+                        intent.setPackage(packages.get(0));
+                        intent.setAction(Intent.ACTION_MAIN);
+                        startActivity(intent);
+                    }
+                });
+            }
+            if(packages.size() == 2) {
+                imageView2.setVisibility(View.VISIBLE);
+                ai = pm.getApplicationInfo(packages.get(1), 0);
+                imageView2.setImageDrawable(ai.loadIcon(pm));
+                imageView2.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent();
+                        intent.setPackage(packages.get(1));
+                        intent.setAction(Intent.ACTION_MAIN);
+                        startActivity(intent);
+                    }
+                });
+            }
+            else {
+                imageView2.setVisibility(View.INVISIBLE);
+            }
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
 
     @Override
     public void onTaskCompleted(String s) {
