@@ -10,7 +10,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 
-public class WeatherTask extends AsyncTask<ArrayList<Double>, Void, String> {
+public class WeatherTask extends AsyncTask<Double, Void, String> {
     private final String key = "1562dbd32d37e5d8fc6ec562d8ab24a2";
 
     private OnTaskCompleted listener;
@@ -20,10 +20,9 @@ public class WeatherTask extends AsyncTask<ArrayList<Double>, Void, String> {
     }
 
     @Override
-    protected String doInBackground(ArrayList<Double>... doubles) {
+    protected String doInBackground(Double... doubles) {
         try {
-            ArrayList<Double> input = doubles[0];
-            URL url = new URL("http://api.openweathermap.org/data/2.5/weather?" + "&appid=" + key + "&lat=" + input.get(0) + "&lon=" + input.get(1));
+            URL url = new URL("http://api.openweathermap.org/data/2.5/weather?" + "&appid=" + key + "&lat=" + doubles[0] + "&lon=" + doubles[1]);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 
             conn.setReadTimeout(10000);
