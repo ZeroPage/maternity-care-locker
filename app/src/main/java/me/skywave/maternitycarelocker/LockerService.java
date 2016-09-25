@@ -30,8 +30,9 @@ public class LockerService extends IntentService {
         filter.addAction(Intent.ACTION_SCREEN_ON);
         filter.addAction(Intent.ACTION_SCREEN_OFF);
         filter.addAction(Intent.ACTION_BOOT_COMPLETED);
-        filter.addAction(TelephonyManager.ACTION_PHONE_STATE_CHANGED);
         filter.addAction(Intent.ACTION_NEW_OUTGOING_CALL);
+
+        filter.addAction(TelephonyManager.ACTION_PHONE_STATE_CHANGED);
         filter.setPriority(IntentFilter.SYSTEM_HIGH_PRIORITY - 1);
         registerReceiver(receiver, filter);
 
@@ -44,6 +45,7 @@ public class LockerService extends IntentService {
             @Override
             public void onCallStateChanged(int state, String incomingNumber) {
                 Log.d("skywave", String.valueOf(state));
+                LockerDialog.setCallStatus(state);
             }
         };
 

@@ -12,6 +12,7 @@ import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.location.LocationManager;
 import android.support.v4.app.ActivityCompat;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,39 +31,58 @@ import java.util.List;
 import me.skywave.maternitycarelocker.VO.WeatherVO;
 
 public class LockerDialog {
-    private static boolean running = false;
-    private static Dialog dialog = null;
+    private static boolean RUNNING = false;
+
+    private static Dialog CURRENT_DIALOG = null;
+    private static View CURRENT_ROOT_VIEW = null;
+    private static int CALL_STATUS = 0;
 
     public static void show(Context context) {
-        if (running) {
+        if (RUNNING) {
             return;
         }
 
-        dialog = new Dialog(context, R.style.LockerDialog);
+        CURRENT_DIALOG = new Dialog(context, R.style.LockerDialog);
 
-        prepareFullscreen(dialog);
-        prepareContents(context, dialog);
+        prepareFullscreen(CURRENT_DIALOG);
+        prepareContents(context, CURRENT_DIALOG);
 
-        running = true;
-        dialog.show();
+        RUNNING = true;
+        CURRENT_DIALOG.show();
     }
 
     public static void dismiss() {
-        if (dialog != null) {
-            dialog.dismiss();
+        if (CURRENT_DIALOG != null) {
+            CURRENT_DIALOG.dismiss();
+            CURRENT_DIALOG = null;
+            CURRENT_ROOT_VIEW = null;
+        }
+    }
+
+    public static void setCallStatus(int callStatus) {
+        if (callStatus < 0 || callStatus > 2) {
+            return;
+        }
+
+        CALL_STATUS = callStatus;
+
+        if (RUNNING) {
+            updateCallButtons(CURRENT_ROOT_VIEW, callStatus);
         }
     }
 
     private static void prepareContents(Context context, final Dialog dialog) {
         LayoutInflater inflater = LayoutInflater.from(context);
-        View view = inflater.inflate(R.layout.locker_dialog, null);
+        CURRENT_ROOT_VIEW = inflater.inflate(R.layout.locker_dialog, null);
 
-        prepareUnlock(view);
-        prepareFavorite(view, context);
-        prepareWeather(view, context);
-        prepareTypeFaces(view, "NotoSansKR-Light.otf", context);
+        prepareUnlock(CURRENT_ROOT_VIEW);
+        prepareFavorite(CURRENT_ROOT_VIEW, context);
+        prepareWeather(CURRENT_ROOT_VIEW, context);
+        prepareCallButtons(CURRENT_ROOT_VIEW, context);
+        prepareTypeFaces(CURRENT_ROOT_VIEW, "NotoSansKR-Light.otf", context);
+        updateCallButtons(CURRENT_ROOT_VIEW, CALL_STATUS);
 
-        dialog.setContentView(view);
+        dialog.setContentView(CURRENT_ROOT_VIEW);
     }
 
     private static void prepareUnlock(View rootView) {
@@ -73,6 +93,32 @@ public class LockerDialog {
                 dismiss();
             }
         });
+    }
+
+    private static void prepareCallButtons(View rootView, final Context context) {
+        Button acceptButton = (Button) rootView.findViewById(R.id.button_call_accept);
+        acceptButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MediaButtonHelper.pressMediaButton(100, context);
+            }
+        });
+
+        Button dismissButton = (Button) rootView.findViewById(R.id.button_call_dismiss);
+        dismissButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MediaButtonHelper.pressMediaButton(3000, context);
+            }
+        });
+    }
+
+    private static void updateCallButtons(View rootView, int callState) {
+        Button acceptButton = (Button) rootView.findViewById(R.id.button_call_accept);
+        Button dismissButton = (Button) rootView.findViewById(R.id.button_call_dismiss);
+
+        acceptButton.setVisibility(callState == TelephonyManager.CALL_STATE_RINGING ? View.VISIBLE : View.INVISIBLE);
+        dismissButton.setVisibility((callState & (TelephonyManager.CALL_STATE_RINGING | TelephonyManager.CALL_STATE_OFFHOOK)) != 0 ? View.VISIBLE : View.INVISIBLE);
     }
 
     private static void prepareTypeFaces(View view, String fontName, Context context) {
@@ -223,8 +269,8 @@ public class LockerDialog {
         dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
             public void onDismiss(DialogInterface dialog) {
-                running = false;
-                LockerDialog.dialog = null;
+                RUNNING = false;
+                LockerDialog.CURRENT_DIALOG = null;
             }
         });
     }

@@ -54,4 +54,24 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true" />
 
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/button_unlock"
+        android:layout_centerHorizontal="true">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ACCEPT CALL"
+            android:id="@+id/button_call_accept" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="DISMISS CALL"
+            android:id="@+id/button_call_dismiss" />
+    </LinearLayout>
+
 </RelativeLayout>
