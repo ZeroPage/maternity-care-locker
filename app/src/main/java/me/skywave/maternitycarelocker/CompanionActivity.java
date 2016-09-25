@@ -20,6 +20,7 @@ public class CompanionActivity extends AppCompatActivity {
 
         Button buttonService = (Button) findViewById(R.id.button_service);
         Button buttonQuick = (Button) findViewById(R.id.button_quick);
+        Button buttonPref = (Button) findViewById(R.id.button_pref);
 
         buttonService.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -32,6 +33,13 @@ public class CompanionActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(CompanionActivity.this, AppSelectActivity.class));
+            }
+        });
+
+        buttonPref.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(CompanionActivity.this, SettingsActivity.class));
             }
         });
     }
