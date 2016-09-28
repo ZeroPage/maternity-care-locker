@@ -53,4 +53,7 @@
     <!-- Example settings for Background -->
     <string name="pref_header_background">배경 설정</string>
 
+    <!-- Example settings for Favorite -->
+    <string name="pref_header_favorite">즐겨쓰는 앱</string>
+
 </resources>
