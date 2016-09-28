@@ -132,7 +132,8 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
         return PreferenceFragment.class.getName().equals(fragmentName)
                 || GeneralPreferenceFragment.class.getName().equals(fragmentName)
                 || DataSyncPreferenceFragment.class.getName().equals(fragmentName)
-                || BackgroundPreferenceFragment.class.getName().equals(fragmentName);
+                || BackgroundPreferenceFragment.class.getName().equals(fragmentName)
+                || FavoritePreferenceFragment.class.getName().equals(fragmentName);
     }
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
@@ -227,11 +228,10 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
         @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
-        }
 
-        @Override
-        public void onActivityResult(int requestCode, int resultCode, Intent data) {
-            super.onActivityResult(requestCode, resultCode, data);
+            //TODO: 빈칸으로 이동하지 않고 액티비티 실행시켜야함
+            Intent intent = new Intent(getActivity(), AppSelectActivity.class);
+            startActivity(intent);
         }
 
         @Override
