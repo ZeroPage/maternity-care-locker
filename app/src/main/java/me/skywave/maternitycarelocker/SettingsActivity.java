@@ -5,19 +5,14 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.media.Ringtone;
-import android.media.RingtoneManager;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
-import android.support.v7.app.ActionBar;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
-import android.preference.RingtonePreference;
-import android.text.TextUtils;
+import android.support.v7.app.ActionBar;
 import android.util.Log;
 import android.view.MenuItem;
 
@@ -137,7 +132,8 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
         return PreferenceFragment.class.getName().equals(fragmentName)
                 || GeneralPreferenceFragment.class.getName().equals(fragmentName)
                 || DataSyncPreferenceFragment.class.getName().equals(fragmentName)
-                || BackgroundPreferenceFragment.class.getName().equals(fragmentName);
+                || BackgroundPreferenceFragment.class.getName().equals(fragmentName)
+                || FavoritePreferenceFragment.class.getName().equals(fragmentName);
     }
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
@@ -224,8 +220,29 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             }
             return super.onOptionsItemSelected(item);
         }
+    }
 
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
+    public static class FavoritePreferenceFragment extends PreferenceFragment {
 
+        @Override
+        public void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+
+            //TODO: 빈칸으로 이동하지 않고 액티비티 실행시켜야함
+            Intent intent = new Intent(getActivity(), AppSelectActivity.class);
+            startActivity(intent);
+        }
+
+        @Override
+        public boolean onOptionsItemSelected(MenuItem item) {
+            int id = item.getItemId();
+            if (id == android.R.id.home) {
+                startActivity(new Intent(getActivity(), SettingsActivity.class));
+                return true;
+            }
+            return super.onOptionsItemSelected(item);
+        }
     }
 
 }
