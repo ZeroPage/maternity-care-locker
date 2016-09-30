@@ -2,10 +2,14 @@ package me.skywave.maternitycarelocker;
 
 import android.app.IntentService;
 import android.app.Notification;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Parcel;
+import android.provider.ContactsContract;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 import android.util.Log;
@@ -44,8 +48,27 @@ public class LockerService extends IntentService {
         psListener = new PhoneStateListener() {
             @Override
             public void onCallStateChanged(int state, String incomingNumber) {
-                Log.d("skywave", String.valueOf(state));
-                LockerDialog.setCallStatus(state);
+                Log.d("skywave", String.valueOf(state) + "/" + incomingNumber);
+                String contactName = incomingNumber;
+
+                if (state != TelephonyManager.CALL_STATE_IDLE && incomingNumber != null && !incomingNumber.isEmpty()) {
+                    ContentResolver cr = LockerService.this.getContentResolver();
+                    Uri uri = Uri.withAppendedPath(ContactsContract.PhoneLookup.CONTENT_FILTER_URI, Uri.encode(incomingNumber));
+                    Cursor cursor = cr.query(uri, new String[]{ContactsContract.PhoneLookup.DISPLAY_NAME}, null, null, null);
+
+                    if (cursor != null) {
+                        if (cursor.moveToFirst()) {
+                            contactName = cursor.getString(cursor.getColumnIndex(ContactsContract.PhoneLookup.DISPLAY_NAME));
+                        }
+
+                        if (!cursor.isClosed()) {
+                            cursor.close();
+                        }
+                    }
+                }
+
+
+                LockerDialog.setCallStatus(state, contactName);
             }
         };
 
