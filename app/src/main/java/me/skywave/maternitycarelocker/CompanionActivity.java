@@ -2,6 +2,7 @@ package me.skywave.maternitycarelocker;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,6 +13,24 @@ import android.widget.Toast;
 
 public class CompanionActivity extends AppCompatActivity {
     private static Intent service = null;
+    private int REQ_CODE = 53152;
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (requestCode != REQ_CODE) {
+                return;
+            }
+
+            if (Settings.canDrawOverlays(CompanionActivity.this)) {
+                toggleService();
+            } else {
+                Log.e("Permission", "fail");
+            }
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +44,14 @@ public class CompanionActivity extends AppCompatActivity {
         buttonService.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    if (!Settings.canDrawOverlays(CompanionActivity.this)) {
+                        Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+                                Uri.parse("package:" + getPackageName()));
+                        startActivityForResult(intent, REQ_CODE);
+                    }
+                }
+
                 toggleService();
             }
         });
