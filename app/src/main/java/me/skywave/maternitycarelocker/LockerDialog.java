@@ -59,7 +59,7 @@ public class LockerDialog {
         }
     }
 
-    public static void setCallStatus(int callStatus) {
+    public static void setCallStatus(int callStatus, String caller) {
         if (callStatus < 0 || callStatus > 2) {
             return;
         }
@@ -67,7 +67,7 @@ public class LockerDialog {
         CALL_STATUS = callStatus;
 
         if (RUNNING) {
-            updateCallButtons(CURRENT_ROOT_VIEW, callStatus);
+            updateCallButtons(CURRENT_ROOT_VIEW, callStatus, caller);
         }
     }
 
@@ -80,7 +80,7 @@ public class LockerDialog {
         prepareWeather(CURRENT_ROOT_VIEW, context);
         prepareCallButtons(CURRENT_ROOT_VIEW, context);
         prepareTypeFaces(CURRENT_ROOT_VIEW, "NotoSansKR-Light.otf", context);
-        updateCallButtons(CURRENT_ROOT_VIEW, CALL_STATUS);
+        updateCallButtons(CURRENT_ROOT_VIEW, CALL_STATUS, null);
 
         dialog.setContentView(CURRENT_ROOT_VIEW);
     }
@@ -113,12 +113,21 @@ public class LockerDialog {
         });
     }
 
-    private static void updateCallButtons(View rootView, int callState) {
+    private static void updateCallButtons(View rootView, int callState, String caller) {
         Button acceptButton = (Button) rootView.findViewById(R.id.button_call_accept);
         Button dismissButton = (Button) rootView.findViewById(R.id.button_call_dismiss);
+        TextView callerText = (TextView) rootView.findViewById(R.id.text_caller);
 
-        acceptButton.setVisibility(callState == TelephonyManager.CALL_STATE_RINGING ? View.VISIBLE : View.INVISIBLE);
-        dismissButton.setVisibility((callState & (TelephonyManager.CALL_STATE_RINGING | TelephonyManager.CALL_STATE_OFFHOOK)) != 0 ? View.VISIBLE : View.INVISIBLE);
+        Log.d("skywave", caller == null ? "" : caller);
+
+        int acceptVisibility = callState == TelephonyManager.CALL_STATE_RINGING ? View.VISIBLE : View.INVISIBLE;
+        acceptButton.setVisibility(acceptVisibility);
+
+        int dismissVisibility = (callState & (TelephonyManager.CALL_STATE_RINGING | TelephonyManager.CALL_STATE_OFFHOOK)) != 0 ? View.VISIBLE : View.INVISIBLE;
+        dismissButton.setVisibility(dismissVisibility);
+        callerText.setVisibility(dismissVisibility);
+
+        callerText.setText(caller != null ? caller : "");
     }
 
     private static void prepareTypeFaces(View view, String fontName, Context context) {

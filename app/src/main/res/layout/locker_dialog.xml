@@ -55,6 +55,7 @@
         android:layout_centerHorizontal="true" />
 
     <LinearLayout
+        android:id="@+id/layout_call_buttons"
         android:orientation="horizontal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -73,5 +74,12 @@
             android:text="DISMISS CALL"
             android:id="@+id/button_call_dismiss" />
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/text_caller"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/layout_call_buttons"
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>
