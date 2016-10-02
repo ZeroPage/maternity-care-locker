@@ -4,7 +4,6 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/MaternityCareLocker.iml" filepath="$PROJECT_DIR$/MaternityCareLocker.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/maternity-care-locker.iml" filepath="$PROJECT_DIR$/maternity-care-locker.iml" />
     </modules>
   </component>
 </project>

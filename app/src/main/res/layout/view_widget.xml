@@ -7,8 +7,8 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:background="@drawable/sample_background"
     tools:context="me.skywave.maternitycarelocker.LockerDialog">
+    <!--android:background="@drawable/sample_background"-->
 
     <TextClock
         android:layout_width="wrap_content"
@@ -50,7 +50,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/button_unlock"
-        android:text="UNLOCK"
+        android:text="Request Unlock"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true" />
 
