@@ -19,7 +19,7 @@ public class LockerDialog {
     private static LockerWidgetController CURRENT_WIDGET_CONTROLLER = null;
     private static LockerUnlockController CURRENT_UNLOCK_CONTROLLER = null;
     private static OnUnlockListener CURRENT_LISTENER = null;
-    private static ViewPager CURRENT_VIEWPAGER;
+    private static CustomViewPager CURRENT_VIEWPAGER;
 
     private final static int PAGE_WIDGET = 1;
     private final static int PAGE_UNLOCK = 0;
@@ -50,6 +50,15 @@ public class LockerDialog {
         setUnlockListener(listener);
         CURRENT_VIEWPAGER.setCurrentItem(PAGE_UNLOCK, true);
     }
+
+    public static void requestWidget() {
+        if (CURRENT_DIALOG == null) {
+            return;
+        }
+
+        CURRENT_VIEWPAGER.setCurrentItem(PAGE_WIDGET, true);
+    }
+
 
     public static void unlock() {
         if (CURRENT_DIALOG == null) {
@@ -82,7 +91,7 @@ public class LockerDialog {
     private static View prepareLockerView(Context context, PagerAdapter adapter, int initialIndex) {
         View view = LayoutInflater.from(context).inflate(R.layout.dialog_locker, null);
 
-        CURRENT_VIEWPAGER = (ViewPager) view.findViewById(R.id.viewpager);
+        CURRENT_VIEWPAGER = (CustomViewPager) view.findViewById(R.id.viewpager);
         CURRENT_VIEWPAGER.setAdapter(adapter);
         CURRENT_VIEWPAGER.setCurrentItem(initialIndex);
         CURRENT_VIEWPAGER.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
@@ -90,11 +99,13 @@ public class LockerDialog {
             public void onPageSelected(int position) {
                 if (position == PAGE_WIDGET) {
                     setUnlockListener(null);
+                    CURRENT_VIEWPAGER.setPagingEnabled(true);
+                } else if (position == PAGE_UNLOCK) {
+                    CURRENT_VIEWPAGER.setPagingEnabled(false);
                 }
             }
         });
 
-        // Give the TabLayout the ViewPager
         TabLayout tabLayout = (TabLayout) view.findViewById(R.id.sliding_tabs);
         tabLayout.setupWithViewPager(CURRENT_VIEWPAGER);
 

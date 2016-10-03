@@ -3,17 +3,41 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <Button
-        android:id="@+id/button_unlock"
+
+    <me.zhanghai.android.patternlock.PatternView
+        android:id="@+id/pattern_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:text="UNLOCK"/>
+        android:layout_centerVertical="true" />
+    <TextView
+        android:id="@+id/text_pattern"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/pattern_view"
+        android:layout_centerHorizontal="true"/>
+    <LinearLayout
+        android:id="@+id/layout_buttons"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/pattern_view"
+        android:layout_centerHorizontal="true"
+        android:orientation="horizontal">
+        <Button
+            android:id="@+id/button_unlock"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="UNLOCK"/>
+        <Button
+            android:id="@+id/button_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="CANCEL"/>
+    </LinearLayout>
     <TextView
         android:id="@+id/text_unlock_action"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/button_unlock"
+        android:layout_below="@id/layout_buttons"
         android:layout_centerHorizontal="true"/>
 </RelativeLayout>
