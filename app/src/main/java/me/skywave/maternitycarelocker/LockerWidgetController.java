@@ -3,12 +3,14 @@ package me.skywave.maternitycarelocker;
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.location.LocationManager;
+import android.preference.PreferenceManager;
 import android.support.v4.app.ActivityCompat;
 import android.telephony.TelephonyManager;
 import android.util.Log;
@@ -33,12 +35,15 @@ public class LockerWidgetController {
     private View currentView;
 
     public LockerWidgetController(Context context) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
         LayoutInflater inflater = LayoutInflater.from(context);
         currentView = inflater.inflate(R.layout.view_widget, null);
 
         prepareUnlock(currentView, context);
         prepareFavorite(currentView, context);
-        prepareWeather(currentView, context);
+        if (preferences.getBoolean("weather_switch", true)) {
+            prepareWeather(currentView, context);
+        }
         prepareCallButtons(currentView, context);
         prepareTypeFaces(currentView, "NotoSansKR-Light.otf", context);
         updateCallButtons(currentView, callStatus, null);
