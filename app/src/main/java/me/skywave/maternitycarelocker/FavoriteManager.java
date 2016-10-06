@@ -1,10 +1,10 @@
 package me.skywave.maternitycarelocker;
 
 import android.content.Context;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
+import android.content.SharedPreferences;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 public class FavoriteManager {
@@ -17,15 +17,8 @@ public class FavoriteManager {
     public List<String> getFavoritePackageNames() {
         List<String> packageNames = new ArrayList<>();
 
-        DBManager dbManager = new DBManager(context);
-        SQLiteDatabase db = dbManager.getReadableDatabase();
-
-        Cursor c = db.rawQuery("SELECT * FROM favorite", null);
-        while (c.moveToNext()) {
-            packageNames.add(c.getString(1));
-        }
-        c.close();
-        db.close();
+        SharedPreferences pref = context.getSharedPreferences("favorite", Context.MODE_PRIVATE);
+        packageNames.addAll(pref.getStringSet("favorite", new HashSet<String>()));
         return packageNames;
     }
 }

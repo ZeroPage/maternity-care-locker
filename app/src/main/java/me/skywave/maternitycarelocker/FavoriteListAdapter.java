@@ -14,14 +14,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class FavoriteListAdapter extends BaseAdapter {
     private Context context;
     private int resource;
     private ArrayList<String> allPkg;
     private PackageManager pm;
-    private ArrayList<String> selectedPkg = new ArrayList<>();
+    private Set<String> selectedPkg = new HashSet<>();
 
     public FavoriteListAdapter(Context context, int resource) {
         this.context = context;
@@ -99,7 +101,7 @@ public class FavoriteListAdapter extends BaseAdapter {
         return convertView;
     }
 
-    public List<String> getCheckedList() {
+    public Set<String> getCheckedSet() {
         return selectedPkg;
     }
 }
