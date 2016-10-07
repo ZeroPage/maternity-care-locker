@@ -28,6 +28,7 @@ public class LockerDialog {
     public static void show(Context context) {
         if (CURRENT_DIALOG != null) {
             requestWidget();
+            return;
         }
 
         CURRENT_WIDGET_CONTROLLER = new LockerWidgetController(context);
