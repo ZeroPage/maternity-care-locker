@@ -21,7 +21,7 @@ public class LockerDialog {
     private static LockerUnlockController CURRENT_UNLOCK_CONTROLLER = null;
     private static LockerCareController CURRENT_CARE_CONTROLLER = null;
     private static OnUnlockListener CURRENT_LISTENER = null;
-    private static CustomViewPager CURRENT_VIEWPAGER;
+    private static CustomViewPager CURRENT_VIEWPAGER = null;
 
     private final static int PAGE_WIDGET = 1;
     private final static int PAGE_UNLOCK = 0;
@@ -33,19 +33,13 @@ public class LockerDialog {
             return;
         }
 
-        CURRENT_WIDGET_CONTROLLER = new LockerWidgetController(context);
-        CURRENT_UNLOCK_CONTROLLER = new LockerUnlockController(context);
-        CURRENT_CARE_CONTROLLER = new LockerCareController(context);
-
         CURRENT_DIALOG = new Dialog(context, R.style.LockerDialog);
         prepareFullscreen(CURRENT_DIALOG);
 
-        LockerPagerAdapter adapter = new LockerPagerAdapter();
-        adapter.addView(CURRENT_UNLOCK_CONTROLLER.getView());
-        adapter.addView(CURRENT_WIDGET_CONTROLLER.getView());
-        adapter.addView(CURRENT_CARE_CONTROLLER.getView());
+        LockerPagerAdapter adapter = preparePagerAdapter(context);
+        View rootView = prepareLockerView(context, adapter, PAGE_WIDGET);
 
-        CURRENT_DIALOG.setContentView(prepareLockerView(context, adapter, PAGE_WIDGET));
+        CURRENT_DIALOG.setContentView(rootView);
         CURRENT_DIALOG.show();
     }
 
@@ -93,6 +87,19 @@ public class LockerDialog {
     private static void setUnlockListener(OnUnlockListener listener) {
         CURRENT_LISTENER = listener;
         CURRENT_UNLOCK_CONTROLLER.setUnlockActionName(listener != null ? listener.getActionName() : "");
+    }
+
+    private static LockerPagerAdapter preparePagerAdapter(Context context) {
+        CURRENT_WIDGET_CONTROLLER = new LockerWidgetController(context);
+        CURRENT_UNLOCK_CONTROLLER = new LockerUnlockController(context);
+        CURRENT_CARE_CONTROLLER = new LockerCareController(context);
+
+        LockerPagerAdapter adapter = new LockerPagerAdapter();
+        adapter.addView(CURRENT_UNLOCK_CONTROLLER.getView());
+        adapter.addView(CURRENT_WIDGET_CONTROLLER.getView());
+        adapter.addView(CURRENT_CARE_CONTROLLER.getView());
+
+        return adapter;
     }
 
     private static View prepareLockerView(Context context, PagerAdapter adapter, int initialIndex) {
