@@ -24,6 +24,7 @@ import android.view.MenuItem;
 import java.util.List;
 
 import me.skywave.maternitycarelocker.R;
+import me.skywave.maternitycarelocker.utils.ImageFilePath;
 
 /**
  * A {@link PreferenceActivity} that presents a set of application settings. On
@@ -37,6 +38,7 @@ import me.skywave.maternitycarelocker.R;
  * API Guide</a> for more information on developing a Settings UI.
  */
 public class SettingsActivity extends AppCompatPreferenceActivity {
+    private static final int PICK_IMAGE = 1;
     /**
      * A backgroundPreference value change listener that updates the backgroundPreference's summary
      * to reflect its new value.
@@ -166,10 +168,10 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             backgroundPreference = findPreference("background_picker");
             backgroundPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 public boolean onPreferenceClick(Preference preference) {
-                    Intent intent = new Intent();
+                    Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+//                    Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+//                    intent.addCategory(Intent.CATEGORY_OPENABLE);
                     intent.setType("image/*");
-                    intent.setAction(Intent.ACTION_GET_CONTENT);
-                    int PICK_IMAGE = 1;
                     startActivityForResult(Intent.createChooser(intent, "배경을 선택할 앱"), PICK_IMAGE);
                     return true;
                 }
@@ -208,14 +210,18 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
         public void onActivityResult(int requestCode, int resultCode, Intent data) {
             super.onActivityResult(requestCode, resultCode, data);
 
-            if (resultCode == RESULT_OK) {
-                Log.d("LK-LOCK", "Data Recieved! " + data.getData().toString());
+            if (resultCode == RESULT_OK && requestCode == PICK_IMAGE) {
+                Log.d("LK-LOCK", "image picker data: " + data.getData().toString());
+                Uri selectedImage = Uri.parse(data.getData().toString());
+
+                String selectedImagePath = ImageFilePath.getPath(backgroundPreference.getContext(), selectedImage);
+                Log.i("LK-LOCK", "converted path:" + selectedImagePath);
 
                 SharedPreferences sharedPreferences =
                         PreferenceManager.getDefaultSharedPreferences(backgroundPreference.getContext());
 
                 SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putString(backgroundPreference.getKey(), data.getData().toString());
+                editor.putString(backgroundPreference.getKey(), selectedImagePath);
                 editor.apply();
             }
         }

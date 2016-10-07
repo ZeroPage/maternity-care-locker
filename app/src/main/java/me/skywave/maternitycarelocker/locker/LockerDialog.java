@@ -26,6 +26,7 @@ import android.widget.LinearLayout;
 import java.util.LinkedList;
 
 import me.skywave.maternitycarelocker.R;
+import me.skywave.maternitycarelocker.utils.ImageFilePath;
 
 public class LockerDialog {
     private static Dialog CURRENT_DIALOG = null;
@@ -134,19 +135,17 @@ public class LockerDialog {
         String pathString = preferences.getString("background_picker", "");
 
         if(!pathString.equals("")) {
-            Uri selectedImage = Uri.parse(pathString);
-            String[] filePathColumn = {MediaStore.Images.Media.DATA};
-
-            Cursor cursor = context.getContentResolver().query(selectedImage, filePathColumn, null, null, null);
-            cursor.moveToFirst();
-
-            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-            String filePath = cursor.getString(columnIndex);
-            cursor.close();
+//            Uri selectedImage = Uri.parse(pathString);
+//
+//            String selectedImagePath;
+//
+//            //MEDIA GALLERY
+//            selectedImagePath = ImageFilePath.getPath(context, selectedImage);
+//            Log.i("Image File Path", ""+selectedImagePath);
 
             Resources res = context.getResources();
-            Bitmap bitmap = BitmapFactory.decodeFile(filePath);
-            Log.d("LK-LOCK", "filePath: " + filePath);
+            Bitmap bitmap = BitmapFactory.decodeFile(pathString);
+            Log.d("LK-LOCK", "filePath: " + pathString);
             BitmapDrawable bd = new BitmapDrawable(res, bitmap);
             linearLayout.setBackground(bd);
         } else {
