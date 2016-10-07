@@ -6,13 +6,16 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.telephony.TelephonyManager;
 import android.util.Log;
@@ -20,6 +23,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextClock;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -41,7 +45,6 @@ public class LockerWidgetController implements LocationListener {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
         LayoutInflater inflater = LayoutInflater.from(context);
         currentView = inflater.inflate(R.layout.view_widget, null);
-
         prepareFavorite(currentView, context);
         if (preferences.getBoolean("weather_switch", true)) {
             prepareWeather(currentView, context);
@@ -184,9 +187,9 @@ public class LockerWidgetController implements LocationListener {
 
 
         if (!isGPSEnabled && !isNetworkEnabled) {
-            weatherTextView.setText("GPS 및 네트워크 연결 없음.");
+//            weatherTextView.setText("GPS 및 네트워크 연결 없음.");
         } else {
-            weatherTextView.setText("로드 중");
+            weatherTextView.setText("--도");
 
             if (isNetworkEnabled) {
                 locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 60000, 10f, this);
@@ -217,9 +220,9 @@ public class LockerWidgetController implements LocationListener {
             Log.d("LK-LOCK", "longtitude=" + lon + ", latitude=" + lat);
 
             if (lon == 0 && lat == 0) {
-                weatherTextView.setText("실패");
+                weatherTextView.setText("");
+//                weatherTextView.setText("실패");
             } else {
-
                 new WeatherTask(new OnTaskCompleted() {
                     @Override
                     public void onTaskCompleted(String s) {
