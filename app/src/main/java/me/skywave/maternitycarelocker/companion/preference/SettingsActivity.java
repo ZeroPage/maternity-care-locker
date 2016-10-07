@@ -4,7 +4,11 @@ package me.skywave.maternitycarelocker.companion.preference;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.database.ContentObserver;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.ListPreference;
@@ -12,7 +16,9 @@ import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
+import android.provider.MediaStore;
 import android.support.v7.app.ActionBar;
+import android.util.Log;
 import android.view.MenuItem;
 
 import java.util.List;
@@ -32,7 +38,7 @@ import me.skywave.maternitycarelocker.R;
  */
 public class SettingsActivity extends AppCompatPreferenceActivity {
     /**
-     * A preference value change listener that updates the preference's summary
+     * A backgroundPreference value change listener that updates the backgroundPreference's summary
      * to reflect its new value.
      */
     private static Preference.OnPreferenceChangeListener sBindPreferenceSummaryToValueListener = new Preference.OnPreferenceChangeListener() {
@@ -42,7 +48,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
 
             if (preference instanceof ListPreference) {
                 // For list preferences, look up the correct display value in
-                // the preference's 'entries' list.
+                // the backgroundPreference's 'entries' list.
                 ListPreference listPreference = (ListPreference) preference;
                 int index = listPreference.findIndexOfValue(stringValue);
 
@@ -71,11 +77,11 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
     }
 
     /**
-     * Binds a preference's summary to its value. More specifically, when the
-     * preference's value is changed, its summary (line of text below the
-     * preference title) is updated to reflect the value. The summary is also
+     * Binds a backgroundPreference's summary to its value. More specifically, when the
+     * backgroundPreference's value is changed, its summary (line of text below the
+     * backgroundPreference title) is updated to reflect the value. The summary is also
      * immediately updated upon calling this method. The exact display format is
-     * dependent on the type of preference.
+     * dependent on the type of backgroundPreference.
      *
      * @see #sBindPreferenceSummaryToValueListener
      */
@@ -83,7 +89,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
         // Set the listener to watch for value changes.
         preference.setOnPreferenceChangeListener(sBindPreferenceSummaryToValueListener);
 
-        // Trigger the listener immediately with the preference's
+        // Trigger the listener immediately with the backgroundPreference's
         // current value.
         sBindPreferenceSummaryToValueListener.onPreferenceChange(preference,
                 PreferenceManager
@@ -149,20 +155,22 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public static class GeneralPreferenceFragment extends PreferenceFragment {
 
+        Preference backgroundPreference;
+
         @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             addPreferencesFromResource(R.xml.pref_general);
             setHasOptionsMenu(true);
 
-            Preference preference = findPreference("background_picker");
-            preference.setOnPreferenceClickListener (new Preference.OnPreferenceClickListener(){
+            backgroundPreference = findPreference("background_picker");
+            backgroundPreference.setOnPreferenceClickListener (new Preference.OnPreferenceClickListener(){
                 public boolean onPreferenceClick(Preference preference){
                     Intent intent = new Intent();
                     intent.setType("image/*");
                     intent.setAction(Intent.ACTION_GET_CONTENT);
                     int PICK_IMAGE = 1;
-                    startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE);
+                    startActivityForResult(Intent.createChooser(intent, "배경을 선택할 앱"), PICK_IMAGE);
                     return true;
                 }
             });
@@ -190,17 +198,14 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             super.onActivityResult(requestCode, resultCode, data);
 
             if(resultCode == RESULT_OK) {
-//                Uri selectedImage = data.getData();
-//                String[] filePathColumn = {MediaStore.Images.Media.DATA};
-//
-//                Cursor cursor = getContentResolver().query(selectedImage, filePathColumn, null, null, null);
-//                cursor.moveToFirst();
-//
-//                int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-//                String filePath = cursor.getString(columnIndex);
-//                cursor.close();
-//
-//                Log.d(LOG_TAG, "Data Recieved! " + filePath);
+                Log.d("LK-LOCK", "Data Recieved! " + data.getData().toString());
+
+                SharedPreferences sharedPreferences =
+                        PreferenceManager.getDefaultSharedPreferences(backgroundPreference.getContext());
+
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putString(backgroundPreference.getKey(), data.getData().toString());
+                editor.apply();
             }
         }
 
