@@ -3,13 +3,25 @@ package me.skywave.maternitycarelocker.locker;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
+import android.content.res.Resources;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
+import android.preference.PreferenceManager;
+import android.provider.MediaStore;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.LinearLayoutCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.LinearLayout;
 
 import java.util.LinkedList;
 
@@ -115,6 +127,31 @@ public class LockerDialog {
 
         TabLayout tabLayout = (TabLayout) view.findViewById(R.id.sliding_tabs);
         tabLayout.setupWithViewPager(CURRENT_VIEWPAGER);
+
+        LinearLayout linearLayout = (LinearLayout) view.findViewById(R.id.linear_layout);
+
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        String pathString = preferences.getString("background_picker", "");
+
+        if(!pathString.equals("")) {
+            Uri selectedImage = Uri.parse(pathString);
+            String[] filePathColumn = {MediaStore.Images.Media.DATA};
+
+            Cursor cursor = context.getContentResolver().query(selectedImage, filePathColumn, null, null, null);
+            cursor.moveToFirst();
+
+            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+            String filePath = cursor.getString(columnIndex);
+            cursor.close();
+
+            Resources res = context.getResources();
+            Bitmap bitmap = BitmapFactory.decodeFile(filePath);
+            Log.d("LK-LOCK", filePath);
+            BitmapDrawable bd = new BitmapDrawable(res, bitmap);
+            linearLayout.setBackground(bd);
+        } else {
+//            linearLayout.setBackground();
+        }
 
         return view;
     }
