@@ -42,7 +42,6 @@ public class LockerWidgetController implements LocationListener {
         LayoutInflater inflater = LayoutInflater.from(context);
         currentView = inflater.inflate(R.layout.view_widget, null);
 
-        prepareUnlock(currentView, context);
         prepareFavorite(currentView, context);
         if (preferences.getBoolean("weather_switch", true)) {
             prepareWeather(currentView, context);
@@ -62,26 +61,6 @@ public class LockerWidgetController implements LocationListener {
         }
 
         updateCallButtons(currentView, callStatus, caller);
-    }
-
-    private void prepareUnlock(View rootView, final Context context) {
-        Button unlockButton = (Button) rootView.findViewById(R.id.button_unlock);
-        unlockButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                LockerDialog.requestUnlock(new LockerDialog.OnUnlockListener() {
-                    @Override
-                    public void onUnlock() {
-                        Toast.makeText(context, "Unlocked after the request!", Toast.LENGTH_SHORT).show();
-                    }
-
-                    @Override
-                    public String getActionName() {
-                        return "Toast after the unlock";
-                    }
-                });
-            }
-        });
     }
 
     private void prepareCallButtons(View rootView, final Context context) {
@@ -266,7 +245,6 @@ public class LockerWidgetController implements LocationListener {
 
                         } catch (Exception e) {
                             e.printStackTrace();
-
                         }
                     }
                 }).execute(lat, lon);
