@@ -19,11 +19,13 @@ public class LockerDialog {
     private static Dialog CURRENT_DIALOG = null;
     private static LockerWidgetController CURRENT_WIDGET_CONTROLLER = null;
     private static LockerUnlockController CURRENT_UNLOCK_CONTROLLER = null;
+    private static LockerCareController CURRENT_CARE_CONTROLLER = null;
     private static OnUnlockListener CURRENT_LISTENER = null;
     private static CustomViewPager CURRENT_VIEWPAGER;
 
     private final static int PAGE_WIDGET = 1;
     private final static int PAGE_UNLOCK = 0;
+    private final static int PAGE_CARE = 2;
 
     public static void show(Context context) {
         if (CURRENT_DIALOG != null) {
@@ -33,12 +35,15 @@ public class LockerDialog {
 
         CURRENT_WIDGET_CONTROLLER = new LockerWidgetController(context);
         CURRENT_UNLOCK_CONTROLLER = new LockerUnlockController(context);
+        CURRENT_CARE_CONTROLLER = new LockerCareController(context);
+
         CURRENT_DIALOG = new Dialog(context, R.style.LockerDialog);
         prepareFullscreen(CURRENT_DIALOG);
 
         LockerPagerAdapter adapter = new LockerPagerAdapter();
         adapter.addView(CURRENT_UNLOCK_CONTROLLER.getView());
         adapter.addView(CURRENT_WIDGET_CONTROLLER.getView());
+        adapter.addView(CURRENT_CARE_CONTROLLER.getView());
 
         CURRENT_DIALOG.setContentView(prepareLockerView(context, adapter, PAGE_WIDGET));
         CURRENT_DIALOG.show();
