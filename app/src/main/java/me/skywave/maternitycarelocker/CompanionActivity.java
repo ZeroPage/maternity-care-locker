@@ -24,7 +24,9 @@ public class CompanionActivity extends AppCompatActivity {
     private int REQ_CODE = 53152;
     private String[] permissions = new String[]{
             Manifest.permission.WRITE_CONTACTS, Manifest.permission.READ_CONTACTS,
-            Manifest.permission.READ_PHONE_STATE
+            Manifest.permission.READ_PHONE_STATE, Manifest.permission.CALL_PHONE,
+            Manifest.permission.PROCESS_OUTGOING_CALLS,
+            Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION
     };
 
 
