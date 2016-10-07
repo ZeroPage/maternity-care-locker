@@ -9,7 +9,9 @@ import android.content.pm.PackageManager;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
+import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.ActivityCompat;
 import android.telephony.TelephonyManager;
@@ -31,7 +33,7 @@ import java.util.List;
 import me.skywave.maternitycarelocker.R;
 import me.skywave.maternitycarelocker.companion.preference.FavoriteManager;
 
-public class LockerWidgetController {
+public class LockerWidgetController implements LocationListener {
     private int callStatus = 0;
     private View currentView;
 
@@ -61,7 +63,6 @@ public class LockerWidgetController {
 
         updateCallButtons(currentView, callStatus, caller);
     }
-
 
     private void prepareUnlock(View rootView, final Context context) {
         Button unlockButton = (Button) rootView.findViewById(R.id.button_unlock);
@@ -145,7 +146,7 @@ public class LockerWidgetController {
         }
         try {
             ApplicationInfo ai;
-            if(packages.size() >= 1) {
+            if (packages.size() >= 1) {
                 imageView1.setVisibility(View.VISIBLE);
                 ai = pm.getApplicationInfo(packages.get(0), 0);
                 imageView1.setImageDrawable(ai.loadIcon(pm));
@@ -159,7 +160,7 @@ public class LockerWidgetController {
                     }
                 });
             }
-            if(packages.size() == 2) {
+            if (packages.size() == 2) {
                 imageView2.setVisibility(View.VISIBLE);
                 ai = pm.getApplicationInfo(packages.get(1), 0);
                 imageView2.setImageDrawable(ai.loadIcon(pm));
@@ -172,8 +173,7 @@ public class LockerWidgetController {
                         context.startActivity(intent);
                     }
                 });
-            }
-            else {
+            } else {
                 imageView2.setVisibility(View.INVISIBLE);
             }
         } catch (PackageManager.NameNotFoundException e) {
@@ -181,37 +181,65 @@ public class LockerWidgetController {
         }
     }
 
-
     private void prepareWeather(final View rootView, final Context context) {
         final TextView weatherTextView = (TextView) rootView.findViewById(R.id.weatherText);
 
+        double lat = 0, lon = 0;
+
         LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+        // GPS
         boolean isGPSEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+        // Network
         boolean isNetworkEnabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
 
-        if (!isGPSEnabled) {
-            weatherTextView.setText("GPS 연결 없음.");
-        } else if (!isNetworkEnabled) {
-            weatherTextView.setText("네트워크 연결 없음.");
+        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+
+
+        if (!isGPSEnabled && !isNetworkEnabled) {
+            weatherTextView.setText("GPS 및 네트워크 연결 없음.");
         } else {
-            String locationProvider = LocationManager.GPS_PROVIDER;
-            if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                // TODO: Consider calling
-                //    ActivityCompat#requestPermissions
-                // here to request the missing permissions, and then overriding
-                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                //                                          int[] grantResults)
-                // to handle the case where the user grants the permission. See the documentation
-                // for ActivityCompat#requestPermissions for more details.
-                return;
+            weatherTextView.setText("로드 중");
+
+            if (isNetworkEnabled) {
+                locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 60000, 10f, this);
+
+                Location lastKnownLocation = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+                if (lastKnownLocation != null) {
+                    // 위도, 경도
+                    lat = lastKnownLocation.getLatitude();
+                    lon = lastKnownLocation.getLongitude();
+                } else {
+                    Log.d("LK-LOCK", "network lastKnownLocation is null");
+                }
             }
 
-            Location lastKnownLocation = locationManager.getLastKnownLocation(locationProvider);
-            if (lastKnownLocation != null) {
-                weatherTextView.setText("로드 중");
-                double lon = lastKnownLocation.getLongitude();
-                double lat = lastKnownLocation.getLatitude();
-                Log.d("LK-LOCK", "longtitude=" + lon + ", latitude=" + lat);
+            if (isGPSEnabled) {
+                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 60000, 10f, this);
+
+                Location lastKnownLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                if (lastKnownLocation != null) {
+                    // 위도, 경도
+                    lat = lastKnownLocation.getLatitude();
+                    lon = lastKnownLocation.getLongitude();
+                } else {
+                    Log.d("LK-LOCK", "gps lastKnownLocation is null");
+                }
+            }
+
+            Log.d("LK-LOCK", "longtitude=" + lon + ", latitude=" + lat);
+
+            if (lon == 0 && lat == 0) {
+                weatherTextView.setText("실패");
+            } else {
 
                 new WeatherTask(new OnTaskCompleted() {
                     @Override
@@ -229,25 +257,40 @@ public class LockerWidgetController {
 
                             double temperature = Double.valueOf(weatherVO.getTemperature());
                             temperature -= 273.1500;
-                            temperature = Double.parseDouble(String.format("%.1f",temperature));
+                            temperature = Double.parseDouble(String.format("%.1f", temperature));
                             String weatherText = temperature + "도";
                             weatherTextView.setText(weatherText);
-                            Drawable weatherIcon = context.getResources().getDrawable( weatherVO.getIcon(), null); // fixme: can't get the theme
+                            Drawable weatherIcon = context.getResources().getDrawable(weatherVO.getIcon(), null); // fixme: can't get the theme
                             weatherIcon.setBounds(0, 0, weatherTextView.getMeasuredHeight(), weatherTextView.getMeasuredHeight());
                             weatherTextView.setCompoundDrawables(weatherIcon, null, null, null);
 
-                        } catch(Exception e) {
+                        } catch (Exception e) {
                             e.printStackTrace();
 
                         }
                     }
                 }).execute(lat, lon);
-
-            } else {
-                Log.d("LK-LOCK", "lastKnownLocation is null");
-                weatherTextView.setText("실패");
             }
         }
     }
 
+    @Override
+    public void onLocationChanged(Location location) {
+
+    }
+
+    @Override
+    public void onStatusChanged(String s, int i, Bundle bundle) {
+
+    }
+
+    @Override
+    public void onProviderEnabled(String s) {
+
+    }
+
+    @Override
+    public void onProviderDisabled(String s) {
+
+    }
 }
