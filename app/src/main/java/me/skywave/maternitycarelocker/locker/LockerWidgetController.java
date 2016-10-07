@@ -1,4 +1,4 @@
-package me.skywave.maternitycarelocker;
+package me.skywave.maternitycarelocker.locker;
 
 import android.Manifest;
 import android.content.Context;
@@ -28,7 +28,8 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-import me.skywave.maternitycarelocker.VO.WeatherVO;
+import me.skywave.maternitycarelocker.R;
+import me.skywave.maternitycarelocker.companion.preference.FavoriteManager;
 
 public class LockerWidgetController {
     private int callStatus = 0;

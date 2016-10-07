@@ -1,4 +1,4 @@
-package me.skywave.maternitycarelocker;
+package me.skywave.maternitycarelocker.companion.preference;
 
 import android.content.res.Configuration;
 import android.os.Bundle;

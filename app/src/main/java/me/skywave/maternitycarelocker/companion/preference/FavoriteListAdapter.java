@@ -1,4 +1,4 @@
-package me.skywave.maternitycarelocker;
+package me.skywave.maternitycarelocker.companion.preference;
 
 import android.app.Activity;
 import android.content.Context;
@@ -17,6 +17,8 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import me.skywave.maternitycarelocker.R;
 
 public class FavoriteListAdapter extends BaseAdapter {
     private Context context;

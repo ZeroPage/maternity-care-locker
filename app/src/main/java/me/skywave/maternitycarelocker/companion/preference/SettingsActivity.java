@@ -1,13 +1,10 @@
-package me.skywave.maternitycarelocker;
+package me.skywave.maternitycarelocker.companion.preference;
 
 
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.res.Configuration;
-import android.database.Cursor;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.ListPreference;
@@ -15,13 +12,12 @@ import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
-import android.provider.MediaStore;
 import android.support.v7.app.ActionBar;
-import android.util.Log;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import java.util.List;
+
+import me.skywave.maternitycarelocker.R;
 
 /**
  * A {@link PreferenceActivity} that presents a set of application settings. On

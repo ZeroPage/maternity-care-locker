@@ -11,7 +11,7 @@
         android:layout_height="0px"
         app:tabMode="fixed" />
 
-    <me.skywave.maternitycarelocker.CustomViewPager
+    <me.skywave.maternitycarelocker.locker.CustomViewPager
         android:id="@+id/viewpager"
         android:layout_width="match_parent"
         android:layout_height="0px"

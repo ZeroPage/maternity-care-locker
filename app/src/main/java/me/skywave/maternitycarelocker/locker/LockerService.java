@@ -1,4 +1,4 @@
-package me.skywave.maternitycarelocker;
+package me.skywave.maternitycarelocker.locker;
 
 import android.app.IntentService;
 import android.app.Notification;
@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.Parcel;
 import android.provider.ContactsContract;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;

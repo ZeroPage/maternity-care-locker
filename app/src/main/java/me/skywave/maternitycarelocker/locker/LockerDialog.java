@@ -1,4 +1,4 @@
-package me.skywave.maternitycarelocker;
+package me.skywave.maternitycarelocker.locker;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -6,13 +6,14 @@ import android.content.DialogInterface;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 
 import java.util.LinkedList;
+
+import me.skywave.maternitycarelocker.R;
 
 public class LockerDialog {
     private static Dialog CURRENT_DIALOG = null;

@@ -1,4 +1,4 @@
-package me.skywave.maternitycarelocker;
+package me.skywave.maternitycarelocker.locker;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -8,6 +8,8 @@ import android.widget.Toast;
 
 import java.util.Set;
 import java.util.TreeSet;
+
+import me.skywave.maternitycarelocker.R;
 
 public class LockerReceiver extends BroadcastReceiver{
     private final static Set<String> LISTENING_ACTIONS;

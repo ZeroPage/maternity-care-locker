@@ -1,4 +1,4 @@
-package me.skywave.maternitycarelocker;
+package me.skywave.maternitycarelocker.companion.preference;
 
 import android.app.ListActivity;
 import android.content.SharedPreferences;
@@ -8,6 +8,8 @@ import android.widget.Button;
 import android.widget.ListView;
 
 import java.util.Set;
+
+import me.skywave.maternitycarelocker.R;
 
 public class AppSelectActivity extends ListActivity {
     FavoriteListAdapter adapter;

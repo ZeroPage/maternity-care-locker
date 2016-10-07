@@ -1,4 +1,4 @@
-package me.skywave.maternitycarelocker.VO;
+package me.skywave.maternitycarelocker.locker;
 
 import me.skywave.maternitycarelocker.R;
 

@@ -21,21 +21,21 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".CompanionActivity">
+        <activity android:name=".companion.CompanionActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".AppSelectActivity" />
+        <activity android:name=".companion.preference.AppSelectActivity" />
 
         <service
-            android:name=".LockerService"
+            android:name=".locker.LockerService"
             android:enabled="true"
             android:exported="false">
         </service>
         <activity
-            android:name=".SettingsActivity"
+            android:name=".companion.preference.SettingsActivity"
             android:label="@string/title_activity_settings"/>
     </application>
 </manifest>

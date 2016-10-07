@@ -1,4 +1,4 @@
-package me.skywave.maternitycarelocker;
+package me.skywave.maternitycarelocker.companion;
 
 import android.Manifest;
 import android.content.Intent;
@@ -17,7 +17,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import java.util.Arrays;
+import me.skywave.maternitycarelocker.locker.LockerService;
+import me.skywave.maternitycarelocker.R;
+import me.skywave.maternitycarelocker.companion.preference.SettingsActivity;
+import me.skywave.maternitycarelocker.companion.preference.AppSelectActivity;
 
 public class CompanionActivity extends AppCompatActivity {
     private static Intent service = null;

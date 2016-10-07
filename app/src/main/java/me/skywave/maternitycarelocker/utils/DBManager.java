@@ -1,4 +1,4 @@
-package me.skywave.maternitycarelocker;
+package me.skywave.maternitycarelocker.utils;
 
 import android.database.sqlite.SQLiteOpenHelper;
 import android.content.Context;
