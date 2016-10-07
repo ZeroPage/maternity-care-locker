@@ -34,10 +34,6 @@ public class LockerReceiver extends BroadcastReceiver{
         if (LISTENING_ACTIONS.contains(action)) {
             context.setTheme(R.style.LockerDialog);
             LockerDialog.show(context);
-        } else if (action.equals(Intent.ACTION_NEW_OUTGOING_CALL)) {
-            Toast.makeText(context, intent.getStringExtra(Intent.EXTRA_PHONE_NUMBER), Toast.LENGTH_SHORT).show();
-
-            setResultData(null);
         }
 
     }
