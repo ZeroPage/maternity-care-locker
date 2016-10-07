@@ -105,7 +105,8 @@ public class LockerWidgetController implements LocationListener {
         ArrayList<TextView> textViews = new ArrayList<>();
         textViews.add((TextClock) view.findViewById(R.id.textClock));
         textViews.add((TextView) view.findViewById(R.id.weatherText));
-        textViews.add((TextView) view.findViewById(R.id.calendarText));
+        textViews.add((TextView) view.findViewById(R.id.calendarDateText));
+        textViews.add((TextView) view.findViewById(R.id.calendarTitleText));
 
         Typeface type = Typeface.createFromAsset(context.getAssets(), fontName);
 
