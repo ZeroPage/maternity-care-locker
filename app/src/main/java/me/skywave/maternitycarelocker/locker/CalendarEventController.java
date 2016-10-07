@@ -39,6 +39,10 @@ public class CalendarEventController {
         return eventsFromToday.subList(0, num);
     }
 
+    public EventVO getRecentEvent() {
+        return eventsFromToday.get(0);
+    }
+
     private List<EventVO> getEventList (List<Event> events) {
         List<EventVO> eventDates = new ArrayList<>();
 

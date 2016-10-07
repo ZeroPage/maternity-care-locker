@@ -36,23 +36,27 @@
 
     <LinearLayout
         android:id="@+id/layout_calendar"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/weatherText"
         android:layout_centerHorizontal="true">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="#ffffff"
             android:layout_marginTop="10dp"
-            android:id="@+id/calendarDateText" />
+            android:id="@+id/calendarTitleText"
+            android:layout_gravity="center_horizontal" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="#ffffff"
             android:layout_marginTop="10dp"
-            android:id="@+id/calendarTitleText" />
+            android:id="@+id/calendarDateText"
+            android:layout_gravity="center_horizontal" />
     </LinearLayout>
 
 
