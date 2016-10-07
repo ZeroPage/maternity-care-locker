@@ -12,9 +12,4 @@
         android:icon="@drawable/ic_photo_black_24dp"
         android:title="@string/pref_header_data_sync" />
 
-    <header
-        android:fragment="me.skywave.maternitycarelocker.companion.preference.SettingsActivity$FavoritePreferenceFragment"
-        android:icon="@drawable/ic_check_box_black_24dp"
-        android:title="@string/pref_header_favorite" />
-
 </preference-headers>

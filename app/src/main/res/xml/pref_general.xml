@@ -10,7 +10,11 @@
     <Preference
         android:key="background_picker"
         android:title="@string/pref_title_background"
-        android:summary="@string/pref_description_background"
+        />
+
+    <Preference
+        android:key="favorite_picker"
+        android:title="@string/pref_title_favorite"
         />
 
     <!-- NOTE: EditTextPreference accepts EditText attributes. -->
