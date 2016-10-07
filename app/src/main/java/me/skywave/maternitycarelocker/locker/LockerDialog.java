@@ -146,7 +146,7 @@ public class LockerDialog {
 
             Resources res = context.getResources();
             Bitmap bitmap = BitmapFactory.decodeFile(filePath);
-            Log.d("LK-LOCK", filePath);
+            Log.d("LK-LOCK", "filePath: " + filePath);
             BitmapDrawable bd = new BitmapDrawable(res, bitmap);
             linearLayout.setBackground(bd);
         } else {
