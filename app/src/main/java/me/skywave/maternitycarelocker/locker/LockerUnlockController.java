@@ -59,14 +59,6 @@ public class LockerUnlockController {
     }
 
     private void prepareButtons() {
-        Button unlockButton = (Button) currentView.findViewById(R.id.button_unlock);
-        unlockButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                LockerDialog.unlock();
-            }
-        });
-
         Button cancelButton = (Button) currentView.findViewById(R.id.button_cancel);
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override

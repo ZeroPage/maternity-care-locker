@@ -17,28 +17,17 @@
         android:layout_height="wrap_content"
         android:layout_above="@id/pattern_view"
         android:layout_centerHorizontal="true"/>
-    <LinearLayout
-        android:id="@+id/layout_buttons"
+    <Button
+        android:id="@+id/button_cancel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/pattern_view"
         android:layout_centerHorizontal="true"
-        android:orientation="horizontal">
-        <Button
-            android:id="@+id/button_unlock"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="UNLOCK"/>
-        <Button
-            android:id="@+id/button_cancel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="CANCEL"/>
-    </LinearLayout>
+        android:text="CANCEL"/>
     <TextView
         android:id="@+id/text_unlock_action"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/layout_buttons"
+        android:layout_below="@id/button_cancel"
         android:layout_centerHorizontal="true"/>
 </RelativeLayout>
