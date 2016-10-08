@@ -29,7 +29,8 @@ public class CompanionActivity extends AppCompatActivity {
             Manifest.permission.WRITE_CONTACTS, Manifest.permission.READ_CONTACTS,
             Manifest.permission.READ_PHONE_STATE, Manifest.permission.CALL_PHONE,
             Manifest.permission.PROCESS_OUTGOING_CALLS,
-            Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION
+            Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.READ_CALENDAR
     };
 
 
