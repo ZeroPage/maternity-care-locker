@@ -28,5 +28,4 @@ dependencies {
     compile 'com.android.support:design:24.2.1'
 
     compile 'me.zhanghai.android.patternlock:library:2.0.4'
-    compile 'me.everything:providers-android:1.0.1'
 }

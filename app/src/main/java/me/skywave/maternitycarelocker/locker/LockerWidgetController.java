@@ -268,7 +268,6 @@ public class LockerWidgetController implements LocationListener {
         CalendarEventController controller = new CalendarEventController(context);
         EventVO recentEvent = controller.getRecentEvent();
         Calendar eventDate = recentEvent.getDate();
-
         calendarTitle.setText("Coming Soon... " + recentEvent.getTitle());
         calendarDate.setText((eventDate.get(Calendar.MONTH)+1) + "월" + eventDate.get(Calendar.DAY_OF_MONTH) + "일");
     }
