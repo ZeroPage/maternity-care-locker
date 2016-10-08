@@ -45,10 +45,17 @@ public class LockerWidgetController implements LocationListener {
         if (preferences.getBoolean("weather_switch", true)) {
             prepareWeather(currentView, context);
         }
-//        prepareCalendar(currentView, context);
+        prepareCalendar(currentView, context);
         prepareCallButtons(currentView, context);
         prepareTypeFaces(currentView, "NotoSansKR-Light.otf", context);
         updateCallButtons(currentView, callStatus, null);
+    }
+
+    public void update(Context context) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        if (preferences.getBoolean("weather_switch", true)) {
+            prepareWeather(currentView, context);
+        }
     }
 
     public View getView() {

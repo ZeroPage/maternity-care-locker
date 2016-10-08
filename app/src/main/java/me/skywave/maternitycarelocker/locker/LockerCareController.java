@@ -34,6 +34,10 @@ public class LockerCareController {
         prepareAdvice(currentView, context);
     }
 
+    public void update(Context context) {
+        prepareAdvice(currentView, context);
+    }
+
     private void prepareAdvice(View currentView, Context context) {
         TextView adviceText = (TextView) currentView.findViewById(R.id.adviceText);
 
