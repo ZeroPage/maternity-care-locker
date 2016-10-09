@@ -35,6 +35,7 @@ import java.util.List;
 
 import me.skywave.maternitycarelocker.R;
 import me.skywave.maternitycarelocker.companion.preference.FavoriteManager;
+import me.skywave.maternitycarelocker.locker.core.LockerDialog;
 import me.skywave.maternitycarelocker.locker.model.CalendarEventManager;
 import me.skywave.maternitycarelocker.locker.model.EventVO;
 import me.skywave.maternitycarelocker.utils.MediaButtonUtil;
@@ -173,10 +174,21 @@ public class LockerWidgetController extends LockerController implements Location
                 imageView1.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent intent = new Intent();
-                        intent.setPackage(packages.get(0));
-                        intent.setAction(Intent.ACTION_MAIN);
-                        currentContext.startActivity(intent);
+                        LockerDialog.requestUnlock(new LockerDialog.OnUnlockListener() {
+                            @Override
+                            public void onUnlock() {
+                                Intent intent = new Intent();
+                                intent.setPackage(packages.get(0));
+                                intent.setAction(Intent.ACTION_MAIN);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                currentContext.startActivity(intent);
+                            }
+
+                            @Override
+                            public String getActionName() {
+                                return packages.get(0);
+                            }
+                        });
                     }
                 });
             }
@@ -187,10 +199,21 @@ public class LockerWidgetController extends LockerController implements Location
                 imageView2.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent intent = new Intent();
-                        intent.setPackage(packages.get(1));
-                        intent.setAction(Intent.ACTION_MAIN);
-                        currentContext.startActivity(intent);
+                        LockerDialog.requestUnlock(new LockerDialog.OnUnlockListener() {
+                            @Override
+                            public void onUnlock() {
+                                Intent intent = new Intent();
+                                intent.setPackage(packages.get(1));
+                                intent.setAction(Intent.ACTION_MAIN);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                currentContext.startActivity(intent);
+                            }
+
+                            @Override
+                            public String getActionName() {
+                                return packages.get(1);
+                            }
+                        });
                     }
                 });
             } else {
