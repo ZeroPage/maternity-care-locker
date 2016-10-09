@@ -15,7 +15,9 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.ActivityCompat;
 import android.telephony.TelephonyManager;
 import android.util.Log;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -25,6 +27,8 @@ import android.widget.TextView;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -46,6 +50,7 @@ public class LockerWidgetController extends LockerController implements Location
         if (preferences.getBoolean("weather_switch", true)) {
             prepareWeather(currentView);
         }
+        prepareGesture();
         prepareCalendar(currentView);
         prepareCallButtons(currentView);
         prepareTypeFaces();
@@ -65,6 +70,39 @@ public class LockerWidgetController extends LockerController implements Location
         }
 
         updateCallButtons(currentView, callStatus, caller);
+    }
+
+    private void prepareGesture() {
+        final GestureDetector gesture = new GestureDetector(currentContext, new GestureDetector.SimpleOnGestureListener() {
+            @Override
+            public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+                if (velocityY > 500) {
+                    Object service  = currentContext.getSystemService("statusbar");
+                    Class<?> statusbarManager = null;
+                    try {
+                        statusbarManager = Class.forName("android.app.StatusBarManager");
+                        Method expand = statusbarManager.getMethod("expandNotificationsPanel");
+                        expand.invoke(service);
+                    } catch (ClassNotFoundException | NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                return true;
+            }
+
+            @Override
+            public boolean onDown(MotionEvent e) {
+                return true;
+            }
+        });
+
+        currentView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return gesture.onTouchEvent(event);
+            }
+        });
     }
 
     private void prepareTypeFaces() {

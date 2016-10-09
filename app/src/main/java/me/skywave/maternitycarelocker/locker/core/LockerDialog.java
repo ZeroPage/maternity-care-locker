@@ -8,6 +8,7 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
+import android.os.Build;
 import android.preference.PreferenceManager;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.PagerAdapter;
@@ -165,14 +166,29 @@ public class LockerDialog {
     }
 
     private static void prepareFullscreen(Dialog dialog) {
-        dialog.getWindow().getDecorView().setSystemUiVisibility(
-                View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN |
+        int fullscreen = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN |
                 View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION |
                 View.SYSTEM_UI_FLAG_LAYOUT_STABLE |
                 View.SYSTEM_UI_FLAG_HIDE_NAVIGATION |
-                View.SYSTEM_UI_FLAG_FULLSCREEN |
-                View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
-        );
+                View.SYSTEM_UI_FLAG_IMMERSIVE |
+                View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY |
+                View.SYSTEM_UI_FLAG_LOW_PROFILE;
+
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            fullscreen |= View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
+        }
+
+        final View decorView = dialog.getWindow().getDecorView();
+        final int finalFullscreen = fullscreen;
+        decorView.setOnSystemUiVisibilityChangeListener(new View.OnSystemUiVisibilityChangeListener() {
+            @Override
+            public void onSystemUiVisibilityChange(int visibility) {
+                decorView.setSystemUiVisibility(finalFullscreen);
+            }
+        });
+
+        decorView.setSystemUiVisibility(fullscreen);
 
         dialog.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
         dialog.setCancelable(false);
