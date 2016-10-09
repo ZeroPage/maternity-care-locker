@@ -7,9 +7,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextClock;
 import android.widget.TextView;
 
+import java.io.IOException;
 import org.json.JSONArray;
 import org.json.JSONException;
 
@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import me.skywave.maternitycarelocker.R;
+import me.skywave.maternitycarelocker.utils.RadioUtil;
 import me.zhanghai.android.patternlock.PatternView;
 
 public class LockerCareController {
@@ -31,11 +32,13 @@ public class LockerCareController {
         currentView = inflater.inflate(R.layout.view_care, null);
 
         prepareTypeFaces(currentView, "NotoSansKR-Light.otf", context);
-        prepareAdvice(currentView, context);
+        prepareMusicButton();
+        update(context);
     }
 
     public void update(Context context) {
         prepareAdvice(currentView, context);
+        updateMusicButton();
     }
 
     private void prepareAdvice(View currentView, Context context) {
@@ -79,6 +82,29 @@ public class LockerCareController {
         for (TextView textView : textViews) {
             textView.setTypeface(type);
         }
+    }
+
+    private void prepareMusicButton() {
+        Button button = (Button) currentView.findViewById(R.id.button_music);
+
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (RadioUtil.isPlaying()) {
+                    RadioUtil.stop();
+                } else {
+                    RadioUtil.play();
+                }
+
+                updateMusicButton();
+            }
+        });
+    }
+
+    private void updateMusicButton() {
+        Button button = (Button) currentView.findViewById(R.id.button_music);
+
+        button.setText(RadioUtil.isPlaying() ? "STOP" : "PLAY");
     }
 
     public View getView() {
