@@ -24,28 +24,24 @@ import me.skywave.maternitycarelocker.R;
 import me.skywave.maternitycarelocker.utils.RadioUtil;
 import me.zhanghai.android.patternlock.PatternView;
 
-public class LockerCareController {
-    private View currentView;
-
+public class LockerCareController extends LockerController {
     public LockerCareController(Context context) {
-        LayoutInflater inflater = LayoutInflater.from(context);
-        currentView = inflater.inflate(R.layout.view_care, null);
-
-        prepareTypeFaces(currentView, "NotoSansKR-Light.otf", context);
+        super(R.layout.view_care, context);
+        prepareTypeFaces();
         prepareMusicButton();
-        update(context);
+        update();
     }
 
-    public void update(Context context) {
-        prepareAdvice(currentView, context);
+    public void update() {
+        prepareAdvice(currentView);
         updateMusicButton();
     }
 
-    private void prepareAdvice(View currentView, Context context) {
+    private void prepareAdvice(View currentView) {
         TextView adviceText = (TextView) currentView.findViewById(R.id.adviceText);
 
         try {
-            AssetManager am = context.getAssets();
+            AssetManager am = currentContext.getAssets();
             InputStream is = am.open("week36.json");
             BufferedReader rd = new BufferedReader(new InputStreamReader(is));
             String line;
@@ -73,15 +69,11 @@ public class LockerCareController {
 
     }
 
-    private void prepareTypeFaces(View view, String fontName, Context context) {
+    private void prepareTypeFaces() {
         ArrayList<TextView> textViews = new ArrayList<>();
-        textViews.add((TextView) view.findViewById(R.id.adviceText));
+        textViews.add((TextView) currentView.findViewById(R.id.adviceText));
 
-        Typeface type = Typeface.createFromAsset(context.getAssets(), fontName);
-
-        for (TextView textView : textViews) {
-            textView.setTypeface(type);
-        }
+        setTypeFaces(FONT_NOTO, textViews);
     }
 
     private void prepareMusicButton() {
@@ -105,9 +97,5 @@ public class LockerCareController {
         Button button = (Button) currentView.findViewById(R.id.button_music);
 
         button.setText(RadioUtil.isPlaying() ? "STOP" : "PLAY");
-    }
-
-    public View getView() {
-        return currentView;
     }
 }

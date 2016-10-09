@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
-import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.location.LocationListener;
@@ -37,33 +36,27 @@ import me.skywave.maternitycarelocker.locker.model.EventVO;
 import me.skywave.maternitycarelocker.utils.MediaButtonUtil;
 import me.skywave.maternitycarelocker.locker.model.WeatherVO;
 
-public class LockerWidgetController implements LocationListener {
+public class LockerWidgetController extends LockerController implements LocationListener {
     private int callStatus = 0;
-    private View currentView;
 
     public LockerWidgetController(Context context) {
+        super(R.layout.view_widget, context);
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-        LayoutInflater inflater = LayoutInflater.from(context);
-        currentView = inflater.inflate(R.layout.view_widget, null);
-        prepareFavorite(currentView, context);
+        prepareFavorite(currentView);
         if (preferences.getBoolean("weather_switch", true)) {
-            prepareWeather(currentView, context);
+            prepareWeather(currentView);
         }
-        prepareCalendar(currentView, context);
-        prepareCallButtons(currentView, context);
-        prepareTypeFaces(currentView, "NotoSansKR-Light.otf", context);
+        prepareCalendar(currentView);
+        prepareCallButtons(currentView);
+        prepareTypeFaces();
+
         updateCallButtons(currentView, callStatus, null);
     }
-
-    public void update(Context context) {
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+    public void update() {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(currentContext);
         if (preferences.getBoolean("weather_switch", true)) {
-            prepareWeather(currentView, context);
+            prepareWeather(currentView);
         }
-    }
-
-    public View getView() {
-        return currentView;
     }
 
     public void setCallStatus(int callStatus, String caller) {
@@ -74,12 +67,23 @@ public class LockerWidgetController implements LocationListener {
         updateCallButtons(currentView, callStatus, caller);
     }
 
-    private void prepareCallButtons(View rootView, final Context context) {
+    private void prepareTypeFaces() {
+        ArrayList<TextView> textViews = new ArrayList<>();
+        textViews.add((TextClock) currentView.findViewById(R.id.textClock));
+        textViews.add((TextView) currentView.findViewById(R.id.weatherText));
+        textViews.add((TextView) currentView.findViewById(R.id.calendarDateText));
+        textViews.add((TextView) currentView.findViewById(R.id.calendarTitleText));
+
+        setTypeFaces(FONT_NOTO, textViews);
+    }
+
+
+    private void prepareCallButtons(View rootView) {
         Button acceptButton = (Button) rootView.findViewById(R.id.button_call_accept);
         acceptButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MediaButtonUtil.pressMediaButton(100, context);
+                MediaButtonUtil.pressMediaButton(100, currentContext);
             }
         });
 
@@ -87,7 +91,7 @@ public class LockerWidgetController implements LocationListener {
         dismissButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MediaButtonUtil.pressMediaButton(3000, context);
+                MediaButtonUtil.pressMediaButton(3000, currentContext);
             }
         });
     }
@@ -109,26 +113,12 @@ public class LockerWidgetController implements LocationListener {
         callerText.setText(caller != null ? caller : "");
     }
 
-    private void prepareTypeFaces(View view, String fontName, Context context) {
-        ArrayList<TextView> textViews = new ArrayList<>();
-        textViews.add((TextClock) view.findViewById(R.id.textClock));
-        textViews.add((TextView) view.findViewById(R.id.weatherText));
-        textViews.add((TextView) view.findViewById(R.id.calendarDateText));
-        textViews.add((TextView) view.findViewById(R.id.calendarTitleText));
-
-        Typeface type = Typeface.createFromAsset(context.getAssets(), fontName);
-
-        for (TextView textView : textViews) {
-            textView.setTypeface(type);
-        }
-    }
-
-    private void prepareFavorite(View rootView, final Context context) {
+    private void prepareFavorite(View rootView) {
         ImageView imageView1 = (ImageView) rootView.findViewById(R.id.imageView2);
         ImageView imageView2 = (ImageView) rootView.findViewById(R.id.imageView3);
 
-        PackageManager pm = context.getPackageManager();
-        FavoriteManager favorite = new FavoriteManager(context);
+        PackageManager pm = currentContext.getPackageManager();
+        FavoriteManager favorite = new FavoriteManager(currentContext);
 
         final List<String> packages = favorite.getFavoritePackageNames();
 
@@ -148,7 +138,7 @@ public class LockerWidgetController implements LocationListener {
                         Intent intent = new Intent();
                         intent.setPackage(packages.get(0));
                         intent.setAction(Intent.ACTION_MAIN);
-                        context.startActivity(intent);
+                        currentContext.startActivity(intent);
                     }
                 });
             }
@@ -162,7 +152,7 @@ public class LockerWidgetController implements LocationListener {
                         Intent intent = new Intent();
                         intent.setPackage(packages.get(1));
                         intent.setAction(Intent.ACTION_MAIN);
-                        context.startActivity(intent);
+                        currentContext.startActivity(intent);
                     }
                 });
             } else {
@@ -173,18 +163,18 @@ public class LockerWidgetController implements LocationListener {
         }
     }
 
-    private void prepareWeather(final View rootView, final Context context) {
+    private void prepareWeather(final View rootView) {
         final TextView weatherTextView = (TextView) rootView.findViewById(R.id.weatherText);
 
         double lat = 0, lon = 0;
 
-        LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+        LocationManager locationManager = (LocationManager) currentContext.getSystemService(Context.LOCATION_SERVICE);
         // GPS
         boolean isGPSEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
         // Network
         boolean isNetworkEnabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
 
-        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(currentContext, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(currentContext, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
             //    ActivityCompat#requestPermissions
             // here to request the missing permissions, and then overriding
@@ -252,7 +242,7 @@ public class LockerWidgetController implements LocationListener {
                             temperature = Double.parseDouble(String.format("%.1f", temperature));
                             String weatherText = temperature + "도";
                             weatherTextView.setText(weatherText);
-                            Drawable weatherIcon = context.getResources().getDrawable(weatherVO.getIcon(), null); // fixme: can't get the theme
+                            Drawable weatherIcon = currentContext.getResources().getDrawable(weatherVO.getIcon(), null); // fixme: can't get the theme
                             weatherIcon.setBounds(0, 0, weatherTextView.getMeasuredHeight(), weatherTextView.getMeasuredHeight());
                             weatherTextView.setCompoundDrawables(weatherIcon, null, null, null);
 
@@ -265,11 +255,11 @@ public class LockerWidgetController implements LocationListener {
         }
     }
 
-    private void prepareCalendar(View rootView, Context context) {
+    private void prepareCalendar(View rootView) {
         TextView calendarTitle = (TextView) rootView.findViewById(R.id.calendarTitleText);
         TextView calendarDate = (TextView) rootView.findViewById(R.id.calendarDateText);
 
-        CalendarEventManager controller = new CalendarEventManager(context);
+        CalendarEventManager controller = new CalendarEventManager(currentContext);
         EventVO recentEvent = controller.getRecentEvent();
         Calendar eventDate = recentEvent.getDate();
         calendarTitle.setText("Coming Soon... " + recentEvent.getTitle());

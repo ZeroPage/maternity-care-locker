@@ -12,20 +12,24 @@ import me.skywave.maternitycarelocker.R;
 import me.skywave.maternitycarelocker.locker.core.LockerDialog;
 import me.zhanghai.android.patternlock.PatternView;
 
-public class LockerUnlockController {
-    private View currentView;
+public class LockerUnlockController extends LockerController {
     private TextView unlockActionText;
+    private PatternView pattern;
 
     public LockerUnlockController(Context context) {
-        LayoutInflater inflater = LayoutInflater.from(context);
-        currentView = inflater.inflate(R.layout.view_unlock, null);
+        super(R.layout.view_unlock, context);
 
         prepareButtons();
         preparePattern();
     }
 
+    @Override
+    public void update() {
+        pattern.clearPattern();
+    }
+
     private void preparePattern() {
-        final PatternView pattern = (PatternView) currentView.findViewById(R.id.pattern_view);
+        pattern = (PatternView) currentView.findViewById(R.id.pattern_view);
         unlockActionText = (TextView) currentView.findViewById(R.id.text_unlock_action);
 
         pattern.setOnPatternListener(new PatternView.OnPatternListener() {
@@ -67,10 +71,6 @@ public class LockerUnlockController {
                 LockerDialog.requestWidget();
             }
         });
-    }
-
-    public View getView() {
-        return currentView;
     }
 
     public void setUnlockActionName(String actionName) {
