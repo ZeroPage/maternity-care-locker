@@ -17,19 +17,37 @@
         android:paddingRight="@dimen/activity_horizontal_margin"
         android:paddingTop="@dimen/activity_vertical_margin">
 
-        <TextClock
+        <LinearLayout
+            android:id="@+id/layout_clock"
+            android:orientation="vertical"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/textClock"
-            android:textSize="45sp"
-            android:textIsSelectable="false"
-            android:focusableInTouchMode="false"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="30dp"
-            android:textColor="#ffffff"
-            android:format24Hour="yyyy MM dd k:mm"
-            android:format12Hour="@null" />
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="40dp" >
+
+            <TextClock
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textClock2"
+                android:textSize="50sp"
+                android:textIsSelectable="false"
+                android:focusableInTouchMode="false"
+                android:textColor="#ffffff"/>
+            <TextClock
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/textClock1"
+                android:textSize="25sp"
+                android:textIsSelectable="false"
+                android:focusableInTouchMode="false"
+                android:textColor="#ffffff"
+                android:layout_marginEnd="5dp"
+                android:format24Hour="M월 dd일 (E)"
+                android:format12Hour="M월 dd일 (E)"
+                android:gravity="center_horizontal" />
+        </LinearLayout>
 
         <TextView
             android:layout_width="wrap_content"
@@ -39,31 +57,35 @@
             android:layout_centerHorizontal="true"
             android:textColor="#ffffff"
             android:drawablePadding="5dp"
-            android:layout_below="@+id/textClock" />
+            android:layout_marginBottom="20dp"
+            android:layout_below="@+id/layout_clock" />
 
         <LinearLayout
             android:id="@+id/layout_calendar"
-            android:orientation="vertical"
+            android:orientation="horizontal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/weatherText"
+
             android:layout_centerHorizontal="true">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="#ffffff"
-                android:layout_marginTop="10dp"
-                android:id="@+id/calendarTitleText"
+                android:id="@+id/calendarDateText"
+                android:layout_marginEnd="10dp"
+                android:textSize="18sp"
                 android:layout_gravity="center_horizontal" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="#ffffff"
-                android:layout_marginTop="10dp"
-                android:id="@+id/calendarDateText"
+                android:id="@+id/calendarTitleText"
+                android:textSize="18sp"
                 android:layout_gravity="center_horizontal" />
+
         </LinearLayout>
 
 
@@ -117,13 +139,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
-            android:textColor="#aaaaaa"
+            android:textColor="#cccccc"
             android:text="◀ 잠금해제"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:textColor="#aaaaaa"
+            android:textColor="#cccccc"
             android:text="의료정보 | 진통타이머 ▶"/>
     </RelativeLayout>
 

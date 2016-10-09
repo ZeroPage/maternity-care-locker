@@ -108,7 +108,8 @@ public class LockerWidgetController extends LockerController implements Location
 
     private void prepareTypeFaces() {
         ArrayList<TextView> textViews = new ArrayList<>();
-        textViews.add((TextClock) currentView.findViewById(R.id.textClock));
+        textViews.add((TextClock) currentView.findViewById(R.id.textClock1));
+        textViews.add((TextClock) currentView.findViewById(R.id.textClock2));
         textViews.add((TextView) currentView.findViewById(R.id.weatherText));
         textViews.add((TextView) currentView.findViewById(R.id.calendarDateText));
         textViews.add((TextView) currentView.findViewById(R.id.calendarTitleText));
@@ -328,7 +329,7 @@ public class LockerWidgetController extends LockerController implements Location
         }
         else {
             long eventDay = recentEvent.getDDay();
-            calendarTitle.setText("What's Next? " + recentEvent.getTitle());
+            calendarTitle.setText(recentEvent.getTitle());
             calendarDate.setText("D-" + eventDay);
         }
     }
