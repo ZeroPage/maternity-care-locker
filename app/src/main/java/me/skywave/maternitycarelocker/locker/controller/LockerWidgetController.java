@@ -299,9 +299,15 @@ public class LockerWidgetController extends LockerController implements Location
 
         CalendarEventManager controller = new CalendarEventManager(currentContext);
         EventVO recentEvent = controller.getRecentEvent();
-        Calendar eventDate = recentEvent.getDate();
-        calendarTitle.setText("Coming Soon... " + recentEvent.getTitle());
-        calendarDate.setText((eventDate.get(Calendar.MONTH)+1) + "월" + eventDate.get(Calendar.DAY_OF_MONTH) + "일");
+        if (recentEvent.getTitle().equals("NO EVENT")) {
+            calendarTitle.setVisibility(View.INVISIBLE);
+            calendarDate.setVisibility(View.INVISIBLE);
+        }
+        else {
+            long eventDay = recentEvent.getDDay();
+            calendarTitle.setText("What's Next? " + recentEvent.getTitle());
+            calendarDate.setText("D-" + eventDay);
+        }
     }
     @Override
     public void onLocationChanged(Location location) {

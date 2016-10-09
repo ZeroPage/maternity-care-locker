@@ -1,18 +1,16 @@
 package me.skywave.maternitycarelocker.locker.model;
 
-import java.util.Calendar;
-
 public class EventVO {
-    private Calendar date;
+    private long dDay;
     private String title;
 
-    public EventVO(String title, Calendar date) {
-        this.date = date;
+    public EventVO(String title, long dDay) {
+        this.dDay = dDay;
         this.title = title;
     }
 
-    public Calendar getDate() {
-        return date;
+    public long getDDay() {
+        return dDay;
     }
 
     public String getTitle() {
