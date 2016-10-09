@@ -14,6 +14,12 @@
         <item name="android:windowIsFloating">false</item>
     </style>
 
+    <style name="LockerPatternView">
+        <item name="pl_regularColor">#ffffff</item>
+        <item name="pl_errorColor">#f4511e</item>
+        <item name="pl_successColor">#1e51f4</item>
+    </style>
+
 
     <style name="Dialog_Fullscreen">
         <item name="android:windowFullscreen">true</item>
