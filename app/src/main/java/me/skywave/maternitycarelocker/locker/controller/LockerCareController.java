@@ -48,10 +48,7 @@ public class LockerCareController extends LockerController {
             StringBuffer response = new StringBuffer();
             while((line = rd.readLine()) != null) {
                 response.append(line);
-                Log.d("LK-LOCK", "json line: " + line);
-//                response.append('\r');
             }
-            Log.d("LK-LOCK", "json string: " + response.toString());
             rd.close();
 
             JSONArray jsonArray = new JSONArray(response.toString());
