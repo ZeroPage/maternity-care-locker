@@ -69,6 +69,7 @@ public class LockerUnlockController extends LockerController {
             @Override
             public void onClick(View v) {
                 LockerDialog.requestWidget();
+                update();
             }
         });
     }
