@@ -41,6 +41,10 @@ public class LockerDialog {
     public static void show(Context context) {
         if (CURRENT_DIALOG != null) {
             requestWidget();
+            CURRENT_WIDGET_CONTROLLER.update();
+            CURRENT_UNLOCK_CONTROLLER.update();
+            CURRENT_CARE_CONTROLLER.update();
+
             return;
         }
 
