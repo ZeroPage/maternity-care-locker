@@ -1,4 +1,4 @@
-package me.skywave.maternitycarelocker.locker;
+package me.skywave.maternitycarelocker.locker.controller;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -9,6 +9,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import me.skywave.maternitycarelocker.R;
+import me.skywave.maternitycarelocker.locker.core.LockerDialog;
 import me.zhanghai.android.patternlock.PatternView;
 
 public class LockerUnlockController {

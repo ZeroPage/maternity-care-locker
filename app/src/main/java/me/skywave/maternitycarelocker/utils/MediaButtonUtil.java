@@ -1,4 +1,4 @@
-package me.skywave.maternitycarelocker.locker;
+package me.skywave.maternitycarelocker.utils;
 
 import android.content.Context;
 import android.content.Intent;
@@ -8,7 +8,7 @@ import android.view.KeyEvent;
 
 import java.io.IOException;
 
-public class MediaButtonHelper {
+public class MediaButtonUtil {
 
     // http://stackoverflow.com/questions/26924618/how-can-incoming-calls-be-answered-programmatically-in-android-5-0-lollipop
     public static void pressMediaButton(final long ms, final Context context) {

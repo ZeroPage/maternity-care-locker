@@ -17,7 +17,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import me.skywave.maternitycarelocker.locker.LockerService;
+import me.skywave.maternitycarelocker.locker.core.LockerService;
 import me.skywave.maternitycarelocker.R;
 import me.skywave.maternitycarelocker.companion.preference.SettingsActivity;
 import me.skywave.maternitycarelocker.companion.preference.AppSelectActivity;

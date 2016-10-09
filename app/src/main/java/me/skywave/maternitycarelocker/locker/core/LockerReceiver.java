@@ -1,10 +1,9 @@
-package me.skywave.maternitycarelocker.locker;
+package me.skywave.maternitycarelocker.locker.core;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
-import android.widget.Toast;
 
 import java.util.Set;
 import java.util.TreeSet;

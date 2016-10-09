@@ -1,4 +1,4 @@
-package me.skywave.maternitycarelocker.locker;
+package me.skywave.maternitycarelocker.locker.core;
 
 import android.content.Context;
 import android.util.AttributeSet;

@@ -1,21 +1,17 @@
-package me.skywave.maternitycarelocker.locker;
+package me.skywave.maternitycarelocker.locker.core;
 
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
-import android.net.Uri;
 import android.preference.PreferenceManager;
-import android.provider.MediaStore;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.LinearLayoutCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,7 +22,9 @@ import android.widget.LinearLayout;
 import java.util.LinkedList;
 
 import me.skywave.maternitycarelocker.R;
-import me.skywave.maternitycarelocker.utils.ImageFilePath;
+import me.skywave.maternitycarelocker.locker.controller.LockerCareController;
+import me.skywave.maternitycarelocker.locker.controller.LockerUnlockController;
+import me.skywave.maternitycarelocker.locker.controller.LockerWidgetController;
 
 public class LockerDialog {
     private static Dialog CURRENT_DIALOG = null;

@@ -1,4 +1,4 @@
-package me.skywave.maternitycarelocker.locker;
+package me.skywave.maternitycarelocker.locker.controller;
 
 import android.os.AsyncTask;
 import android.util.Log;
@@ -8,6 +8,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+
+import me.skywave.maternitycarelocker.locker.controller.OnTaskCompleted;
 
 public class WeatherTask extends AsyncTask<Double, Void, String> {
     private final String key = "1562dbd32d37e5d8fc6ec562d8ab24a2";

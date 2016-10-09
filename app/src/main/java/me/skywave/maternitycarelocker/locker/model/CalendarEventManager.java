@@ -1,4 +1,4 @@
-package me.skywave.maternitycarelocker.locker;
+package me.skywave.maternitycarelocker.locker.model;
 
 import android.content.ContentResolver;
 import android.content.Context;
@@ -9,7 +9,9 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-public class CalendarEventController {
+import me.skywave.maternitycarelocker.locker.model.EventVO;
+
+public class CalendarEventManager {
 
     private List<EventVO> eventsFromToday = new ArrayList<>();
 
@@ -18,7 +20,7 @@ public class CalendarEventController {
             Instances.BEGIN
     };
 
-    public CalendarEventController(Context context) {
+    public CalendarEventManager(Context context) {
         Calendar today = Calendar.getInstance();
         Calendar dtEnd = Calendar.getInstance();
         dtEnd.add(Calendar.MONTH, 1);

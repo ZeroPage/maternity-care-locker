@@ -1,4 +1,4 @@
-package me.skywave.maternitycarelocker.locker;
+package me.skywave.maternitycarelocker.locker.controller;
 
 import android.Manifest;
 import android.content.Context;
@@ -32,6 +32,10 @@ import java.util.List;
 
 import me.skywave.maternitycarelocker.R;
 import me.skywave.maternitycarelocker.companion.preference.FavoriteManager;
+import me.skywave.maternitycarelocker.locker.model.CalendarEventManager;
+import me.skywave.maternitycarelocker.locker.model.EventVO;
+import me.skywave.maternitycarelocker.utils.MediaButtonUtil;
+import me.skywave.maternitycarelocker.locker.model.WeatherVO;
 
 public class LockerWidgetController implements LocationListener {
     private int callStatus = 0;
@@ -75,7 +79,7 @@ public class LockerWidgetController implements LocationListener {
         acceptButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MediaButtonHelper.pressMediaButton(100, context);
+                MediaButtonUtil.pressMediaButton(100, context);
             }
         });
 
@@ -83,7 +87,7 @@ public class LockerWidgetController implements LocationListener {
         dismissButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MediaButtonHelper.pressMediaButton(3000, context);
+                MediaButtonUtil.pressMediaButton(3000, context);
             }
         });
     }
@@ -265,7 +269,7 @@ public class LockerWidgetController implements LocationListener {
         TextView calendarTitle = (TextView) rootView.findViewById(R.id.calendarTitleText);
         TextView calendarDate = (TextView) rootView.findViewById(R.id.calendarDateText);
 
-        CalendarEventController controller = new CalendarEventController(context);
+        CalendarEventManager controller = new CalendarEventManager(context);
         EventVO recentEvent = controller.getRecentEvent();
         Calendar eventDate = recentEvent.getDate();
         calendarTitle.setText("Coming Soon... " + recentEvent.getTitle());

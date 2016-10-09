@@ -32,7 +32,7 @@
         <activity android:name=".companion.preference.AppSelectActivity" />
 
         <service
-            android:name=".locker.LockerService"
+            android:name=".locker.core.LockerService"
             android:enabled="true"
             android:exported="false">
         </service>
