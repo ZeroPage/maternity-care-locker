@@ -41,6 +41,10 @@ public class CalendarEventManager {
     }
 
     public EventVO getRecentEvent() {
+        if (eventsFromToday.isEmpty()) {
+            return new EventVO("NO EVENT", Calendar.getInstance());
+        }
+
         return eventsFromToday.get(0);
     }
 
