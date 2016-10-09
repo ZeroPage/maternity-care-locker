@@ -4,14 +4,15 @@
 
     <!-- Strings related to Settings -->
 
-    <!-- Example General settings -->
+    <!-- General settings -->
     <string name="pref_header_general">일반</string>
 
     <string name="pref_title_weather">날씨 표시</string>
     <string name="pref_description_weather">잠금 화면에서 날씨를 보여줍니다.</string>
 
-    <string name="pref_title_background">배경 설정</string>
-    <string name="pref_description_background">잠금 화면에서 보여줄 배경을 설정합니다.</string>
+    <string name="pref_title_background">잠금 화면 배경 설정</string>
+
+    <string name="pref_title_favorite">즐겨쓰는 앱</string>
 
 
     <string name="pref_title_social_recommendations">Enable social recommendations</string>
@@ -57,9 +58,5 @@
     </string-array>
 
     <string name="pref_title_system_sync_settings">System sync settings</string>
-
-
-    <!-- Example settings for Favorite -->
-    <string name="pref_header_favorite">즐겨쓰는 앱</string>
 
 </resources>

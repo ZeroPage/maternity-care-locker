@@ -20,7 +20,9 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="30dp"
-        android:textColor="#ffffff" />
+        android:textColor="#ffffff"
+        android:format24Hour="yyyy MM dd k:mm"
+        android:format12Hour="@null" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -32,19 +34,31 @@
         android:drawablePadding="5dp"
         android:layout_below="@+id/textClock" />
 
-    <ImageView
-        android:layout_width="@android:dimen/app_icon_size"
-        android:layout_height="@android:dimen/app_icon_size"
-        android:id="@+id/imageView2"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true" />
+    <LinearLayout
+        android:id="@+id/layout_calendar"
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/weatherText"
+        android:layout_centerHorizontal="true">
 
-    <ImageView
-        android:layout_width="@android:dimen/app_icon_size"
-        android:layout_height="@android:dimen/app_icon_size"
-        android:id="@+id/imageView3"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#ffffff"
+            android:layout_marginTop="10dp"
+            android:id="@+id/calendarTitleText"
+            android:layout_gravity="center_horizontal" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#ffffff"
+            android:layout_marginTop="10dp"
+            android:id="@+id/calendarDateText"
+            android:layout_gravity="center_horizontal" />
+    </LinearLayout>
+
 
     <LinearLayout
         android:id="@+id/layout_call_buttons"
@@ -67,21 +81,25 @@
             android:id="@+id/button_call_dismiss" />
     </LinearLayout>
 
+    <ImageView
+        android:layout_width="@android:dimen/app_icon_size"
+        android:layout_height="@android:dimen/app_icon_size"
+        android:id="@+id/imageView2"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true" />
+
+    <ImageView
+        android:layout_width="@android:dimen/app_icon_size"
+        android:layout_height="@android:dimen/app_icon_size"
+        android:id="@+id/imageView3"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true" />
+
     <TextView
         android:id="@+id/text_caller"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@id/layout_call_buttons"
         android:layout_centerHorizontal="true" />
-
-    <ListView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dp"
-        android:layout_marginBottom="30dp"
-        android:layout_below="@+id/weatherText"
-        android:layout_above="@+id/text_caller"
-        android:background="@android:color/background_light" />
 
 </RelativeLayout>
