@@ -8,8 +8,7 @@ import android.provider.CalendarContract.Instances;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-
-import me.skywave.maternitycarelocker.locker.model.EventVO;
+import java.util.concurrent.TimeUnit;
 
 public class CalendarEventManager {
 
@@ -32,7 +31,9 @@ public class CalendarEventManager {
             eventDate.setTimeInMillis(cInstance.getLong(1));
             if (eventDate.before(today))
                 continue;
-            eventsFromToday.add(new EventVO(cInstance.getString(0), eventDate));
+            today.set(Calendar.HOUR_OF_DAY, 0);
+            long days = TimeUnit.MILLISECONDS.toDays(eventDate.getTimeInMillis()-today.getTimeInMillis());
+            eventsFromToday.add(new EventVO(cInstance.getString(0), days));
         }
     }
 
@@ -42,7 +43,7 @@ public class CalendarEventManager {
 
     public EventVO getRecentEvent() {
         if (eventsFromToday.isEmpty()) {
-            return new EventVO("NO EVENT", Calendar.getInstance());
+            return new EventVO("NO EVENT", 0);
         }
 
         return eventsFromToday.get(0);
