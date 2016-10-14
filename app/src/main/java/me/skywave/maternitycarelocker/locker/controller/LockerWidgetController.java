@@ -24,6 +24,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextClock;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -192,8 +193,12 @@ public class LockerWidgetController extends LockerController implements Location
                             @Override
                             public void onUnlock() {
                                 Intent intent = pm.getLaunchIntentForPackage(packages.get(0));
-                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                currentContext.startActivity(intent);
+                                try {
+                                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    currentContext.startActivity(intent);
+                                } catch (NullPointerException e) {
+                                    Toast.makeText(currentContext, "실행할 수 없는 앱입니다", Toast.LENGTH_LONG);
+                                }
                             }
 
                             @Override
@@ -216,8 +221,12 @@ public class LockerWidgetController extends LockerController implements Location
                             @Override
                             public void onUnlock() {
                                 Intent intent = pm.getLaunchIntentForPackage(packages.get(1));
-                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                currentContext.startActivity(intent);
+                                try {
+                                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    currentContext.startActivity(intent);
+                                } catch (NullPointerException e) {
+                                    Toast.makeText(currentContext, "실행할 수 없는 앱입니다", Toast.LENGTH_LONG);
+                                }
                             }
 
                             @Override
