@@ -142,7 +142,7 @@ public class LockerDialog {
         LinearLayout linearLayout = (LinearLayout) view.findViewById(R.id.linear_layout);
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-        String pathString = preferences.getString("background_picker", "");
+        String pathString = preferences.getString(context.getResources().getString(R.string.pref_background_picker), "");
 
         if(!pathString.equals("")) {
 //            Uri selectedImage = Uri.parse(pathString);

@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
+import me.skywave.maternitycarelocker.R;
+
 public class FavoriteManager {
     private Context context;
 
@@ -17,8 +19,8 @@ public class FavoriteManager {
     public List<String> getFavoritePackageNames() {
         List<String> packageNames = new ArrayList<>();
 
-        SharedPreferences pref = context.getSharedPreferences("favorite", Context.MODE_PRIVATE);
-        packageNames.addAll(pref.getStringSet("favorite", new HashSet<String>()));
+        SharedPreferences pref = context.getSharedPreferences(context.getResources().getString(R.string.pref_favorite_picker), Context.MODE_PRIVATE);
+        packageNames.addAll(pref.getStringSet(context.getResources().getString(R.string.pref_favorite_picker), new HashSet<String>()));
         return packageNames;
     }
 }

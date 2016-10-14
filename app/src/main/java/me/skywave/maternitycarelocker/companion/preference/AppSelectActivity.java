@@ -21,7 +21,7 @@ public class AppSelectActivity extends ListActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_app_select);
-        pref = getSharedPreferences("favorite", MODE_PRIVATE);
+        pref = getSharedPreferences(getResources().getString(R.string.pref_favorite_picker), MODE_PRIVATE);
         editor = pref.edit();
 
         ListView appList = (ListView) findViewById(android.R.id.list);
@@ -33,7 +33,7 @@ public class AppSelectActivity extends ListActivity {
             @Override
             public void onClick(View v) {
                 Set<String> selectedPkg = adapter.getCheckedSet();
-                editor.putStringSet("favorite", selectedPkg);
+                editor.putStringSet(getResources().getString(R.string.pref_favorite_picker), selectedPkg);
                 editor.apply();
                 finish();
             }

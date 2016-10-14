@@ -2,7 +2,7 @@
     <PreferenceCategory android:title="기본 설정" >
         <SwitchPreference
             android:defaultValue="true"
-            android:key="weather_switch"
+            android:key="@string/pref_service_switch"
             android:summary="@string/pref_description_locker"
             android:title="@string/pref_title_locker"
             />
@@ -10,7 +10,7 @@
     <PreferenceCategory android:title="공통 설정" >
 
         <Preference
-            android:key="background_picker"
+            android:key="@string/pref_background_picker"
             android:title="@string/pref_title_background"
             />
     </PreferenceCategory>
@@ -18,12 +18,12 @@
     <PreferenceCategory android:title="메인 화면 설정" >
         <SwitchPreference
             android:defaultValue="true"
-            android:key="weather_switch"
+            android:key="@string/pref_weather_switch"
             android:summary="@string/pref_description_weather"
             android:title="@string/pref_title_weather"
             />
         <Preference
-            android:key="favorite_picker"
+            android:key="@string/pref_favorite_picker"
             android:title="@string/pref_title_favorite"
             />
     </PreferenceCategory>

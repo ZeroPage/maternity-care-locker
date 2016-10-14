@@ -60,7 +60,7 @@ public class LockerWidgetController extends LockerController implements Location
     }
     public void update() {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(currentContext);
-        if (preferences.getBoolean("weather_switch", true)) {
+        if (preferences.getBoolean(currentContext.getResources().getString(R.string.pref_weather_switch), true)) {
             prepareWeather(currentView);
         }
     }

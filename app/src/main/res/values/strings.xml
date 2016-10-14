@@ -64,5 +64,9 @@
     </string-array>
 
     <string name="pref_title_system_sync_settings">System sync settings</string>
+    <string name="pref_service_switch">service_switch</string>
+    <string name="pref_background_picker">background_picker</string>
+    <string name="pref_weather_switch">weather_switch</string>
+    <string name="pref_favorite_picker">favorite_picker</string>
 
 </resources>
