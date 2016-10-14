@@ -169,7 +169,7 @@ public class LockerWidgetController extends LockerController implements Location
         ImageView imageView1 = (ImageView) rootView.findViewById(R.id.imageView2);
         ImageView imageView2 = (ImageView) rootView.findViewById(R.id.imageView3);
 
-        PackageManager pm = currentContext.getPackageManager();
+        final PackageManager pm = currentContext.getPackageManager();
         FavoriteManager favorite = new FavoriteManager(currentContext);
 
         final List<String> packages = favorite.getFavoritePackageNames();
@@ -183,6 +183,7 @@ public class LockerWidgetController extends LockerController implements Location
             if (packages.size() >= 1) {
                 imageView1.setVisibility(View.VISIBLE);
                 ai = pm.getApplicationInfo(packages.get(0), 0);
+                final String appName1 = ai.loadLabel(pm).toString();
                 imageView1.setImageDrawable(ai.loadIcon(pm));
                 imageView1.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -190,16 +191,14 @@ public class LockerWidgetController extends LockerController implements Location
                         LockerDialog.requestUnlock(new LockerDialog.OnUnlockListener() {
                             @Override
                             public void onUnlock() {
-                                Intent intent = new Intent();
-                                intent.setPackage(packages.get(0));
-                                intent.setAction(Intent.ACTION_MAIN);
+                                Intent intent = pm.getLaunchIntentForPackage(packages.get(0));
                                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                 currentContext.startActivity(intent);
                             }
 
                             @Override
                             public String getActionName() {
-                                return packages.get(0);
+                                return appName1;
                             }
                         });
                     }
@@ -208,6 +207,7 @@ public class LockerWidgetController extends LockerController implements Location
             if (packages.size() == 2) {
                 imageView2.setVisibility(View.VISIBLE);
                 ai = pm.getApplicationInfo(packages.get(1), 0);
+                final String appName2 = ai.loadLabel(pm).toString();
                 imageView2.setImageDrawable(ai.loadIcon(pm));
                 imageView2.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -215,16 +215,14 @@ public class LockerWidgetController extends LockerController implements Location
                         LockerDialog.requestUnlock(new LockerDialog.OnUnlockListener() {
                             @Override
                             public void onUnlock() {
-                                Intent intent = new Intent();
-                                intent.setPackage(packages.get(1));
-                                intent.setAction(Intent.ACTION_MAIN);
+                                Intent intent = pm.getLaunchIntentForPackage(packages.get(1));
                                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                 currentContext.startActivity(intent);
                             }
 
                             @Override
                             public String getActionName() {
-                                return packages.get(1);
+                                return appName2;
                             }
                         });
                     }
