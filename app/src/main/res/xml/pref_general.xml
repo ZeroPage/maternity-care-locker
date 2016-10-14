@@ -3,6 +3,13 @@
     <SwitchPreference
         android:defaultValue="true"
         android:key="weather_switch"
+        android:summary="@string/pref_description_locker"
+        android:title="@string/pref_title_locker"
+        />
+
+    <SwitchPreference
+        android:defaultValue="true"
+        android:key="weather_switch"
         android:summary="@string/pref_description_weather"
         android:title="@string/pref_title_weather"
         />

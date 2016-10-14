@@ -7,6 +7,9 @@
     <!-- General settings -->
     <string name="pref_header_general">일반</string>
 
+    <string name="pref_title_locker">락커 사용</string>
+    <string name="pref_description_locker">락커 사용 여부를 지정합니다.</string>
+
     <string name="pref_title_weather">날씨 표시</string>
     <string name="pref_description_weather">잠금 화면에서 날씨를 보여줍니다.</string>
 
@@ -34,6 +37,9 @@
         <item>0</item>
         <item>-1</item>
     </string-array>
+
+    <!-- Profile settings -->
+    <string name="pref_header_profile">프로필</string>
 
 
     <!-- Example settings for Data & Sync -->

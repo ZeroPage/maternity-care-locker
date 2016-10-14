@@ -10,9 +10,12 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.PermissionChecker;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -20,7 +23,6 @@ import android.widget.Toast;
 import me.skywave.maternitycarelocker.locker.core.LockerService;
 import me.skywave.maternitycarelocker.R;
 import me.skywave.maternitycarelocker.companion.preference.SettingsActivity;
-import me.skywave.maternitycarelocker.companion.preference.AppSelectActivity;
 
 public class CompanionActivity extends AppCompatActivity {
     private static Intent service = null;
@@ -74,9 +76,12 @@ public class CompanionActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_companion);
 
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+
+        }
+
         Button buttonService = (Button) findViewById(R.id.button_service);
-        Button buttonQuick = (Button) findViewById(R.id.button_quick);
-        Button buttonPref = (Button) findViewById(R.id.button_pref);
 
         buttonService.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -85,19 +90,22 @@ public class CompanionActivity extends AppCompatActivity {
             }
         });
 
-        buttonQuick.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(CompanionActivity.this, AppSelectActivity.class));
-            }
-        });
+    }
 
-        buttonPref.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_companion, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId()) {
+            case R.id.action_settings:
                 startActivity(new Intent(CompanionActivity.this, SettingsActivity.class));
-            }
-        });
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void toggleService() {
