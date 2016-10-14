@@ -2,6 +2,7 @@ package me.skywave.maternitycarelocker.companion.preference;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
@@ -35,7 +36,9 @@ public class FavoriteListAdapter extends BaseAdapter {
         List<PackageInfo> packages = pm.getInstalledPackages(0);
         allPkg = new ArrayList<>();
         for(PackageInfo pkg : packages) {
-            allPkg.add(pkg.packageName);
+            if ((pkg.applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) == 0) {
+                allPkg.add(pkg.packageName);
+            }
         }
     }
 
@@ -53,7 +56,6 @@ public class FavoriteListAdapter extends BaseAdapter {
     public long getItemId(int position) {
         return position;
     }
-
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         if (convertView == null) {
