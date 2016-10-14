@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
+import android.content.res.AssetManager;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.location.LocationListener;
@@ -25,8 +26,13 @@ import android.widget.TextClock;
 import android.widget.TextView;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -40,6 +46,7 @@ import me.skywave.maternitycarelocker.locker.model.CalendarEventManager;
 import me.skywave.maternitycarelocker.locker.model.EventVO;
 import me.skywave.maternitycarelocker.utils.MediaButtonUtil;
 import me.skywave.maternitycarelocker.locker.model.WeatherVO;
+import me.skywave.maternitycarelocker.utils.RadioUtil;
 
 public class LockerWidgetController extends LockerController implements LocationListener {
     private int callStatus = 0;
@@ -55,14 +62,18 @@ public class LockerWidgetController extends LockerController implements Location
         prepareCalendar(currentView);
         prepareCallButtons(currentView);
         prepareTypeFaces();
+        prepareMusicButton();
 
         updateCallButtons(currentView, callStatus, null);
+        update();
     }
     public void update() {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(currentContext);
         if (preferences.getBoolean(currentContext.getResources().getString(R.string.pref_weather_switch), true)) {
             prepareWeather(currentView);
         }
+        prepareAdvice(currentView);
+        updateMusicButton();
     }
 
     public void setCallStatus(int callStatus, String caller) {
@@ -113,6 +124,7 @@ public class LockerWidgetController extends LockerController implements Location
         textViews.add((TextView) currentView.findViewById(R.id.weatherText));
         textViews.add((TextView) currentView.findViewById(R.id.calendarDateText));
         textViews.add((TextView) currentView.findViewById(R.id.calendarTitleText));
+        textViews.add((TextView) currentView.findViewById(R.id.adviceText));
 
         setTypeFaces(FONT_NOTO, textViews);
     }
@@ -223,6 +235,58 @@ public class LockerWidgetController extends LockerController implements Location
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
+    }
+
+    private void prepareMusicButton() {
+        Button button = (Button) currentView.findViewById(R.id.button_music);
+
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (RadioUtil.isPlaying()) {
+                    RadioUtil.stop();
+                } else {
+                    RadioUtil.play();
+                }
+
+                updateMusicButton();
+            }
+        });
+    }
+
+    private void updateMusicButton() {
+        Button button = (Button) currentView.findViewById(R.id.button_music);
+
+        button.setText(RadioUtil.isPlaying() ? "STOP" : "PLAY");
+    }
+
+    private void prepareAdvice(View currentView) {
+        TextView adviceText = (TextView) currentView.findViewById(R.id.adviceText);
+
+        try {
+            AssetManager am = currentContext.getAssets();
+            InputStream is = am.open("week36.json");
+            BufferedReader rd = new BufferedReader(new InputStreamReader(is));
+            String line;
+            StringBuffer response = new StringBuffer();
+            while((line = rd.readLine()) != null) {
+                response.append(line);
+            }
+            rd.close();
+
+            JSONArray jsonArray = new JSONArray(response.toString());
+            String text = jsonArray.getString((int) (Math.random() * jsonArray.length()));
+
+
+            adviceText.setText(text);
+        } catch (IOException e) {
+            e.printStackTrace();
+            Log.d("LK-LOCK", "Fail to load json");
+        } catch (JSONException e) {
+            e.printStackTrace();
+            Log.d("LK-LOCK", "Fail to parse json");
+        }
+
     }
 
     private void prepareWeather(final View rootView) {
