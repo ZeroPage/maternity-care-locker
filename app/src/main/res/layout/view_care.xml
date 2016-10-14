@@ -18,7 +18,8 @@
             android:layout_centerHorizontal="true"
             android:id="@+id/infoListView"
             android:background="#99FFFFFF"
-            android:layout_below="@+id/button_music" />
+            android:layout_marginTop="40dp"
+            />
     </RelativeLayout>
     <RelativeLayout
         android:layout_width="match_parent"

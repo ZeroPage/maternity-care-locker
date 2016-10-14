@@ -19,8 +19,6 @@ public class InfoManager {
             info.addContact("01047429665");
             info.addContactName("조영준");
             info.addContact("01096586067");
-            info.addContactName("엄마");
-            info.addContact("01071957495");
             info.setBlood("A Rh+");
         }
         return info;

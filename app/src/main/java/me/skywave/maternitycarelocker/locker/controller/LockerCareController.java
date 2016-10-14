@@ -1,29 +1,16 @@
 package me.skywave.maternitycarelocker.locker.controller;
 
 import android.content.Context;
-import android.content.res.AssetManager;
-import android.util.Log;
-import android.view.View;
-import android.widget.Button;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
-import java.io.IOException;
-import org.json.JSONArray;
-import org.json.JSONException;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import me.skywave.maternitycarelocker.R;
 import me.skywave.maternitycarelocker.locker.model.InfoManager;
 import me.skywave.maternitycarelocker.locker.model.InfoVO;
-import me.skywave.maternitycarelocker.utils.RadioUtil;
+import me.skywave.maternitycarelocker.locker.view.InfoListAdapter;
 
 public class LockerCareController extends LockerController {
     public LockerCareController(Context context) {
@@ -90,7 +77,7 @@ public class LockerCareController extends LockerController {
             for (int i = 0; i < infos.getContactName().size(); i++) {
                 map = new HashMap<>();
                 map.put("item1", infos.getContactName().get(i));
-                map.put("item2", infos.getContactNum().get(i));
+                map.put("item2", "tel:" + infos.getContactNum().get(i));
                 mlist.add(map);
             }
         }
@@ -102,8 +89,7 @@ public class LockerCareController extends LockerController {
             mlist.add(map);
         }
 
-        SimpleAdapter adapter = new SimpleAdapter(currentContext, mlist, android.R.layout.simple_list_item_2,
-                new String[]{"item1", "item2"}, new int[]{android.R.id.text1, android.R.id.text2});
+        InfoListAdapter adapter = new InfoListAdapter(currentContext, R.layout.info_list_item, mlist);
         listView.setAdapter(adapter);
     }
 }
