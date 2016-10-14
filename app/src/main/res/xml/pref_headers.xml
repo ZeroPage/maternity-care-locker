@@ -12,6 +12,7 @@
         android:title="@string/pref_header_profile" />
 
     <header
+        android:icon="@drawable/ic_sync_black_24dp"
         android:fragment="me.skywave.maternitycarelocker.companion.preference.SettingsActivity$DataSyncPreferenceFragment"
         android:title="@string/pref_header_data_sync" />
 
