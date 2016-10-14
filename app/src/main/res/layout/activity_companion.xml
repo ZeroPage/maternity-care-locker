@@ -8,13 +8,4 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".companion.CompanionActivity">
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Toggle the service"
-        android:id="@+id/button_service"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true" />
-
 </RelativeLayout>
