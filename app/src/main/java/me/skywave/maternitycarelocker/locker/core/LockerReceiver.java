@@ -17,7 +17,6 @@ public class LockerReceiver extends BroadcastReceiver{
     static {
         LOCK_ACTIONS = new TreeSet<>();
         LOCK_ACTIONS.add(Intent.ACTION_SCREEN_OFF);
-        LOCK_ACTIONS.add(Intent.ACTION_SCREEN_ON);
         LOCK_ACTIONS.add(Intent.ACTION_BOOT_COMPLETED);
 
         LISTENING_ACTIONS = new TreeSet<>();
