@@ -26,6 +26,7 @@ import me.skywave.maternitycarelocker.R;
 import me.skywave.maternitycarelocker.locker.controller.LockerCareController;
 import me.skywave.maternitycarelocker.locker.controller.LockerUnlockController;
 import me.skywave.maternitycarelocker.locker.controller.LockerWidgetController;
+import me.skywave.maternitycarelocker.locker.view.CustomViewPager;
 
 public class LockerDialog {
     private static Dialog CURRENT_DIALOG = null;
