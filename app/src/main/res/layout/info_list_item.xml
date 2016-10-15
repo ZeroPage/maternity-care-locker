@@ -3,19 +3,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="horizontal" android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-
-    <ImageView
-        android:layout_width="@android:dimen/app_icon_size"
-        android:layout_height="48dip"
-        android:id="@+id/phoneIcon"
-        android:src="@android:drawable/sym_action_call"
-        android:tint="@android:color/holo_red_dark" />
+    android:layout_height="wrap_content"
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp"
+    android:paddingLeft="20dp"
+    android:paddingRight="20dp">
 
     <LinearLayout
         android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_width="wrap_content">
 
         <TextView
             android:text="TextView"
@@ -31,4 +29,14 @@
             android:layout_height="wrap_content"
             android:id="@+id/contentText" />
     </LinearLayout>
+
+    <ImageView
+        android:layout_width="@android:dimen/app_icon_size"
+        android:layout_height="40dip"
+        android:id="@+id/phoneIcon"
+        android:src="@android:drawable/sym_action_call"
+        android:tint="@android:color/holo_red_dark"
+        android:layout_marginLeft="5dp" />
+
+
 </LinearLayout>
