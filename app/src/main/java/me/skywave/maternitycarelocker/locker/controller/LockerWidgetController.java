@@ -17,7 +17,6 @@ import android.support.v4.app.ActivityCompat;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.GestureDetector;
-import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -25,6 +24,7 @@ import android.widget.ImageView;
 import android.widget.TextClock;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -37,7 +37,6 @@ import java.io.InputStreamReader;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import me.skywave.maternitycarelocker.R;
@@ -119,15 +118,18 @@ public class LockerWidgetController extends LockerController implements Location
     }
 
     private void prepareTypeFaces() {
-        ArrayList<TextView> textViews = new ArrayList<>();
-        textViews.add((TextClock) currentView.findViewById(R.id.textClock1));
-        textViews.add((TextClock) currentView.findViewById(R.id.textClock2));
-        textViews.add((TextView) currentView.findViewById(R.id.weatherText));
-        textViews.add((TextView) currentView.findViewById(R.id.calendarDateText));
-        textViews.add((TextView) currentView.findViewById(R.id.calendarTitleText));
-        textViews.add((TextView) currentView.findViewById(R.id.adviceText));
+        ArrayList<TextView> lightTexts = new ArrayList<>();
+        ArrayList<TextView> regTexts = new ArrayList<>();
+        lightTexts.add((TextClock) currentView.findViewById(R.id.textClock1));
+        lightTexts.add((TextClock) currentView.findViewById(R.id.textClock2));
+        lightTexts.add((TextView) currentView.findViewById(R.id.weatherText));
+        lightTexts.add((TextView) currentView.findViewById(R.id.calendarTitleText));
+        lightTexts.add((TextView) currentView.findViewById(R.id.adviceText));
 
-        setTypeFaces(FONT_NOTO, textViews);
+//        regTexts.add((TextView) currentView.findViewById(R.id.calendarDateText));
+
+        setTypeFaces(FONT_NOTO_THIN, lightTexts);
+//        setTypeFaces(FONT_NOTO_REG, regTexts);
     }
 
 
@@ -245,7 +247,7 @@ public class LockerWidgetController extends LockerController implements Location
     }
 
     private void prepareMusicButton() {
-        Button button = (Button) currentView.findViewById(R.id.button_music);
+        ToggleButton button = (ToggleButton) currentView.findViewById(R.id.button_music);
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -262,9 +264,9 @@ public class LockerWidgetController extends LockerController implements Location
     }
 
     private void updateMusicButton() {
-        Button button = (Button) currentView.findViewById(R.id.button_music);
+        ToggleButton button = (ToggleButton) currentView.findViewById(R.id.button_music);
 
-        button.setText(RadioUtil.isPlaying() ? "STOP" : "PLAY");
+        button.setChecked(RadioUtil.isPlaying());
     }
 
     private void prepareAdvice(View currentView) {
@@ -322,7 +324,7 @@ public class LockerWidgetController extends LockerController implements Location
         if (!isGPSEnabled && !isNetworkEnabled) {
 //            weatherTextView.setText("GPS 및 네트워크 연결 없음.");
         } else {
-            weatherTextView.setText("--도");
+            weatherTextView.setText("--°C");
 
             if (isNetworkEnabled) {
                 locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 60000, 10f, this);
@@ -373,7 +375,7 @@ public class LockerWidgetController extends LockerController implements Location
                             double temperature = Double.valueOf(weatherVO.getTemperature());
                             temperature -= 273.1500;
                             temperature = Double.parseDouble(String.format("%.1f", temperature));
-                            String weatherText = temperature + "도";
+                            String weatherText = temperature + "°C";
                             weatherTextView.setText(weatherText);
                             Drawable weatherIcon = currentContext.getResources().getDrawable(weatherVO.getIcon(), null); // fixme: can't get the theme
                             weatherIcon.setBounds(0, 0, weatherTextView.getMeasuredHeight(), weatherTextView.getMeasuredHeight());

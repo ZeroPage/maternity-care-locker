@@ -27,7 +27,7 @@ public class LockerCareController extends LockerController {
     private void prepareTypeFaces() {
         ArrayList<TextView> textViews = new ArrayList<>();
 
-        setTypeFaces(FONT_NOTO, textViews);
+        setTypeFaces(FONT_NOTO_THIN, textViews);
     }
 
 

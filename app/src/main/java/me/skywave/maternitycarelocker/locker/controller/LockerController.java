@@ -4,18 +4,16 @@ import android.content.Context;
 import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.TextClock;
 import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.List;
-
-import me.skywave.maternitycarelocker.R;
 
 public abstract class LockerController {
     protected View currentView;
     protected Context currentContext;
-    public static final String FONT_NOTO = "NotoSansKR-Light.otf";
+    public static final String FONT_NOTO_THIN = "NotoSansKR-Thin.otf";
+    public static final String FONT_NOTO_REG = "NotoSansKR-Regular.otf";
+
 
     public LockerController(int resource, Context context) {
         LayoutInflater inflater = LayoutInflater.from(context);
