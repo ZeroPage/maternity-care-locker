@@ -169,7 +169,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:textColor="#cccccc"
-            android:text="의료정보 | 진통타이머 ▶"/>
+            android:text="진통타이머 | 의료정보 ▶"/>
     </RelativeLayout>
 
 </LinearLayout>
