@@ -64,7 +64,7 @@ public class LockerWidgetController extends LockerController implements Location
         prepareTypeFaces();
         prepareMusicButton();
 
-        updateCallButtons(currentView, callStatus, null);
+        updateCallLayout(currentView, callStatus, null);
         update();
     }
     public void update() {
@@ -81,7 +81,7 @@ public class LockerWidgetController extends LockerController implements Location
             return;
         }
 
-        updateCallButtons(currentView, callStatus, caller);
+        updateCallLayout(currentView, callStatus, caller);
     }
 
     private void prepareGesture() {
@@ -151,21 +151,31 @@ public class LockerWidgetController extends LockerController implements Location
         });
     }
 
-    private void updateCallButtons(View rootView, int callState, String caller) {
+    private void updateCallLayout(View rootView, int callState, String caller) {
+        View adviceLayout = rootView.findViewById(R.id.layout_advice);
+        View callLayout = rootView.findViewById(R.id.layout_call);
+
         Button acceptButton = (Button) rootView.findViewById(R.id.button_call_accept);
         Button dismissButton = (Button) rootView.findViewById(R.id.button_call_dismiss);
         TextView callerText = (TextView) rootView.findViewById(R.id.text_caller);
 
         Log.d("skywave", caller == null ? "" : caller);
 
-        int acceptVisibility = callState == TelephonyManager.CALL_STATE_RINGING ? View.VISIBLE : View.INVISIBLE;
-        acceptButton.setVisibility(acceptVisibility);
+        int callVisibility = (callState & (TelephonyManager.CALL_STATE_RINGING | TelephonyManager.CALL_STATE_OFFHOOK)) != 0 ? View.VISIBLE : View.GONE;
+        int adviceVisibility = callVisibility == View.VISIBLE ? View.GONE : View.VISIBLE;
 
-        int dismissVisibility = (callState & (TelephonyManager.CALL_STATE_RINGING | TelephonyManager.CALL_STATE_OFFHOOK)) != 0 ? View.VISIBLE : View.INVISIBLE;
-        dismissButton.setVisibility(dismissVisibility);
-        callerText.setVisibility(dismissVisibility);
+        adviceLayout.setVisibility(adviceVisibility);
+        callLayout.setVisibility(callVisibility);
 
-        callerText.setText(caller != null ? caller : "");
+        if (callVisibility == View.VISIBLE) {
+            int acceptVisibility = callState == TelephonyManager.CALL_STATE_RINGING ? View.VISIBLE : View.GONE;
+            acceptButton.setVisibility(acceptVisibility);
+
+            dismissButton.setVisibility(callVisibility);
+            callerText.setVisibility(callVisibility);
+
+            callerText.setText(caller != null ? caller : "");
+        }
     }
 
     private void prepareFavorite(View rootView) {
