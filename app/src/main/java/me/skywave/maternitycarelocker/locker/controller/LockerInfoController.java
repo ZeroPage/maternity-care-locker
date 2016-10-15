@@ -12,16 +12,16 @@ import me.skywave.maternitycarelocker.locker.model.InfoManager;
 import me.skywave.maternitycarelocker.locker.model.InfoVO;
 import me.skywave.maternitycarelocker.locker.view.InfoListAdapter;
 
-public class LockerCareController extends LockerController {
-    public LockerCareController(Context context) {
-        super(R.layout.view_care, context);
-        prepareTypeFaces();
-        prepareInfo();
-        update();
-    }
+    public class LockerInfoController extends LockerController {
+        public LockerInfoController(Context context) {
+            super(R.layout.view_info, context);
+            prepareTypeFaces();
+            prepareInfo();
+            update();
+        }
 
-    public void update() {
-    }
+        public void update() {
+        }
 
 
     private void prepareTypeFaces() {

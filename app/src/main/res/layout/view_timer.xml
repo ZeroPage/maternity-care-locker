@@ -12,14 +12,12 @@
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin"
         android:paddingTop="@dimen/activity_vertical_margin">
-        <ListView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:id="@+id/infoListView"
-            android:background="#99FFFFFF"
-            android:layout_marginTop="40dp"
-            />
+            android:layout_centerVertical="true"
+            android:text="hello!"/>
     </RelativeLayout>
     <RelativeLayout
         android:layout_width="match_parent"
@@ -37,5 +35,4 @@
             android:textColor="#aaaaaa"
             android:text="의료정보 ▶"/>
     </RelativeLayout>
-
 </LinearLayout>

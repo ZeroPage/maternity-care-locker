@@ -23,7 +23,8 @@ import android.widget.LinearLayout;
 import java.util.LinkedList;
 
 import me.skywave.maternitycarelocker.R;
-import me.skywave.maternitycarelocker.locker.controller.LockerCareController;
+import me.skywave.maternitycarelocker.locker.controller.LockerInfoController;
+import me.skywave.maternitycarelocker.locker.controller.LockerTimerController;
 import me.skywave.maternitycarelocker.locker.controller.LockerUnlockController;
 import me.skywave.maternitycarelocker.locker.controller.LockerWidgetController;
 import me.skywave.maternitycarelocker.locker.view.CustomViewPager;
@@ -32,7 +33,9 @@ public class LockerDialog {
     private static Dialog CURRENT_DIALOG = null;
     private static LockerWidgetController CURRENT_WIDGET_CONTROLLER = null;
     private static LockerUnlockController CURRENT_UNLOCK_CONTROLLER = null;
-    private static LockerCareController CURRENT_CARE_CONTROLLER = null;
+    private static LockerInfoController CURRENT_INFO_CONTROLLER = null;
+    private static LockerTimerController CURRENT_TIMER_CONTROLLER = null;
+
     private static OnUnlockListener CURRENT_LISTENER = null;
     private static CustomViewPager CURRENT_VIEWPAGER = null;
 
@@ -45,7 +48,8 @@ public class LockerDialog {
             requestWidget();
             CURRENT_WIDGET_CONTROLLER.update();
             CURRENT_UNLOCK_CONTROLLER.update();
-            CURRENT_CARE_CONTROLLER.update();
+            CURRENT_INFO_CONTROLLER.update();
+            CURRENT_TIMER_CONTROLLER.update();
 
             return;
         }
@@ -109,12 +113,14 @@ public class LockerDialog {
     private static LockerPagerAdapter preparePagerAdapter(Context context) {
         CURRENT_WIDGET_CONTROLLER = new LockerWidgetController(context);
         CURRENT_UNLOCK_CONTROLLER = new LockerUnlockController(context);
-        CURRENT_CARE_CONTROLLER = new LockerCareController(context);
+        CURRENT_INFO_CONTROLLER = new LockerInfoController(context);
+        CURRENT_TIMER_CONTROLLER = new LockerTimerController(context);
 
         LockerPagerAdapter adapter = new LockerPagerAdapter();
         adapter.addView(CURRENT_UNLOCK_CONTROLLER.getView());
         adapter.addView(CURRENT_WIDGET_CONTROLLER.getView());
-        adapter.addView(CURRENT_CARE_CONTROLLER.getView());
+        adapter.addView(CURRENT_TIMER_CONTROLLER.getView());
+        adapter.addView(CURRENT_INFO_CONTROLLER.getView());
 
         return adapter;
     }
