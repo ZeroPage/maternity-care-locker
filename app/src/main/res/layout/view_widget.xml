@@ -170,13 +170,12 @@
                 android:id="@+id/button_music"
                 android:textOn=""
                 android:textOff=""
-                android:button="@drawable/check"
                 android:background="@null"
-                android:layout_width="50dp"
+                android:drawableBottom="@drawable/check"
+                android:layout_width="wrap_content"
                 android:layout_height="50dp"
                 android:layout_centerHorizontal="true"
-                android:contentDescription="태교음악 라디오 재생"
-                android:textAlignment="center" />
+                android:contentDescription="태교음악 라디오 재생"/>
 
             <ImageView
                 android:layout_width="@android:dimen/app_icon_size"
