@@ -24,6 +24,14 @@ public class TimerListAdapter extends BaseAdapter{
         this.timerList = timerList;
     }
 
+    public ArrayList<TimerVO> getTimerList() {
+        return timerList;
+    }
+
+    public void setTimerList(ArrayList<TimerVO> timerList) {
+        this.timerList = timerList;
+    }
+
     @Override
     public int getCount() {
         return timerList.size();
@@ -58,7 +66,7 @@ public class TimerListAdapter extends BaseAdapter{
         else if (timer.getType().equals(TimerVO.TYPE_REST)) {
             typeText.setTextColor(Color.BLUE);
         }
-        periodText.setText(timer.getPreiod());
+        periodText.setText(timer.getPeriod());
         startText.setText(timer.getStart());
 
         return view;

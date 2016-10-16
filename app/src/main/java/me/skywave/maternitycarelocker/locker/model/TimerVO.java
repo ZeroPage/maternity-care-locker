@@ -9,7 +9,13 @@ public class TimerVO {
     public static final String TYPE_REST = "휴식";
     private String type;
     private String start;
-    private String preiod;
+    private String period;
+
+    public TimerVO(String type, String start, String period) {
+        this.type = type;
+        this.start = start;
+        this.period = period;
+    }
 
     public String getType() {
         return type;
@@ -27,11 +33,11 @@ public class TimerVO {
         this.start = start;
     }
 
-    public String getPreiod() {
-        return preiod;
+    public String getPeriod() {
+        return period;
     }
 
-    public void setPreiod(String preiod) {
-        this.preiod = preiod;
+    public void setPeriod(String period) {
+        this.period = period;
     }
 }
