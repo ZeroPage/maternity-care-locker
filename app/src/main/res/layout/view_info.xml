@@ -18,7 +18,6 @@
             android:layout_centerHorizontal="true"
             android:id="@+id/infoListView"
             android:background="#99FFFFFF"
-            android:layout_marginTop="40dp"
             />
     </RelativeLayout>
     <RelativeLayout
