@@ -46,6 +46,17 @@ public class LockerTimerController extends LockerController {
                     stopButton.setChecked(true);
                     timerListAdapter.setTimerList(new ArrayList<TimerVO>());
                     timerListAdapter.notifyDataSetChanged();
+
+//                    TimerTask timerTask = new TimerTask() {
+//                        @Override
+//                        public void run() {
+//                            long millis = System.currentTimeMillis() - startTime;
+//                            setTimerText(millis);
+//                        }
+//                    };
+//
+//                    updateTimer.schedule(timerTask, 1000);
+
                     //타이머 시작
                 } else {
                     stopButton.setVisibility(View.GONE);
