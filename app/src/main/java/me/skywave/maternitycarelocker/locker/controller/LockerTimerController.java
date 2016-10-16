@@ -1,6 +1,8 @@
 package me.skywave.maternitycarelocker.locker.controller;
 
 import android.content.Context;
+import android.os.AsyncTask;
+import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -11,6 +13,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import me.skywave.maternitycarelocker.R;
+import me.skywave.maternitycarelocker.locker.core.LockerDialog;
 import me.skywave.maternitycarelocker.locker.model.TimerVO;
 import me.skywave.maternitycarelocker.locker.view.TimerListAdapter;
 
@@ -36,32 +39,44 @@ public class LockerTimerController extends LockerController {
         listView.setAdapter(timerListAdapter);
 
         startButton.setOnClickListener(new View.OnClickListener() {
+            AsyncTask<Void, Long, Void> task = null;
             @Override
             public void onClick(View view) {
-                Timer updateTimer = new Timer("update");
 
                 if(startButton.isChecked()) {
-                    final long startTime = System.currentTimeMillis();
                     stopButton.setVisibility(View.VISIBLE);
                     stopButton.setChecked(true);
                     timerListAdapter.setTimerList(new ArrayList<TimerVO>());
                     timerListAdapter.notifyDataSetChanged();
 
-//                    TimerTask timerTask = new TimerTask() {
-//                        @Override
-//                        public void run() {
-//                            long millis = System.currentTimeMillis() - startTime;
-//                            setTimerText(millis);
-//                        }
-//                    };
-//
-//                    updateTimer.schedule(timerTask, 1000);
+                    final long startTime = System.currentTimeMillis();
+                    task = new AsyncTask<Void, Long, Void>() {
+                        @Override
+                        protected void onProgressUpdate(Long... values) {
+                            setTimerText(values[0]);
+                        }
 
+                        @Override
+                        protected Void doInBackground(Void... params) {
+                            while (!isCancelled()) {
+                                long millis = System.currentTimeMillis() - startTime;
+                                publishProgress(millis);
+                                try {
+                                    Thread.sleep(100);
+                                } catch (InterruptedException e) {
+                                    break;
+                                }
+                            }
+                            return null;
+                        }
+                    };
+
+                    task.execute();
                     //타이머 시작
                 } else {
                     stopButton.setVisibility(View.GONE);
-                    updateTimer.cancel();
-                    updateTimer.purge();
+                    task.cancel(true);
+
                     //타이머 정지
                     //TimerListAdapter의 ArrayList를 db에 저장
                 }
