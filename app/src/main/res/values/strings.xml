@@ -68,5 +68,8 @@
     <string name="pref_background_picker">background_picker</string>
     <string name="pref_weather_switch">weather_switch</string>
     <string name="pref_favorite_picker">favorite_picker</string>
+    <string name="pref_pattern_hash">pattern_hash</string>
+    <string name="pref_description_pattern_lock">패턴 비밀번호 사용 여부를 지정합니다.</string>
+    <string name="pref_title_pattern_lock">패턴 잠금 설정</string>
 
 </resources>

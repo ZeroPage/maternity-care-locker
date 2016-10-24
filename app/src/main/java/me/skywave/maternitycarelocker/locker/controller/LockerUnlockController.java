@@ -10,22 +10,35 @@ import java.util.List;
 
 import me.skywave.maternitycarelocker.R;
 import me.skywave.maternitycarelocker.locker.core.LockerDialog;
+import me.zhanghai.android.patternlock.PatternUtils;
 import me.zhanghai.android.patternlock.PatternView;
 
 public class LockerUnlockController extends LockerController {
+    private String patternHash;
+
     private TextView unlockActionText;
     private PatternView pattern;
 
-    public LockerUnlockController(Context context) {
+    public LockerUnlockController(Context context, String patternHash) {
         super(R.layout.view_unlock, context);
 
-        prepareButtons();
-        preparePattern();
+        this.patternHash = patternHash;
+
+        if (this.patternHash.isEmpty()) {
+            hideAll();
+        } else {
+            prepareButtons();
+            preparePattern();
+        }
     }
 
     @Override
     public void update() {
         pattern.clearPattern();
+    }
+
+    private void hideAll() {
+        currentView.setVisibility(View.GONE);
     }
 
     private void preparePattern() {
@@ -50,11 +63,7 @@ public class LockerUnlockController extends LockerController {
 
             @Override
             public void onPatternDetected(List<PatternView.Cell> cells) {
-                if (cells.size() == 3 &&
-                        cells.get(0) == PatternView.Cell.of(2, 0) &&
-                        cells.get(1) == PatternView.Cell.of(2, 1) &&
-                        cells.get(2) == PatternView.Cell.of(2, 2)
-                        ) {
+                if (PatternUtils.patternToSha1String(cells).equals(patternHash)) {
                     LockerDialog.unlock();
                 } else {
                     pattern.setDisplayMode(PatternView.DisplayMode.Wrong);
@@ -75,6 +84,8 @@ public class LockerUnlockController extends LockerController {
     }
 
     public void setUnlockActionName(String actionName) {
-        unlockActionText.setText(actionName);
+        if (unlockActionText != null) {
+            unlockActionText.setText(actionName);
+        }
     }
 }

@@ -30,6 +30,8 @@ import me.skywave.maternitycarelocker.locker.controller.LockerWidgetController;
 import me.skywave.maternitycarelocker.locker.view.CustomViewPager;
 
 public class LockerDialog {
+    private static String CURRENT_PATTERN_HASH = "";
+
     private static Dialog CURRENT_DIALOG = null;
     private static LockerWidgetController CURRENT_WIDGET_CONTROLLER = null;
     private static LockerUnlockController CURRENT_UNLOCK_CONTROLLER = null;
@@ -54,6 +56,9 @@ public class LockerDialog {
             return;
         }
 
+        CURRENT_PATTERN_HASH = PreferenceManager.getDefaultSharedPreferences(context)
+                .getString(context.getString(R.string.pref_pattern_hash), "");
+
         CURRENT_DIALOG = new Dialog(context, R.style.LockerDialog);
         prepareFullscreen(CURRENT_DIALOG);
 
@@ -70,7 +75,12 @@ public class LockerDialog {
         }
 
         setUnlockListener(listener);
-        CURRENT_VIEWPAGER.setCurrentItem(PAGE_UNLOCK, true);
+
+        if (CURRENT_PATTERN_HASH.isEmpty()) {
+            unlock();
+        } else {
+            CURRENT_VIEWPAGER.setCurrentItem(PAGE_UNLOCK, true);
+        }
     }
 
     public static void requestWidget() {
@@ -112,7 +122,7 @@ public class LockerDialog {
 
     private static LockerPagerAdapter preparePagerAdapter(Context context) {
         CURRENT_WIDGET_CONTROLLER = new LockerWidgetController(context);
-        CURRENT_UNLOCK_CONTROLLER = new LockerUnlockController(context);
+        CURRENT_UNLOCK_CONTROLLER = new LockerUnlockController(context, CURRENT_PATTERN_HASH);
         CURRENT_INFO_CONTROLLER = new LockerInfoController(context);
         CURRENT_TIMER_CONTROLLER = new LockerTimerController(context);
 
@@ -138,7 +148,11 @@ public class LockerDialog {
                     setUnlockListener(null);
                     CURRENT_VIEWPAGER.setPagingEnabled(true);
                 } else if (position == PAGE_UNLOCK) {
-                    CURRENT_VIEWPAGER.setPagingEnabled(false);
+                    if (CURRENT_PATTERN_HASH.isEmpty()) {
+                        unlock();
+                    } else {
+                        CURRENT_VIEWPAGER.setPagingEnabled(false);
+                    }
                 }
             }
         });

@@ -6,6 +6,11 @@
             android:summary="@string/pref_description_locker"
             android:title="@string/pref_title_locker"
             />
+        <me.skywave.maternitycarelocker.companion.preference.PatternLockPreference
+            android:key="@string/pref_pattern_hash"
+            android:summary="@string/pref_description_pattern_lock"
+            android:title="@string/pref_title_pattern_lock"
+            />
     </PreferenceCategory>
     <PreferenceCategory android:title="공통 설정" >
 
