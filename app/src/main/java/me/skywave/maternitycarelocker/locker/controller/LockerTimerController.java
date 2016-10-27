@@ -47,7 +47,7 @@ public class LockerTimerController extends LockerController {
                     timerListAdapter.setTimerList(new ArrayList<TimerVO>());
                     timerListAdapter.notifyDataSetChanged();
 
-                    startTime = System.currentTimeMillis();
+                    startTime = (System.currentTimeMillis() / 1000);
                     middleTime = startTime;
                     task = new AsyncTask<Void, Long, Void>() {
                         @Override
@@ -58,8 +58,8 @@ public class LockerTimerController extends LockerController {
                         @Override
                         protected Void doInBackground(Void... params) {
                             while (!isCancelled()) {
-                                long millis = System.currentTimeMillis() - startTime;
-                                publishProgress(millis);
+                                long second = (System.currentTimeMillis() / 1000) - startTime;
+                                publishProgress(second);
                                 try {
                                     Thread.sleep(100);
                                 } catch (InterruptedException e) {
@@ -81,18 +81,14 @@ public class LockerTimerController extends LockerController {
         stopButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                long temp = System.currentTimeMillis() / 1000;
                 if(stopButton.isChecked()) {
-                    long temp = System.currentTimeMillis();
                     timerListAdapter.getTimerList().add(new TimerVO(TimerVO.TYPE_PAIN, convertTime(middleTime-startTime), convertTime(temp-middleTime)));
-                    middleTime = temp;
-
-                    timerListAdapter.notifyDataSetChanged();
                 } else {
-                    long temp = System.currentTimeMillis();
                     timerListAdapter.getTimerList().add(new TimerVO(TimerVO.TYPE_REST, convertTime(middleTime-startTime), convertTime(temp-middleTime)));
-                    middleTime = temp;
-                    timerListAdapter.notifyDataSetChanged();
                 }
+                middleTime = temp;
+                timerListAdapter.notifyDataSetChanged();
             }
         });
 
@@ -110,9 +106,8 @@ public class LockerTimerController extends LockerController {
         timerText.setText(convertTime(millis));
     }
 
-    private String convertTime(long millis) {
-        int seconds = (int) (millis / 1000);
-        int minutes = seconds / 60;
+    private String convertTime(long seconds) {
+        int minutes = (int) (seconds / 60);
         int hours = minutes / 60;
         seconds = seconds % 60;
         minutes = minutes % 60;
