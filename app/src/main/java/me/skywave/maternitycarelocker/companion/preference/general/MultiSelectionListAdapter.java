@@ -51,30 +51,39 @@ public class MultiSelectionListAdapter extends BaseAdapter {
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
+        final ViewHolder viewHolder;
+
         if (convertView == null) {
             LayoutInflater inflater = ((Activity) context).getLayoutInflater();
             convertView = inflater.inflate(resource, parent, false);
+
+            viewHolder = new ViewHolder();
+            viewHolder.icon = (ImageView) convertView.findViewById(R.id.iconView);
+            viewHolder.name = (TextView) convertView.findViewById(R.id.nameView);
+            viewHolder.checkBox = (CheckBox) convertView.findViewById(R.id.checkBox);
+            convertView.setTag(viewHolder);
+        }
+        else {
+            viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        TextView nameView = (TextView) convertView.findViewById(R.id.nameView);
-        ImageView iconView = (ImageView) convertView.findViewById(R.id.iconView);
-        final CheckBox checkBox = (CheckBox) convertView.findViewById(R.id.checkBox);
+        viewHolder.icon.setImageDrawable(iconList.get(position));
+        viewHolder.name.setText(stringList.get(position));
+        viewHolder.checkBox.setChecked(selected.contains(stringList.get(position)));
 
-        nameView.setText(stringList.get(position));
-        iconView.setImageDrawable(iconList.get(position));
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!checkBox.isChecked()) {
+                if (!viewHolder.checkBox.isChecked()) {
                     if (selected.size() == limit) {
                         return;
                     }
-                    checkBox.setChecked(true);
+                    viewHolder.checkBox.setChecked(true);
                     selected.add(stringList.get(position));
                     index.add(position);
                 }
                 else {
-                    checkBox.setChecked(false);
+                    viewHolder.checkBox.setChecked(false);
                     selected.remove(stringList.get(position));
                     index.remove(position);
                 }
@@ -82,11 +91,6 @@ public class MultiSelectionListAdapter extends BaseAdapter {
             }
         });
 
-        if (!selected.contains(stringList.get(position))) {
-            checkBox.setChecked(false);
-        } else {
-            checkBox.setChecked(true);
-        }
         return convertView;
     }
 
@@ -96,5 +100,11 @@ public class MultiSelectionListAdapter extends BaseAdapter {
 
     public Set<String> getCheckedSet() {
         return selected;
+    }
+
+    public class ViewHolder {
+        public ImageView icon;
+        public TextView name;
+        public CheckBox checkBox;
     }
 }
