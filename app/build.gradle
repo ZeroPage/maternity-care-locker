@@ -30,5 +30,8 @@ dependencies {
 
     compile 'me.zhanghai.android.patternlock:library:2.0.4'
     compile 'io.realm:realm-android:0.87.4'
+    compile 'com.google.firebase:firebase-core:9.6.1'
 
 }
+
+apply plugin: 'com.google.gms.google-services'

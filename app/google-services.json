@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "79106559174",
+    "firebase_url": "https://maternity-care-locker.firebaseio.com",
+    "project_id": "maternity-care-locker",
+    "storage_bucket": "maternity-care-locker.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:79106559174:android:376efc9dc2f4d498",
+        "android_client_info": {
+          "package_name": "me.skywave.maternitycarelocker"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "79106559174-lu0qioahb4eff4ffgiimlro1p6kq8pt3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBpczEmEUMSLH2PHI3w7u0Ijsgwo6Kt09k"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
