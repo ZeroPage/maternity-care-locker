@@ -1,3 +1,4 @@
+
 apply plugin: 'com.android.application'
 
 android {
@@ -28,4 +29,6 @@ dependencies {
     compile 'com.android.support:design:24.2.1'
 
     compile 'me.zhanghai.android.patternlock:library:2.0.4'
+    compile 'io.realm:realm-android:0.87.4'
+
 }
