@@ -40,7 +40,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import me.skywave.maternitycarelocker.R;
-import me.skywave.maternitycarelocker.companion.preference.FavoriteManager;
+import me.skywave.maternitycarelocker.utils.FavoriteManager;
 import me.skywave.maternitycarelocker.locker.core.LockerDialog;
 import me.skywave.maternitycarelocker.locker.model.CalendarEventManager;
 import me.skywave.maternitycarelocker.locker.model.EventVO;

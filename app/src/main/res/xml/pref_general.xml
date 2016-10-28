@@ -6,7 +6,7 @@
             android:summary="@string/pref_description_locker"
             android:title="@string/pref_title_locker"
             />
-        <me.skywave.maternitycarelocker.companion.preference.PatternLockPreference
+        <me.skywave.maternitycarelocker.companion.preference.general.PatternLockPreference
             android:key="@string/pref_pattern_hash"
             android:summary="@string/pref_description_pattern_lock"
             android:title="@string/pref_title_pattern_lock"
