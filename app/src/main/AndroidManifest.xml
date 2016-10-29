@@ -34,11 +34,12 @@
         <service
             android:name=".locker.core.LockerService"
             android:enabled="true"
-            android:exported="false"></service>
+            android:exported="false" />
 
         <activity
             android:name=".companion.preference.SettingsActivity"
             android:label="@string/title_activity_settings" />
+        <activity android:name=".companion.TimerActivity" />
     </application>
 
 </manifest>
