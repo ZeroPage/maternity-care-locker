@@ -3,6 +3,7 @@ package me.skywave.maternitycarelocker.companion.preference.profile;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -21,7 +22,9 @@ public class ProfilePreferenceFragment extends PreferenceFragment {
             Phone.DISPLAY_NAME,
             Phone.NUMBER
     };
-    Preference selectedContact;
+    private Preference selectedContact;
+    private SharedPreferences.Editor editor;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -42,7 +45,9 @@ public class ProfilePreferenceFragment extends PreferenceFragment {
         SettingsActivity.bindPreferenceSummaryToValue(findPreference("profile_allergy"));
         SettingsActivity.bindPreferenceSummaryToValue(findPreference("profile_medicine"));
         SettingsActivity.bindPreferenceSummaryToValue(findPreference("profile_blood"));
-
+        SettingsActivity.bindPreferenceSummaryToValue(comContact);
+        SettingsActivity.bindPreferenceSummaryToValue(hptContact);
+        SettingsActivity.bindPreferenceSummaryToValue(etcContact);
     }
 
     @Override
@@ -64,7 +69,11 @@ public class ProfilePreferenceFragment extends PreferenceFragment {
                     Uri contactData = data.getData();
                     Cursor cursor = context.getContentResolver().query(contactData, PHONE_PROJECTION, null, null, null);
                     if (cursor != null && cursor.moveToFirst()) {
-                        selectedContact.setSummary(cursor.getString(0) + " " + cursor.getString(1));
+                        String value = cursor.getString(0) + " " + cursor.getString(1);
+                        editor = selectedContact.getEditor();
+                        editor.putString(selectedContact.getKey(), value);
+                        selectedContact.setSummary(value);
+                        editor.commit();
                     }
                     cursor.close();
                 }
