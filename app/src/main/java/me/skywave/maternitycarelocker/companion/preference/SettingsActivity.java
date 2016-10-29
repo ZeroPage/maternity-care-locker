@@ -18,6 +18,7 @@ import java.util.List;
 
 import me.skywave.maternitycarelocker.R;
 import me.skywave.maternitycarelocker.companion.preference.general.GeneralPreferenceFragment;
+import me.skywave.maternitycarelocker.companion.preference.profile.ProfilePreferenceFragment;
 import me.skywave.maternitycarelocker.companion.preference.sync.DataSyncPreferenceFragment;
 
 /**
@@ -133,6 +134,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
     protected boolean isValidFragment(String fragmentName) {
         return PreferenceFragment.class.getName().equals(fragmentName)
                 || GeneralPreferenceFragment.class.getName().equals(fragmentName)
+                || ProfilePreferenceFragment.class.getName().equals(fragmentName)
                 || DataSyncPreferenceFragment.class.getName().equals(fragmentName);
     }
 

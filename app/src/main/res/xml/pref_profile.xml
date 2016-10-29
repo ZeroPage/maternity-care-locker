@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <EditTextPreference
+        android:capitalize="words"
+        android:defaultValue="@string/pref_default_display_name"
+        android:inputType="textCapWords"
+        android:key="profile_name"
+        android:maxLines="1"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:title="@string/pref_title_profile_name"
+    />
+
+    <EditTextPreference
+        android:capitalize="words"
+        android:inputType="date"
+        android:key="profile_birth"
+        android:maxLines="1"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:title="@string/pref_title_profile_birth"
+        />
+
+    <EditTextPreference
+        android:capitalize="words"
+        android:inputType="number"
+        android:key="profile_record"
+        android:maxLines="1"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:title="@string/pref_title_profile_record"
+        />
+
+    <EditTextPreference
+        android:capitalize="sentences"
+        android:inputType="textCapWords"
+        android:key="profile_allergy"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:title="@string/pref_title_profile_allergy"
+        />
+
+    <Preference
+        android:key="profile_com_contact"
+        android:title="@string/pref_title_profile_com_contact"
+        />
+
+    <Preference
+        android:key="profile_hpt_contact"
+        android:title="@string/pref_title_profile_hpt_contact"
+        />
+
+    <Preference
+        android:key="profile_etc_contact"
+        android:title="@string/pref_title_profile_etc_contact"
+        />
+
+    <EditTextPreference
+        android:capitalize="sentences"
+        android:inputType="textCapWords"
+        android:key="profile_medicine"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:title="@string/pref_title_profile_medicine"
+        />
+
+    <EditTextPreference
+        android:capitalize="sentences"
+        android:inputType="textCapWords"
+        android:key="profile_blood"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:title="@string/pref_title_profile_blood"
+        />
+
+</PreferenceScreen>

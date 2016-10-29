@@ -9,6 +9,7 @@
 
     <header
         android:icon="@drawable/ic_person_black_24dp"
+        android:fragment="me.skywave.maternitycarelocker.companion.preference.profile.ProfilePreferenceFragment"
         android:title="@string/pref_header_profile" />
 
     <header
