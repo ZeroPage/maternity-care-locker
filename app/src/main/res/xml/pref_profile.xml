@@ -24,7 +24,7 @@
 
     <EditTextPreference
         android:capitalize="words"
-        android:inputType="number"
+        android:inputType="textCapWords"
         android:key="profile_record"
         android:maxLines="1"
         android:selectAllOnFocus="true"

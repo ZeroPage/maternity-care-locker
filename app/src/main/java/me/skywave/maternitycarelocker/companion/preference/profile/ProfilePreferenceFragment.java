@@ -74,8 +74,8 @@ public class ProfilePreferenceFragment extends PreferenceFragment {
                         editor.putString(selectedContact.getKey(), value);
                         selectedContact.setSummary(value);
                         editor.commit();
+                        cursor.close();
                     }
-                    cursor.close();
                 }
 
         }

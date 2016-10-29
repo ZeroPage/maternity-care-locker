@@ -1,21 +1,20 @@
 package me.skywave.maternitycarelocker.locker.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Created by miri1 on 2016-10-14.
  */
 
 public class InfoVO {
 
+
     private String name;
     private String birth;
     private String records;
     private String allergies;
     private String medicines;
-    private List<String> contactName;
-    private List<String> contactNum;
+    private ContactVO comContact;
+    private ContactVO hptContact;
+    private ContactVO etcContact;
     private String blood;
 
     public InfoVO() {
@@ -24,8 +23,9 @@ public class InfoVO {
         records = null;
         allergies = null;
         medicines = null;
-        contactName = new ArrayList<>();
-        contactNum = new ArrayList<>();
+        comContact = null;
+        hptContact = null;
+        etcContact = null;
         blood = null;
     }
 
@@ -44,7 +44,6 @@ public class InfoVO {
     public void setBirth(String birth) {
         this.birth = birth;
     }
-
 
     public String getRecords() {
         return records;
@@ -70,20 +69,28 @@ public class InfoVO {
         this.medicines = medicines;
     }
 
-    public List<String> getContactName() {
-        return contactName;
+    public ContactVO getComContact() {
+        return comContact;
     }
 
-    public void addContactName(String name) {
-        contactName.add(name);
+    public void setComContact(ContactVO comContact) {
+        this.comContact = comContact;
     }
 
-    public List<String> getContactNum() {
-        return contactNum;
+    public ContactVO getHptContact() {
+        return hptContact;
     }
 
-    public void addContact(String number) {
-        contactNum.add(number);
+    public void setHptContact(ContactVO hptContact) {
+        this.hptContact = hptContact;
+    }
+
+    public ContactVO getEtcContact() {
+        return etcContact;
+    }
+
+    public void setEtcContact(ContactVO etcContact) {
+        this.etcContact = etcContact;
     }
 
     public String getBlood() {

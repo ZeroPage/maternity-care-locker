@@ -21,6 +21,7 @@ import me.skywave.maternitycarelocker.locker.view.InfoListAdapter;
         }
 
         public void update() {
+
         }
 
 
@@ -34,55 +35,68 @@ import me.skywave.maternitycarelocker.locker.view.InfoListAdapter;
     private void prepareInfo() {
         ListView listView = (ListView) currentView.findViewById(R.id.infoListView);
 
-        InfoVO infos = InfoManager.getInfoVO();
+        InfoManager infoManager = new InfoManager(currentContext);
+        InfoVO infos = infoManager.getInfoVO();
 
         ArrayList<HashMap<String, String>> mlist = new ArrayList<>();
 
         HashMap<String, String> map = new HashMap<>();
-        if (infos.getName() != null) {
+        if (!infos.getName().isEmpty()) {
             map.put("item1", "이름");
             map.put("item2", infos.getName());
             mlist.add(map);
         }
 
-        if (infos.getBirth() != null) {
+        if (!infos.getBirth().isEmpty()) {
             map = new HashMap<>();
             map.put("item1", "생년월일");
             map.put("item2", infos.getBirth());
             mlist.add(map);
         }
 
-        if (infos.getRecords() != null) {
+        if (!infos.getRecords().isEmpty()) {
             map = new HashMap<>();
             map.put("item1", "의료기록");
             map.put("item2", infos.getRecords());
             mlist.add(map);
         }
 
-        if (infos.getAllergies() != null) {
+        if (!infos.getAllergies().isEmpty()) {
             map = new HashMap<>();
             map.put("item1", "알레르기 및 약물 부작용");
             map.put("item2", infos.getAllergies());
             mlist.add(map);
         }
 
-        if (infos.getMedicines() != null) {
+        if (!infos.getMedicines().isEmpty()) {
             map = new HashMap<>();
             map.put("item1", "복용 중 약물");
             map.put("item2", infos.getMedicines());
             mlist.add(map);
         }
 
-        if (infos.getContactName().size() > 0) {
-            for (int i = 0; i < infos.getContactName().size(); i++) {
-                map = new HashMap<>();
-                map.put("item1", infos.getContactName().get(i));
-                map.put("item2", "tel:" + infos.getContactNum().get(i));
-                mlist.add(map);
-            }
+        if (!infos.getComContact().getName().isEmpty()) {
+            map = new HashMap<>();
+            map.put("item1", "가족: " + infos.getComContact().getName());
+            map.put("item2", "tel: " + infos.getComContact().getNumber());
+            mlist.add(map);
         }
 
-        if (infos.getBlood() != null) {
+        if (!infos.getHptContact().getName().isEmpty()) {
+            map = new HashMap<>();
+            map.put("item1", "병원: " + infos.getHptContact().getName());
+            map.put("item2", "tel: " + infos.getHptContact().getNumber());
+            mlist.add(map);
+        }
+
+        if (!infos.getEtcContact().getName().isEmpty()) {
+            map = new HashMap<>();
+            map.put("item1", infos.getEtcContact().getName());
+            map.put("item2", "tel: " + infos.getEtcContact().getNumber());
+            mlist.add(map);
+        }
+
+        if (!infos.getBlood().isEmpty()) {
             map = new HashMap<>();
             map.put("item1", "혈액형");
             map.put("item2", infos.getBlood());
