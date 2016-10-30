@@ -39,7 +39,7 @@ public class InfoManager {
         info.setHptContact((value == null)? new ContactVO():new ContactVO(value));
         value = getValue("profile_etc_contact");
         info.setEtcContact((value == null)? new ContactVO():new ContactVO(value));
-        value = getValue("profile_blood_contact");
+        value = getValue("profile_blood");
         info.setBlood((value == null) ? "":value);
 
         return info;
