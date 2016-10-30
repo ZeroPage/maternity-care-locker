@@ -52,6 +52,7 @@ public class LockerWidgetController extends LockerController implements Location
     private int callStatus = 0;
     private boolean weatherSwitch;
     private boolean calendarSwitch;
+    private boolean fairSwitch;
     private boolean adviceSwitch;
     private boolean musicSwitch;
 
@@ -66,6 +67,9 @@ public class LockerWidgetController extends LockerController implements Location
         if (calendarSwitch) {
             prepareCalendar(currentView);
         }
+        if (fairSwitch) {
+            prepareFair(currentView);
+        }
         prepareCallButtons(currentView);
         prepareTypeFaces();
         if (musicSwitch) {
@@ -74,6 +78,7 @@ public class LockerWidgetController extends LockerController implements Location
         updateCallLayout(currentView, callStatus, null);
         update();
     }
+
     public void update() {
         setSwitches();
         if (weatherSwitch) {
@@ -85,6 +90,7 @@ public class LockerWidgetController extends LockerController implements Location
         if (calendarSwitch) {
             prepareCalendar(currentView);
         }
+
         if (musicSwitch) {
             prepareMusicButton();
         }
@@ -142,6 +148,7 @@ public class LockerWidgetController extends LockerController implements Location
         lightTexts.add((TextClock) currentView.findViewById(R.id.textClock2));
         lightTexts.add((TextView) currentView.findViewById(R.id.weatherText));
         lightTexts.add((TextView) currentView.findViewById(R.id.calendarTitleText));
+        lightTexts.add((TextView) currentView.findViewById(R.id.fairText));
         lightTexts.add((TextView) currentView.findViewById(R.id.adviceText));
 
 //        regTexts.add((TextView) currentView.findViewById(R.id.calendarDateText));
@@ -434,6 +441,13 @@ public class LockerWidgetController extends LockerController implements Location
             calendarDate.setText("D-" + eventDay);
         }
     }
+
+    private void prepareFair(View rootView) {
+        TextView Fair = (TextView) rootView.findViewById(R.id.fairText);
+
+        Fair.setText("D-10 16회 서울 베이비 키즈페어&푸드쇼");
+    }
+
     @Override
     public void onLocationChanged(Location location) {
 
@@ -458,6 +472,7 @@ public class LockerWidgetController extends LockerController implements Location
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(currentContext);
         weatherSwitch = pref.getBoolean("weather_switch", true);
         calendarSwitch = pref.getBoolean("calendar_switch", true);
+        fairSwitch = pref.getBoolean("fair_switch", true);
         adviceSwitch = pref.getBoolean("advice_switch", true);
         musicSwitch = pref.getBoolean("music_switch", true);
     }

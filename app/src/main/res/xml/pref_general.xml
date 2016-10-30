@@ -37,6 +37,13 @@
 
         <SwitchPreference
             android:defaultValue="true"
+            android:key="@string/pref_fair_switch"
+            android:summary="@string/pref_description_fair"
+            android:title="@string/pref_title_fair"
+            />
+
+        <SwitchPreference
+            android:defaultValue="true"
             android:key="@string/pref_advice_switch"
             android:summary="@string/pref_description_advice"
             android:title="@string/pref_title_advice"

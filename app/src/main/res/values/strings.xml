@@ -16,6 +16,9 @@
     <string name="pref_title_calendar">일정 표시</string>
     <string name="pref_description_calendar">잠금 화면에서 한 달 이내의 일정을 보여줍니다.</string>
 
+    <string name="pref_title_fair">베이비페어 표시</string>
+    <string name="pref_description_fair">잠금 화면에서 베이비페어 일정을 보여줍니다.</string>
+
     <string name="pref_title_advice">조언 표시</string>
     <string name="pref_description_advice">잠금 화면에서 임산부를 위한 조언을 보여줍니다.</string>
 
@@ -77,6 +80,7 @@
     <string name="pref_background_picker">background_picker</string>
     <string name="pref_weather_switch">weather_switch</string>
     <string name="pref_calendar_switch">calendar_switch</string>
+    <string name="pref_fair_switch">fair_switch</string>
     <string name="pref_advice_switch">advice_switch</string>
     <string name="pref_music_switch">music_switch</string>
     <string name="pref_favorite_picker">favorite_picker</string>

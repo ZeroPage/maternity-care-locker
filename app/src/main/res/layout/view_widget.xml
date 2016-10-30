@@ -63,34 +63,57 @@
 
 
             <LinearLayout
-                android:id="@+id/layout_calendar"
-                android:orientation="horizontal"
+                android:id="@+id/layout_event"
+                android:orientation="vertical"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/layout_clock"
                 android:layout_centerHorizontal="true">
 
-                <TextView
+                <LinearLayout
+                    android:orientation="horizontal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="#ffffff"
-                    android:id="@+id/calendarDateText"
-                    android:layout_marginEnd="10dp"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:layout_gravity="center_horizontal" />
+                    android:id="@+id/layout_calendar"
+                    android:layout_gravity="center_horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#ffffff"
+                        android:id="@+id/calendarDateText"
+                        android:layout_marginEnd="10dp"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_weight="1"
+                        android:textAlignment="viewEnd" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#ffffff"
+                        android:id="@+id/calendarTitleText"
+                        android:textSize="20sp"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_weight="1"
+                        android:textAlignment="viewStart" />
+
+                </LinearLayout>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="#ffffff"
-                    android:id="@+id/calendarTitleText"
-                    android:textSize="20sp"
-                    android:layout_gravity="center_horizontal" />
+                    android:id="@+id/fairText"
+                    android:layout_weight="1"
+                    android:layout_gravity="center"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/white" />
 
             </LinearLayout>
 
         </RelativeLayout>
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="0px"
