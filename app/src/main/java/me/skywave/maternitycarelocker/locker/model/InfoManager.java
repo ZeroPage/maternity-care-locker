@@ -18,6 +18,9 @@ public class InfoManager {
     }
 
     public InfoVO getInfoVO() {
+        if (info == null) {
+            info = new InfoVO();
+        }
         info.setName(getValue("profile_name"));
         info.setBirth(getValue("profile_birth"));
         info.setAllergies(getValue("profile_allergy"));
