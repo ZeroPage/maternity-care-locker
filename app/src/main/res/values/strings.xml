@@ -13,6 +13,15 @@
     <string name="pref_title_weather">날씨 표시</string>
     <string name="pref_description_weather">잠금 화면에서 날씨를 보여줍니다.</string>
 
+    <string name="pref_title_calendar">일정 표시</string>
+    <string name="pref_description_calendar">잠금 화면에서 한 달 이내의 일정을 보여줍니다.</string>
+
+    <string name="pref_title_advice">조언 표시</string>
+    <string name="pref_description_advice">잠금 화면에서 임산부를 위한 조언을 보여줍니다.</string>
+
+    <string name="pref_title_music">태교 음악 버튼 표시</string>
+    <string name="pref_description_music">잠금 화면에서 태교 음악 재생 버튼을 표시합니다.</string>
+
     <string name="pref_title_background">잠금 화면 배경 설정</string>
 
     <string name="pref_title_favorite">즐겨쓰는 앱</string>
@@ -67,6 +76,9 @@
     <string name="pref_service_switch">service_switch</string>
     <string name="pref_background_picker">background_picker</string>
     <string name="pref_weather_switch">weather_switch</string>
+    <string name="pref_calendar_switch">calendar_switch</string>
+    <string name="pref_advice_switch">advice_switch</string>
+    <string name="pref_music_switch">music_switch</string>
     <string name="pref_favorite_picker">favorite_picker</string>
     <string name="pref_pattern_hash">pattern_hash</string>
     <string name="pref_description_pattern_lock">패턴 비밀번호 사용 여부를 지정합니다.</string>

@@ -27,6 +27,28 @@
             android:summary="@string/pref_description_weather"
             android:title="@string/pref_title_weather"
             />
+
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="@string/pref_calendar_switch"
+            android:summary="@string/pref_description_calendar"
+            android:title="@string/pref_title_calendar"
+            />
+
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="@string/pref_advice_switch"
+            android:summary="@string/pref_description_advice"
+            android:title="@string/pref_title_advice"
+            />
+
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="@string/pref_music_switch"
+            android:summary="@string/pref_description_music"
+            android:title="@string/pref_title_music"
+            />
+
         <Preference
             android:key="@string/pref_favorite_picker"
             android:title="@string/pref_title_favorite"

@@ -40,40 +40,58 @@ import java.util.ArrayList;
 import java.util.List;
 
 import me.skywave.maternitycarelocker.R;
-import me.skywave.maternitycarelocker.utils.FavoriteManager;
 import me.skywave.maternitycarelocker.locker.core.LockerDialog;
 import me.skywave.maternitycarelocker.locker.model.CalendarEventManager;
 import me.skywave.maternitycarelocker.locker.model.EventVO;
-import me.skywave.maternitycarelocker.utils.MediaButtonUtil;
 import me.skywave.maternitycarelocker.locker.model.WeatherVO;
+import me.skywave.maternitycarelocker.utils.FavoriteManager;
+import me.skywave.maternitycarelocker.utils.MediaButtonUtil;
 import me.skywave.maternitycarelocker.utils.RadioUtil;
 
 public class LockerWidgetController extends LockerController implements LocationListener {
     private int callStatus = 0;
+    private boolean weatherSwitch;
+    private boolean calendarSwitch;
+    private boolean adviceSwitch;
+    private boolean musicSwitch;
 
     public LockerWidgetController(Context context) {
         super(R.layout.view_widget, context);
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        setSwitches();
         prepareFavorite(currentView);
-        if (preferences.getBoolean("weather_switch", true)) {
+        if (weatherSwitch) {
             prepareWeather(currentView);
         }
         prepareGesture();
-        prepareCalendar(currentView);
+        if (calendarSwitch) {
+            prepareCalendar(currentView);
+        }
         prepareCallButtons(currentView);
         prepareTypeFaces();
-        prepareMusicButton();
-
+        if (musicSwitch) {
+            prepareMusicButton();
+        }
         updateCallLayout(currentView, callStatus, null);
         update();
     }
     public void update() {
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(currentContext);
-        if (preferences.getBoolean(currentContext.getResources().getString(R.string.pref_weather_switch), true)) {
+        setSwitches();
+        if (weatherSwitch) {
             prepareWeather(currentView);
         }
-        prepareAdvice(currentView);
-        updateMusicButton();
+        if (adviceSwitch) {
+            prepareAdvice(currentView);
+        }
+        if (calendarSwitch) {
+            prepareCalendar(currentView);
+        }
+        if (musicSwitch) {
+            prepareMusicButton();
+        }
+        else {
+            ToggleButton musicButton = (ToggleButton)currentView.findViewById(R.id.button_music);
+            musicButton.setVisibility(View.INVISIBLE);
+        }
     }
 
     public void setCallStatus(int callStatus, String caller) {
@@ -435,4 +453,13 @@ public class LockerWidgetController extends LockerController implements Location
     public void onProviderDisabled(String s) {
 
     }
+
+    private void setSwitches() {
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(currentContext);
+        weatherSwitch = pref.getBoolean("weather_switch", true);
+        calendarSwitch = pref.getBoolean("calendar_switch", true);
+        adviceSwitch = pref.getBoolean("advice_switch", true);
+        musicSwitch = pref.getBoolean("music_switch", true);
+    }
+
 }
