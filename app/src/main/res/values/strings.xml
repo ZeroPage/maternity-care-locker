@@ -97,4 +97,5 @@
     <string name="pref_title_profile_hpt_contact">병원 연락처</string>
     <string name="pref_title_profile_etc_contact">기타 연락처</string>
     <string name="pref_title_profile_blood">혈액형</string>
+    <string name="pref_pair_uid">pair_uid</string>
 </resources>

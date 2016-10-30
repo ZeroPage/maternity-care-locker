@@ -31,4 +31,9 @@
         android:singleLine="true"
         android:title="@string/pref_title_display_name" />
 
+    <me.skywave.maternitycarelocker.companion.preference.sync.PairPreference
+        android:title="페어링"
+        android:key="@string/pref_pair_uid"
+        />
+
 </PreferenceScreen>
