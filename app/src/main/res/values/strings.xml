@@ -89,7 +89,7 @@
     <string name="pref_title_profile_record">의료 기록</string>
     <string name="pref_title_profile_allergy">알레르기 및 약물 부작용</string>
     <string name="pref_title_profile_medicine">복용 중 약물</string>
-    <string name="pref_title_profile_com_contact">배우자 연락처</string>
+    <string name="pref_title_profile_com_contact">가족 연락처</string>
     <string name="pref_title_profile_hpt_contact">병원 연락처</string>
     <string name="pref_title_profile_etc_contact">기타 연락처</string>
     <string name="pref_title_profile_blood">혈액형</string>
