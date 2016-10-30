@@ -21,15 +21,27 @@ public class InfoManager {
         if (info == null) {
             info = new InfoVO();
         }
-        info.setName(getValue("profile_name"));
-        info.setBirth(getValue("profile_birth"));
-        info.setAllergies(getValue("profile_allergy"));
-        info.setRecords(getValue("profile_record"));
-        info.setMedicines(getValue("profile_medicine"));
-        info.setComContact(new ContactVO(getValue("profile_com_contact")));
-        info.setHptContact(new ContactVO(getValue("profile_hpt_contact")));
-        info.setEtcContact(new ContactVO(getValue("profile_etc_contact")));
-        info.setBlood(getValue("profile_blood"));
+        String value;
+
+        value = getValue("profile_name");
+        info.setName((value == null) ? "":value);
+        value = getValue("profile_birth");
+        info.setBirth((value == null) ? "":value);
+        value = getValue("profile_allergy");
+        info.setAllergies((value == null) ? "":value);
+        value = getValue("profile_record");
+        info.setRecords((value == null) ? "":value);
+        value = getValue("profile_medicine");
+        info.setMedicines((value == null) ? "":value);
+        value = getValue("profile_com_contact");
+        info.setComContact((value == null)? new ContactVO():new ContactVO(value));
+        value = getValue("profile_hpt_contact");
+        info.setHptContact((value == null)? new ContactVO():new ContactVO(value));
+        value = getValue("profile_etc_contact");
+        info.setEtcContact((value == null)? new ContactVO():new ContactVO(value));
+        value = getValue("profile_blood_contact");
+        info.setBlood((value == null) ? "":value);
+
         return info;
     }
 

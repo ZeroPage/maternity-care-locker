@@ -9,13 +9,24 @@ public class ContactVO {
     private String number;
 
     public ContactVO(String contact) {
-        String[] splited = contact.split(" ");
-        int len = splited.length;
-        number = splited[len-1];
-        name = "";
-        for (int i = 0; i < len-1; i++) {
-            name += splited[i] + " ";
+        if (contact != null) {
+            String[] splited = contact.split(" ");
+            int len = splited.length;
+            number = splited[len - 1];
+            name = "";
+            for (int i = 0; i < len - 1; i++) {
+                name += splited[i] + " ";
+            }
         }
+        else {
+            name = "";
+            number = "";
+        }
+    }
+
+    public ContactVO() {
+        name = "";
+        number = "";
     }
 
     public String getName() {
