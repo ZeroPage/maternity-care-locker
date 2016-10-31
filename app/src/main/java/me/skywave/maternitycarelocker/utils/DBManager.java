@@ -9,10 +9,12 @@ public class DBManager extends SQLiteOpenHelper {
     private static final String DB_NAME = "mcl_db.db";
     private static final int DB_VERSION = 1;
 
-    private static final String TABLE_FAVORITE = "favorite";
+    private static final String TABLE_TIMER = "timer";
 
-    private static final String KEY_FAVORITE_ID = "id";
-    private static final String KEY_FAVORITE_PKG = "pkg";
+    private static final String KEY_ID = "id";
+    private static final String KEY_TIMER_TYPE = "type";
+    private static final String KEY_TIMER_START_TIME = "start";
+    private static final String KEY_TIMER_DURING_TIME = "during";
 
 
 
@@ -28,10 +30,10 @@ public class DBManager extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String CREATE_FAVORITE_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_FAVORITE +
+        String CREATE_FAVORITE_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_TIMER +
                 "(" +
-                KEY_FAVORITE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
-                KEY_FAVORITE_PKG + " TEXT" +
+                KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+                KEY_TIMER_TYPE + " TEXT" +
                 ")";
 
         db.execSQL(CREATE_FAVORITE_TABLE);
@@ -40,7 +42,7 @@ public class DBManager extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         if (oldVersion != newVersion) {
-            db.execSQL("DROP TABLE IF EXISTS" + TABLE_FAVORITE);
+            db.execSQL("DROP TABLE IF EXISTS" + TABLE_TIMER);
             onCreate(db);
         }
     }

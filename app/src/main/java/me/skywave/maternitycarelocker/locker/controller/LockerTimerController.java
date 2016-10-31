@@ -7,18 +7,24 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
+import io.realm.Realm;
 import me.skywave.maternitycarelocker.R;
+import me.skywave.maternitycarelocker.locker.model.TimerSetVO;
 import me.skywave.maternitycarelocker.locker.model.TimerVO;
 import me.skywave.maternitycarelocker.locker.view.TimerListAdapter;
 
 public class LockerTimerController extends LockerController {
     private long middleTime;
     private long startTime;
+    private Realm realm;
 
     public LockerTimerController(Context context) {
         super(R.layout.view_timer, context);
+        realm = Realm.getInstance(context);
         update();
         prepareTypeFaces();
         prepareTimer();
@@ -74,7 +80,14 @@ public class LockerTimerController extends LockerController {
                 } else {
                     stopButton.setVisibility(View.GONE);
                     task.cancel(true);
-                    //TimerListAdapter의 ArrayList를 db에 저장
+                    realm.beginTransaction();
+                    TimerSetVO timerSetVO = realm.createObject(TimerSetVO.class);
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                    timerSetVO.setDate(sdf.format(new Date()));
+                    for(TimerVO timerVO : timerListAdapter.getTimerList()) {
+                        timerSetVO.getTimerVos().add(realm.copyToRealm(timerVO));
+                    }
+                    realm.commitTransaction();
                 }
             }
         });
@@ -82,11 +95,13 @@ public class LockerTimerController extends LockerController {
             @Override
             public void onClick(View view) {
                 long temp = System.currentTimeMillis() / 1000;
+                TimerVO timerVO;
                 if(stopButton.isChecked()) {
-                    timerListAdapter.getTimerList().add(new TimerVO(TimerVO.TYPE_PAIN, convertTime(middleTime-startTime), convertTime(temp-middleTime)));
+                    timerVO = new TimerVO(TimerVO.TYPE_REST, convertTime(middleTime-startTime), convertTime(temp-middleTime));
                 } else {
-                    timerListAdapter.getTimerList().add(new TimerVO(TimerVO.TYPE_REST, convertTime(middleTime-startTime), convertTime(temp-middleTime)));
+                    timerVO = new TimerVO(TimerVO.TYPE_PAIN, convertTime(middleTime-startTime), convertTime(temp-middleTime));
                 }
+                timerListAdapter.getTimerList().add(timerVO);
                 middleTime = temp;
                 timerListAdapter.notifyDataSetChanged();
             }
