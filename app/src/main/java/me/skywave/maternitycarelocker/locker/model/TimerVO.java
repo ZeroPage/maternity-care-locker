@@ -1,14 +1,7 @@
 package me.skywave.maternitycarelocker.locker.model;
 
-import io.realm.RealmObject;
-import io.realm.annotations.Ignore;
 
-/**
- * Created by Jeong on 2016. 10. 16..
- */
-
-public class TimerVO extends RealmObject {
-    @Ignore
+public class TimerVO {
     public static final String TYPE_PAIN = "진통";
     public static final String TYPE_REST = "휴식";
 

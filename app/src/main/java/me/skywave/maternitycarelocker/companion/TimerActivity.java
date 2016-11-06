@@ -7,25 +7,26 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import java.util.ArrayList;
+import com.google.firebase.auth.FirebaseUser;
 
-import io.realm.Realm;
-import io.realm.RealmResults;
+import java.util.ArrayList;
+import java.util.List;
+
 import me.skywave.maternitycarelocker.R;
 import me.skywave.maternitycarelocker.locker.model.TimerSetVO;
 import me.skywave.maternitycarelocker.locker.model.TimerVO;
 import me.skywave.maternitycarelocker.locker.view.TimerListAdapter;
+import me.skywave.maternitycarelocker.utils.FirebaseHelper;
 
 public class TimerActivity extends AppCompatActivity {
-    private Realm realm;
     private int id;
+    private List<TimerSetVO> timerSetVOs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_timer);
 
-        realm = Realm.getInstance(this);
         id = 0;
         prepareList();
     }
@@ -33,37 +34,54 @@ public class TimerActivity extends AppCompatActivity {
     private void prepareList() {
         final ListView listView = (ListView) findViewById(R.id.timerListView);
         final TimerListAdapter timerListAdapter = new TimerListAdapter(this, R.layout.timer_list_item, new ArrayList<TimerVO>());
-        TextView textView = (TextView) findViewById(R.id.dateText);
-        RealmResults<TimerSetVO> timerSetVOs = realm.where(TimerSetVO.class).findAll();
-        Button prevButton = (Button) findViewById(R.id.prevButton);
-        Button nextButton = (Button) findViewById(R.id.nextButton);
+        final TextView textView = (TextView) findViewById(R.id.dateText);
+        textView.setText("잠시 기다려 주세요.");
 
-        if (timerSetVOs.size() == 0) {
-            textView.setText("기록이 없어요");
-            prevButton.setVisibility(View.INVISIBLE);
-            nextButton.setVisibility(View.INVISIBLE);
+        FirebaseHelper.requestCurrentUser(new FirebaseHelper.RequestUserEventListener() {
+            @Override
+            public void onEvent(FirebaseUser user) {
+                if (user != null) {
+                    FirebaseHelper.requestTimerSet(user.getUid(), new FirebaseHelper.RequestTimerSetEventListener() {
+                        @Override
+                        public void onEvent(List<TimerSetVO> timerSet) {
+                            timerSetVOs = timerSet;
+                            Button prevButton = (Button) findViewById(R.id.prevButton);
+                            Button nextButton = (Button) findViewById(R.id.nextButton);
 
-        } else {
+                            if (timerSetVOs == null || timerSetVOs.size() == 0) {
+                                textView.setText("기록이 없어요");
+                                prevButton.setVisibility(View.INVISIBLE);
+                                nextButton.setVisibility(View.INVISIBLE);
 
-            id = timerSetVOs.size() - 1;
+                            } else {
 
-            prevButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    id--;
-                    updateList();
+                                id = timerSetVOs.size() - 1;
+
+                                prevButton.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        id--;
+                                        updateList();
+                                    }
+                                });
+                                nextButton.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        id++;
+                                        updateList();
+                                    }
+                                });
+
+                                updateList();
+                            }
+                        }
+                    });
+                } else {
+                    textView.setText("계정이 존재하지 않아요.");
                 }
-            });
-            nextButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    id++;
-                    updateList();
-                }
-            });
+            }
+        });
 
-            updateList();
-        }
     }
 
     private void updateList() {
@@ -73,8 +91,6 @@ public class TimerActivity extends AppCompatActivity {
         Button prevButton = (Button) findViewById(R.id.prevButton);
         Button nextButton = (Button) findViewById(R.id.nextButton);
         listView.setAdapter(timerListAdapter);
-
-        RealmResults<TimerSetVO> timerSetVOs = realm.where(TimerSetVO.class).findAll();
 
         if (id < 1) {
             prevButton.setVisibility(View.INVISIBLE);

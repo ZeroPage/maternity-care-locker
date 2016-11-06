@@ -10,6 +10,7 @@ import android.widget.Button;
 
 import me.skywave.maternitycarelocker.R;
 import me.skywave.maternitycarelocker.companion.preference.SettingsActivity;
+import me.skywave.maternitycarelocker.utils.FirebaseHelper;
 
 public class CompanionActivity extends AppCompatActivity {
 
@@ -26,7 +27,6 @@ public class CompanionActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
     }
 
     @Override

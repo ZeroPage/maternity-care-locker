@@ -11,20 +11,18 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-import io.realm.Realm;
 import me.skywave.maternitycarelocker.R;
 import me.skywave.maternitycarelocker.locker.model.TimerSetVO;
 import me.skywave.maternitycarelocker.locker.model.TimerVO;
 import me.skywave.maternitycarelocker.locker.view.TimerListAdapter;
+import me.skywave.maternitycarelocker.utils.FirebaseHelper;
 
 public class LockerTimerController extends LockerController {
     private long middleTime;
     private long startTime;
-    private Realm realm;
 
     public LockerTimerController(Context context) {
         super(R.layout.view_timer, context);
-        realm = Realm.getInstance(context);
         update();
         prepareTypeFaces();
         prepareTimer();
@@ -80,14 +78,10 @@ public class LockerTimerController extends LockerController {
                 } else {
                     stopButton.setVisibility(View.GONE);
                     task.cancel(true);
-                    realm.beginTransaction();
-                    TimerSetVO timerSetVO = realm.createObject(TimerSetVO.class);
+
                     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-                    timerSetVO.setDate(sdf.format(new Date()));
-                    for(TimerVO timerVO : timerListAdapter.getTimerList()) {
-                        timerSetVO.getTimerVos().add(realm.copyToRealm(timerVO));
-                    }
-                    realm.commitTransaction();
+                    TimerSetVO timerSetVO = new TimerSetVO(sdf.format(new Date()), timerListAdapter.getTimerList());
+                    FirebaseHelper.addTimerSet(timerSetVO);
                 }
             }
         });

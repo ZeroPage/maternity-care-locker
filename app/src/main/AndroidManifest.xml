@@ -36,6 +36,12 @@
             android:enabled="true"
             android:exported="false" />
 
+        <service android:name=".companion.preference.sync.TokenService" android:exported="true">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
+            </intent-filter>
+        </service>
+
         <activity
             android:name=".companion.preference.SettingsActivity"
             android:label="@string/title_activity_settings" />

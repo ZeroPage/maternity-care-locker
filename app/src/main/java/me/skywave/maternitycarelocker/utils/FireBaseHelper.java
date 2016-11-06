@@ -17,12 +17,20 @@ import com.google.firebase.database.ServerValue;
 import com.google.firebase.database.ValueEventListener;
 
 import java.security.SecureRandom;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.TreeMap;
 
+import me.skywave.maternitycarelocker.locker.model.TimerSetVO;
+
 public class FirebaseHelper {
     private static FirebaseUser CURRENT_USER;
+
+    static {
+        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+    }
 
     public interface RequestUserEventListener {
         void onEvent(FirebaseUser user);
@@ -61,6 +69,59 @@ public class FirebaseHelper {
         }
     }
 
+    public static void registerToken(final String token) {
+        requestCurrentUser(new RequestUserEventListener() {
+            @Override
+            public void onEvent(FirebaseUser user) {
+                if (user != null) {
+                    FirebaseDatabase.getInstance().getReference("user/" + user.getUid() + "/token").setValue(token);
+                }
+            }
+        });
+    }
+
+    public static void addTimerSet(final TimerSetVO timerSetVO) {
+        requestCurrentUser(new RequestUserEventListener() {
+            @Override
+            public void onEvent(FirebaseUser user) {
+                if (user != null) {
+                    DatabaseReference reference = FirebaseDatabase.getInstance().getReference("timer/" + user.getUid());
+                    reference.push().setValue(timerSetVO);
+                }
+            }
+        });
+    }
+
+    public interface RequestTimerSetEventListener {
+        void onEvent(List<TimerSetVO> timerSet);
+    }
+
+    public static void requestTimerSet(final String uid, final RequestTimerSetEventListener listener) {
+        requestCurrentUser(new RequestUserEventListener() {
+            @Override
+            public void onEvent(FirebaseUser user) {
+                if (user != null) {
+                    FirebaseDatabase.getInstance().getReference("timer/" + user.getUid()).
+                            orderByChild("date").addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            LinkedList<TimerSetVO> result = new LinkedList<>();
+                            for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                                result.add(snapshot.getValue(TimerSetVO.class));
+                            }
+
+                            listener.onEvent(result);
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+                            listener.onEvent(null);
+                        }
+                    });
+                }
+            }
+        });
+    }
 
     public interface AcceptPairingEventListener {
         void onEvent(String requesterUid);

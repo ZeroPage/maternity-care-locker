@@ -1,18 +1,19 @@
 package me.skywave.maternitycarelocker.locker.model;
 
-import io.realm.RealmList;
-import io.realm.RealmObject;
 
-/**
- * Created by Jeong on 2016. 10. 30..
- */
+import java.util.List;
 
-public class TimerSetVO extends RealmObject {
+public class TimerSetVO {
     private String date;
-    private RealmList<TimerVO> timerVos;
+    private List<TimerVO> timers;
 
     public TimerSetVO() {
 
+    }
+
+    public TimerSetVO(String date, List<TimerVO> timers) {
+        this.date = date;
+        this.timers = timers;
     }
 
     public String getDate() {
@@ -23,11 +24,11 @@ public class TimerSetVO extends RealmObject {
         this.date = date;
     }
 
-    public RealmList<TimerVO> getTimerVos() {
-        return timerVos;
+    public List<TimerVO> getTimerVos() {
+        return timers;
     }
 
-    public void setTimerVos(RealmList<TimerVO> timerVos) {
-        this.timerVos = timerVos;
+    public void setTimerVos(List<TimerVO> timerVos) {
+        this.timers = timerVos;
     }
 }
