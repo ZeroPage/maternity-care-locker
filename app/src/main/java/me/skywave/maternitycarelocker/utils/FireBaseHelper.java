@@ -101,7 +101,7 @@ public class FirebaseHelper {
             @Override
             public void onEvent(FirebaseUser user) {
                 if (user != null) {
-                    FirebaseDatabase.getInstance().getReference("timer/" + user.getUid()).
+                    FirebaseDatabase.getInstance().getReference("timer/" + uid).
                             orderByChild("date").addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
@@ -131,7 +131,12 @@ public class FirebaseHelper {
         requestCurrentUser(new RequestUserEventListener() {
             @Override
             public void onEvent(final FirebaseUser user) {
-                FirebaseDatabase database = FirebaseDatabase.getInstance();
+                if (user == null) {
+                    listener.onEvent(null);
+                    return;
+                }
+
+                final FirebaseDatabase database = FirebaseDatabase.getInstance();
                 final DatabaseReference reference = database.getReference("/pairing/" + pairingCode.toUpperCase());
 
                 reference.child("requester/uid").addListenerForSingleValueEvent(new ValueEventListener() {
@@ -149,6 +154,8 @@ public class FirebaseHelper {
                         map.put("timestamp", ServerValue.TIMESTAMP);
 
                         reference.child("accepter").updateChildren(map);
+
+                        database.getReference("/user/" + user.getUid() + "/pair").setValue(requesterUid);
 
                         listener.onEvent(requesterUid);
 
