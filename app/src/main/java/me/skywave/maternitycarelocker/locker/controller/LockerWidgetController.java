@@ -41,10 +41,12 @@ import java.util.List;
 
 import me.skywave.maternitycarelocker.R;
 import me.skywave.maternitycarelocker.locker.core.LockerDialog;
+import me.skywave.maternitycarelocker.locker.model.BabyfairVO;
 import me.skywave.maternitycarelocker.locker.model.CalendarEventManager;
 import me.skywave.maternitycarelocker.locker.model.EventVO;
 import me.skywave.maternitycarelocker.locker.model.WeatherVO;
 import me.skywave.maternitycarelocker.utils.FavoriteManager;
+import me.skywave.maternitycarelocker.utils.FirebaseHelper;
 import me.skywave.maternitycarelocker.utils.MediaButtonUtil;
 import me.skywave.maternitycarelocker.utils.RadioUtil;
 
@@ -443,9 +445,21 @@ public class LockerWidgetController extends LockerController implements Location
     }
 
     private void prepareFair(View rootView) {
-        TextView Fair = (TextView) rootView.findViewById(R.id.fairText);
+        final TextView fairText = (TextView) rootView.findViewById(R.id.fairText);
+        fairText.setText("");
 
-        Fair.setText("D-10 16회 서울 베이비 키즈페어&푸드쇼");
+        FirebaseHelper.requestBabyfairList(new FirebaseHelper.RequestBabyfairListEventListener() {
+            @Override
+            public void onEvent(List<BabyfairVO> babyfairs) {
+                if (babyfairs != null) {
+                    BabyfairVO babyfair = babyfairs.get(0);
+
+                    fairText.setText(String.format("D-%s %s", babyfair.getDDay(), babyfair.getTitle()));
+                }
+
+            }
+        });
+
     }
 
     @Override

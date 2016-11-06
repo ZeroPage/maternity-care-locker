@@ -17,12 +17,14 @@ import com.google.firebase.database.ServerValue;
 import com.google.firebase.database.ValueEventListener;
 
 import java.security.SecureRandom;
+import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.TreeMap;
 
+import me.skywave.maternitycarelocker.locker.model.BabyfairVO;
 import me.skywave.maternitycarelocker.locker.model.TimerSetVO;
 
 public class FirebaseHelper {
@@ -88,6 +90,40 @@ public class FirebaseHelper {
                     DatabaseReference reference = FirebaseDatabase.getInstance().getReference("timer/" + user.getUid());
                     reference.push().setValue(timerSetVO);
                 }
+            }
+        });
+    }
+
+    public interface RequestBabyfairListEventListener {
+        void onEvent(List<BabyfairVO> babyfairs);
+    }
+    public static void requestBabyfairList(final RequestBabyfairListEventListener listener) {
+        requestCurrentUser(new RequestUserEventListener() {
+            @Override
+            public void onEvent(FirebaseUser user) {
+                if (user == null) {
+                    listener.onEvent(null);
+                    return;
+                }
+
+                DatabaseReference reference = FirebaseDatabase.getInstance().getReference("/babyfair/");
+                reference.orderByChild("dateFrom").startAt(Calendar.getInstance().getTimeInMillis())
+                        .addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                LinkedList<BabyfairVO> result = new LinkedList<>();
+                                for (DataSnapshot child : dataSnapshot.getChildren()) {
+                                    result.add(child.getValue(BabyfairVO.class));
+                                }
+
+                                listener.onEvent(result);
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+                                listener.onEvent(null);
+                            }
+                        });
             }
         });
     }
