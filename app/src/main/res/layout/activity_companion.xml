@@ -10,10 +10,19 @@
     tools:context=".companion.CompanionActivity">
 
     <Button
-        android:text="진통 타이머 기록보기"
+        android:text="내 진통 타이머 기록보기"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/timerButton"
+        android:id="@+id/button_my_timer"
         android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true" />
+
+
+    <Button
+        android:text="파트너 진통 타이머 기록보기"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/button_partner_timer"
+        android:layout_below="@id/button_my_timer"
         android:layout_alignParentStart="true" />
 </RelativeLayout>

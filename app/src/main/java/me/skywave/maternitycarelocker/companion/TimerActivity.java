@@ -2,6 +2,7 @@ package me.skywave.maternitycarelocker.companion;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
@@ -19,39 +20,53 @@ import me.skywave.maternitycarelocker.locker.view.TimerListAdapter;
 import me.skywave.maternitycarelocker.utils.FirebaseHelper;
 
 public class TimerActivity extends AppCompatActivity {
+    public static final String BUNDLE_STRING_UID = "str_uid";
+
     private int id;
     private List<TimerSetVO> timerSetVOs;
+    private String uid = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_timer);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
 
         id = 0;
+        uid = getIntent().getStringExtra(BUNDLE_STRING_UID);
+
         prepareList();
     }
 
     private void prepareList() {
+        Log.d("skywave", uid);
+
         final ListView listView = (ListView) findViewById(R.id.timerListView);
         final TimerListAdapter timerListAdapter = new TimerListAdapter(this, R.layout.timer_list_item, new ArrayList<TimerVO>());
         final TextView textView = (TextView) findViewById(R.id.dateText);
         textView.setText("잠시 기다려 주세요.");
 
+        final Button prevButton = (Button) findViewById(R.id.prevButton);
+        final Button nextButton = (Button) findViewById(R.id.nextButton);
+
+        prevButton.setVisibility(View.INVISIBLE);
+        nextButton.setVisibility(View.INVISIBLE);
+
+
         FirebaseHelper.requestCurrentUser(new FirebaseHelper.RequestUserEventListener() {
             @Override
             public void onEvent(FirebaseUser user) {
                 if (user != null) {
-                    FirebaseHelper.requestTimerSet(user.getUid(), new FirebaseHelper.RequestTimerSetEventListener() {
+                    FirebaseHelper.requestTimerSet(uid, new FirebaseHelper.RequestTimerSetEventListener() {
                         @Override
                         public void onEvent(List<TimerSetVO> timerSet) {
                             timerSetVOs = timerSet;
-                            Button prevButton = (Button) findViewById(R.id.prevButton);
-                            Button nextButton = (Button) findViewById(R.id.nextButton);
-
                             if (timerSetVOs == null || timerSetVOs.size() == 0) {
                                 textView.setText("기록이 없어요");
-                                prevButton.setVisibility(View.INVISIBLE);
-                                nextButton.setVisibility(View.INVISIBLE);
 
                             } else {
 
