@@ -34,7 +34,9 @@ public class LockerUnlockController extends LockerController {
 
     @Override
     public void update() {
-        pattern.clearPattern();
+        if (pattern != null) {
+            pattern.clearPattern();
+        }
     }
 
     private void hideAll() {
