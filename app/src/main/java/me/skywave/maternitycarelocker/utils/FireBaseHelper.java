@@ -50,7 +50,9 @@ public class FirebaseHelper {
                     public void onSuccess(AuthResult authResult) {
                         CURRENT_USER = authResult.getUser();
 
-                        FirebaseDatabase.getInstance().getReference("user/" + CURRENT_USER.getUid() + "/signup_time").setValue(ServerValue.TIMESTAMP);
+                        FirebaseDatabase instance = FirebaseDatabase.getInstance();
+                        instance.getReference("user/" + CURRENT_USER.getUid() + "/signup_time").setValue(ServerValue.TIMESTAMP);
+                        instance.getReference("timer/" + CURRENT_USER.getUid()).setValue(false);
 
                         listener.onEvent(CURRENT_USER);
                     }
