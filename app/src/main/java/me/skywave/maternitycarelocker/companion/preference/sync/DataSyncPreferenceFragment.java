@@ -14,9 +14,6 @@ public class DataSyncPreferenceFragment extends PreferenceFragment {
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.pref_data_sync);
         setHasOptionsMenu(true);
-
-        SettingsActivity.bindPreferenceSummaryToValue(findPreference("sync_frequency"));
-        SettingsActivity.bindPreferenceSummaryToValue(findPreference("example_text"));
     }
 
     @Override
