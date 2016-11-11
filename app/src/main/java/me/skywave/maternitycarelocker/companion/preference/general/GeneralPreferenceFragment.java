@@ -26,7 +26,7 @@ import me.skywave.maternitycarelocker.utils.ImageFilePath;
 import static android.app.Activity.RESULT_OK;
 
 public class GeneralPreferenceFragment extends PreferenceFragment {
-    private Intent service = null;
+    private static Intent service = null;
     private final int REQUEST_CODE_PERMISSION = 53152;
     private final int REQUEST_CODE_PICK_IMAGE = 1;
 
