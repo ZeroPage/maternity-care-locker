@@ -1,5 +1,7 @@
 package me.skywave.maternitycarelocker.companion;
 
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -38,7 +40,10 @@ public class TimerActivity extends AppCompatActivity {
 
         id = 0;
         uid = getIntent().getStringExtra(BUNDLE_STRING_UID);
-
+        if (uid == null) {
+            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+            uid = preferences.getString(getString(R.string.pref_pair_uid), null);
+        }
         prepareList();
     }
 

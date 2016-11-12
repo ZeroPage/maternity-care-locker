@@ -1,9 +1,12 @@
 package me.skywave.maternitycarelocker.companion;
 
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -25,6 +28,7 @@ public class CompanionActivity extends AppCompatActivity {
         setContentView(R.layout.activity_companion);
         final Button myTimerButton = (Button) findViewById(R.id.button_my_timer);
         final Button partnerTimerButton = (Button) findViewById(R.id.button_partner_timer);
+        final Button sendNotiButton = (Button) findViewById(R.id.send_notification);
 
         myTimerButton.setEnabled(false);
         partnerTimerButton.setEnabled(false);
@@ -65,6 +69,30 @@ public class CompanionActivity extends AppCompatActivity {
                         }
                     });
                 }
+            }
+        });
+
+        final Intent intent = new Intent(this, TimerActivity.class);
+        sendNotiButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                PendingIntent resultPendingIntent =
+                        PendingIntent.getActivity(
+                                getApplicationContext(),
+                                0,
+                                intent,
+                                PendingIntent.FLAG_UPDATE_CURRENT
+                        );
+
+                NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext());
+                builder.setSmallIcon(android.R.drawable.ic_notification_clear_all);
+                builder.setContentTitle("테스트");
+                builder.setContentText("테스트");
+                builder.setContentIntent(resultPendingIntent);
+                builder.setAutoCancel(true);
+
+                NotificationManager notiManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+                notiManager.notify(001, builder.build());
             }
         });
 
