@@ -12,7 +12,6 @@ import com.google.firebase.messaging.RemoteMessage;
 import me.skywave.maternitycarelocker.companion.TimerActivity;
 
 public class MessagingService extends FirebaseMessagingService{
-    Context context = getApplicationContext();
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         Intent intent = new Intent(this, TimerActivity.class);
