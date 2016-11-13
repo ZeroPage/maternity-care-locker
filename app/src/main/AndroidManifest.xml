@@ -35,16 +35,16 @@
             android:name=".locker.core.LockerService"
             android:enabled="true"
             android:exported="false" />
-
-        <service android:name=".companion.preference.sync.TokenService" android:exported="true">
+        <service
+            android:name=".companion.preference.sync.TokenService"
+            android:exported="true">
             <intent-filter>
-                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
-
         <service android:name=".utils.MessagingService">
             <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
 
@@ -52,6 +52,7 @@
             android:name=".companion.preference.SettingsActivity"
             android:label="@string/title_activity_settings" />
         <activity android:name=".companion.TimerActivity" />
+        <activity android:name=".companion.EventActivity"></activity>
     </application>
 
 </manifest>

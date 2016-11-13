@@ -4,19 +4,26 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseUser;
 
+import java.text.DateFormat;
+import java.util.List;
+
 import me.skywave.maternitycarelocker.R;
 import me.skywave.maternitycarelocker.companion.preference.SettingsActivity;
+import me.skywave.maternitycarelocker.locker.model.BabyfairVO;
 import me.skywave.maternitycarelocker.utils.FirebaseHelper;
 
 public class CompanionActivity extends AppCompatActivity {
@@ -29,9 +36,19 @@ public class CompanionActivity extends AppCompatActivity {
         final Button myTimerButton = (Button) findViewById(R.id.button_my_timer);
         final Button partnerTimerButton = (Button) findViewById(R.id.button_partner_timer);
         final Button sendNotiButton = (Button) findViewById(R.id.send_notification);
+        final Button eventButton = (Button) findViewById(R.id.eventButton);
 
         myTimerButton.setEnabled(false);
         partnerTimerButton.setEnabled(false);
+
+        eventButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(CompanionActivity.this, EventActivity.class);
+
+                startActivity(intent);
+            }
+        });
 
 
         FirebaseHelper.requestCurrentUser(new FirebaseHelper.RequestUserEventListener() {
@@ -95,6 +112,35 @@ public class CompanionActivity extends AppCompatActivity {
                 notiManager.notify(001, builder.build());
             }
         });
+
+        FirebaseHelper.requestBabyfairList(new FirebaseHelper.RequestBabyfairListEventListener() {
+
+            @Override
+            public void onEvent(final List<BabyfairVO> babyfairs) {
+                TextView fairTitle = (TextView) findViewById(R.id.fairTitle);
+                TextView fairDate = (TextView) findViewById(R.id.fairDate);
+                Button moreButton = (Button) findViewById(R.id.moreButton);
+
+                DateFormat format = DateFormat.getDateInstance(DateFormat.LONG);
+
+                fairTitle.setText(babyfairs.get(0).getTitle());
+                fairDate.setText(format.format(babyfairs.get(0).getDateFrom()) + " ~ " + format.format(babyfairs.get(0).getDateTo()));
+
+                moreButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Uri uri = Uri.parse(babyfairs.get(0).getDetailUrl());
+
+                        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                        startActivity(intent);
+                    }
+                });
+                moreButton.setVisibility(View.VISIBLE);
+
+            }
+        });
+
+
 
     }
 

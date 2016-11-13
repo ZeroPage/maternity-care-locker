@@ -19,18 +19,59 @@
 
 
     <Button
-        android:text="파트너 진통 타이머 기록보기"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/button_partner_timer"
-        android:layout_below="@id/button_my_timer"
-        android:layout_alignParentStart="true" />
-
-    <Button
         android:text="푸시알림 보내기"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/send_notification"
         android:layout_below="@+id/button_partner_timer"
         android:layout_alignParentStart="true" />
+
+    <Button
+        android:text="파트너 진통 타이머 기록보기"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/button_partner_timer"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/button_my_timer" />
+
+    <Button
+        android:text="행사 목록"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/button_partner_timer"
+        android:layout_toEndOf="@+id/button_my_timer"
+        android:id="@+id/eventButton" />
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/fairTitle"
+            android:textSize="20sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/fairDate"
+            android:textSize="15sp" />
+
+
+        <Button
+            android:text="자세히"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimaryDark"
+            android:textColor="#fff"
+            android:id="@+id/moreButton"
+            android:layout_marginTop="10dp"
+            android:visibility="invisible" />
+    </LinearLayout>
+
+
 </RelativeLayout>
