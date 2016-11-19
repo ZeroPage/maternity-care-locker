@@ -12,14 +12,14 @@
         android:title="@string/pref_title_profile_name"
     />
 
-    <EditTextPreference
-        android:capitalize="words"
-        android:inputType="date"
+    <me.skywave.maternitycarelocker.companion.preference.profile.DatePreference
         android:key="profile_birth"
-        android:maxLines="1"
-        android:selectAllOnFocus="true"
-        android:singleLine="true"
         android:title="@string/pref_title_profile_birth"
+        />
+
+    <me.skywave.maternitycarelocker.companion.preference.profile.DatePreference
+        android:title="@string/pref_title_profile_pregnancy_date"
+        android:key="profile_pregnancy_date"
         />
 
     <EditTextPreference
