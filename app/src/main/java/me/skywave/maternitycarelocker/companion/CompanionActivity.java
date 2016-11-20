@@ -24,6 +24,7 @@ import java.util.List;
 import me.skywave.maternitycarelocker.R;
 import me.skywave.maternitycarelocker.companion.preference.SettingsActivity;
 import me.skywave.maternitycarelocker.locker.model.BabyfairVO;
+import me.skywave.maternitycarelocker.locker.model.TimerSetVO;
 import me.skywave.maternitycarelocker.utils.FirebaseHelper;
 
 public class CompanionActivity extends AppCompatActivity {
@@ -38,8 +39,8 @@ public class CompanionActivity extends AppCompatActivity {
         final Button sendNotiButton = (Button) findViewById(R.id.send_notification);
         final Button eventButton = (Button) findViewById(R.id.eventButton);
 
-        myTimerButton.setEnabled(false);
-        partnerTimerButton.setEnabled(false);
+        myTimerButton.setVisibility(View.GONE);
+        partnerTimerButton.setVisibility(View.GONE);
 
         eventButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -58,15 +59,24 @@ public class CompanionActivity extends AppCompatActivity {
                     return;
                 }
 
-                myTimerButton.setEnabled(true);
-                myTimerButton.setOnClickListener(new View.OnClickListener() {
-
+                FirebaseHelper.requestTimerSet(user.getUid(), new FirebaseHelper.RequestTimerSetEventListener() {
                     @Override
-                    public void onClick(View view) {
-                        Intent intent = new Intent(CompanionActivity.this, TimerActivity.class);
-                        intent.putExtra(TimerActivity.BUNDLE_STRING_UID, user.getUid());
+                    public void onEvent(List<TimerSetVO> timerSet) {
+                        if (timerSet.isEmpty()) {
+                            return;
+                        }
 
-                        startActivity(intent);
+                        myTimerButton.setVisibility(View.VISIBLE);
+                        myTimerButton.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                Intent intent = new Intent(CompanionActivity.this, TimerActivity.class);
+                                intent.putExtra(TimerActivity.BUNDLE_STRING_UID, user.getUid());
+
+                                startActivity(intent);
+                            }
+                        });
+
                     }
                 });
 
@@ -74,15 +84,21 @@ public class CompanionActivity extends AppCompatActivity {
                 final String partnerUid = preferences.getString(getString(R.string.pref_pair_uid), null);
 
                 if (partnerUid != null) {
-                    partnerTimerButton.setEnabled(true);
-                    partnerTimerButton.setOnClickListener(new View.OnClickListener() {
+                    FirebaseHelper.requestTimerSet(partnerUid, new FirebaseHelper.RequestTimerSetEventListener() {
                         @Override
-                        public void onClick(View view) {
-                            Intent intent = new Intent(CompanionActivity.this, TimerActivity.class);
+                        public void onEvent(List<TimerSetVO> timerSet) {
 
-                            intent.putExtra(TimerActivity.BUNDLE_STRING_UID, partnerUid);
+                            partnerTimerButton.setVisibility(View.VISIBLE);
+                            partnerTimerButton.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    Intent intent = new Intent(CompanionActivity.this, TimerActivity.class);
 
-                            startActivity(intent);
+                                    intent.putExtra(TimerActivity.BUNDLE_STRING_UID, partnerUid);
+
+                                    startActivity(intent);
+                                }
+                            });
                         }
                     });
                 }
