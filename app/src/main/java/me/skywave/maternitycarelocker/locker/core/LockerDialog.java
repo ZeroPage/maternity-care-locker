@@ -132,7 +132,9 @@ public class LockerDialog {
         if (!new InfoManager(context).getInfoVO().getPregnancyDate().isEmpty()) {
             adapter.addView(CURRENT_TIMER_CONTROLLER.getView());
         }
-        adapter.addView(CURRENT_INFO_CONTROLLER.getView());
+        if (!new InfoManager(context).getInfoVO().isEmpty()) {
+            adapter.addView(CURRENT_INFO_CONTROLLER.getView());
+        }
 
         return adapter;
     }

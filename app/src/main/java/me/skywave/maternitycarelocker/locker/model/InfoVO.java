@@ -11,7 +11,6 @@ import java.util.Date;
 
 public class InfoVO {
 
-
     private String name;
     private String birth;
     private String pregnancyDate;
@@ -22,19 +21,6 @@ public class InfoVO {
     private ContactVO hptContact;
     private ContactVO etcContact;
     private String blood;
-
-    public InfoVO() {
-        name = null;
-        birth = null;
-        pregnancyDate = null;
-        records = null;
-        allergies = null;
-        medicines = null;
-        comContact = null;
-        hptContact = null;
-        etcContact = null;
-        blood = null;
-    }
 
     public String getName() {
         return name;
@@ -134,5 +120,11 @@ public class InfoVO {
         } catch (ParseException e) {
             return -1;
         }
+    }
+
+    public boolean isEmpty() {
+        return name.isEmpty() && birth.isEmpty() && pregnancyDate.isEmpty() && records.isEmpty()
+                && allergies.isEmpty() && medicines.isEmpty() && comContact.isEmpty()
+                && hptContact.isEmpty() && etcContact.isEmpty() && blood.isEmpty();
     }
 }
