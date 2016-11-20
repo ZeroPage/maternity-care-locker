@@ -121,4 +121,10 @@ public class InfoVO {
             return -1;
         }
     }
+
+    public boolean isEmpty() {
+        return name.isEmpty() && birth.isEmpty() && pregnancyDate.isEmpty() && records.isEmpty()
+                && allergies.isEmpty() && medicines.isEmpty() && comContact.isEmpty()
+                && hptContact.isEmpty() && etcContact.isEmpty() && blood.isEmpty();
+    }
 }
