@@ -44,6 +44,8 @@ import me.skywave.maternitycarelocker.locker.core.LockerDialog;
 import me.skywave.maternitycarelocker.locker.model.BabyfairVO;
 import me.skywave.maternitycarelocker.locker.model.CalendarEventManager;
 import me.skywave.maternitycarelocker.locker.model.EventVO;
+import me.skywave.maternitycarelocker.locker.model.InfoManager;
+import me.skywave.maternitycarelocker.locker.model.InfoVO;
 import me.skywave.maternitycarelocker.locker.model.WeatherVO;
 import me.skywave.maternitycarelocker.utils.FavoriteManager;
 import me.skywave.maternitycarelocker.utils.FirebaseHelper;
@@ -308,10 +310,14 @@ public class LockerWidgetController extends LockerController implements Location
 
     private void prepareAdvice(View currentView) {
         TextView adviceText = (TextView) currentView.findViewById(R.id.adviceText);
+        InfoManager infoManager = new InfoManager(currentContext);
+        InfoVO infoVO = infoManager.getInfoVO();
+        int week = (int)(infoVO.getDaysFromPragnancy()/7) + 1;
+        int fileName = week / 4;
 
         try {
             AssetManager am = currentContext.getAssets();
-            InputStream is = am.open("week36.json");
+            InputStream is = am.open("week" + fileName + ".json");
             BufferedReader rd = new BufferedReader(new InputStreamReader(is));
             String line;
             StringBuffer response = new StringBuffer();
