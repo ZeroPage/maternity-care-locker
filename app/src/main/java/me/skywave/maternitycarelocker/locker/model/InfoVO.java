@@ -9,6 +9,7 @@ public class InfoVO {
 
     private String name;
     private String birth;
+    private String pregnancyDate;
     private String records;
     private String allergies;
     private String medicines;
@@ -20,6 +21,7 @@ public class InfoVO {
     public InfoVO() {
         name = null;
         birth = null;
+        pregnancyDate = null;
         records = null;
         allergies = null;
         medicines = null;
@@ -43,6 +45,14 @@ public class InfoVO {
 
     public void setBirth(String birth) {
         this.birth = birth;
+    }
+
+    public String getPregnancyDate() {
+        return pregnancyDate;
+    }
+
+    public void setPregnancyDate(String pregnancyDate) {
+        this.pregnancyDate = pregnancyDate;
     }
 
     public String getRecords() {
