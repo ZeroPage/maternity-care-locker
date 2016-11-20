@@ -27,6 +27,7 @@ import me.skywave.maternitycarelocker.locker.controller.LockerInfoController;
 import me.skywave.maternitycarelocker.locker.controller.LockerTimerController;
 import me.skywave.maternitycarelocker.locker.controller.LockerUnlockController;
 import me.skywave.maternitycarelocker.locker.controller.LockerWidgetController;
+import me.skywave.maternitycarelocker.locker.model.InfoManager;
 import me.skywave.maternitycarelocker.locker.view.CustomViewPager;
 
 public class LockerDialog {
@@ -43,7 +44,6 @@ public class LockerDialog {
 
     private final static int PAGE_WIDGET = 1;
     private final static int PAGE_UNLOCK = 0;
-    private final static int PAGE_CARE = 2;
 
     public static void show(Context context) {
         if (CURRENT_DIALOG != null) {
@@ -129,7 +129,9 @@ public class LockerDialog {
         LockerPagerAdapter adapter = new LockerPagerAdapter();
         adapter.addView(CURRENT_UNLOCK_CONTROLLER.getView());
         adapter.addView(CURRENT_WIDGET_CONTROLLER.getView());
-        adapter.addView(CURRENT_TIMER_CONTROLLER.getView());
+        if (!new InfoManager(context).getInfoVO().getPregnancyDate().isEmpty()) {
+            adapter.addView(CURRENT_TIMER_CONTROLLER.getView());
+        }
         adapter.addView(CURRENT_INFO_CONTROLLER.getView());
 
         return adapter;
