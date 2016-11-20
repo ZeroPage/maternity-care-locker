@@ -34,6 +34,7 @@
         android:id="@+id/eventButton" />
 
     <LinearLayout
+        android:id="@+id/fair_layout"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -64,5 +65,18 @@
             android:visibility="invisible" />
     </LinearLayout>
 
+
+    <ToggleButton
+        android:id="@+id/button_music"
+        android:textOn=""
+        android:textOff=""
+        android:background="@null"
+        android:drawableBottom="@drawable/check_black"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_margin="10dp"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@id/fair_layout"
+        android:contentDescription="태교음악 라디오 재생"/>
 
 </RelativeLayout>

@@ -3,7 +3,6 @@
 
     <EditTextPreference
         android:capitalize="words"
-        android:defaultValue="@string/pref_default_display_name"
         android:inputType="textCapWords"
         android:key="profile_name"
         android:maxLines="1"

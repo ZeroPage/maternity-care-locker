@@ -20,7 +20,7 @@ public class LockerUnlockController extends LockerController {
     private PatternView pattern;
 
     public LockerUnlockController(Context context, String patternHash) {
-        super(R.layout.view_unlock, context);
+        super(R.layout.view_unlock, context, "잠금해제");
 
         this.patternHash = patternHash;
 

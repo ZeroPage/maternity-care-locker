@@ -61,7 +61,7 @@ public class LockerWidgetController extends LockerController implements Location
     private boolean musicSwitch;
 
     public LockerWidgetController(Context context) {
-        super(R.layout.view_widget, context);
+        super(R.layout.view_widget, context, "위젯");
         setSwitches();
         prepareFavorite(currentView);
         if (weatherSwitch) {
@@ -85,6 +85,7 @@ public class LockerWidgetController extends LockerController implements Location
 
     public void update() {
         setSwitches();
+        updateMusicButton();
         if (weatherSwitch) {
             prepareWeather(currentView);
         }

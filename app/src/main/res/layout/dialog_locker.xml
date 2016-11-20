@@ -18,5 +18,24 @@
         android:layout_height="0px"
         android:layout_weight="1"
         android:background="#60000000" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#60000000">
+        <TextView
+            android:id="@+id/text_nav_left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:textColor="#aaaaaa"
+            android:text="test"/>
+        <TextView
+            android:id="@+id/text_nav_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:textColor="#aaaaaa"
+            android:text="test"/>
+    </RelativeLayout>
 
 </LinearLayout>

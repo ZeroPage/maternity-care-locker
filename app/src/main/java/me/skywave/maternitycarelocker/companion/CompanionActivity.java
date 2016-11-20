@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import com.google.firebase.auth.FirebaseUser;
 
@@ -26,6 +27,7 @@ import me.skywave.maternitycarelocker.companion.preference.SettingsActivity;
 import me.skywave.maternitycarelocker.locker.model.BabyfairVO;
 import me.skywave.maternitycarelocker.locker.model.TimerSetVO;
 import me.skywave.maternitycarelocker.utils.FirebaseHelper;
+import me.skywave.maternitycarelocker.utils.RadioUtil;
 
 public class CompanionActivity extends AppCompatActivity {
 
@@ -45,6 +47,18 @@ public class CompanionActivity extends AppCompatActivity {
             }
         });
 
+        ToggleButton button = (ToggleButton) findViewById(R.id.button_music);
+
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (RadioUtil.isPlaying()) {
+                    RadioUtil.stop();
+                } else {
+                    RadioUtil.play();
+                }
+            }
+        });
     }
 
     @Override
@@ -135,6 +149,11 @@ public class CompanionActivity extends AppCompatActivity {
 
             }
         });
+
+
+        ToggleButton button = (ToggleButton) findViewById(R.id.button_music);
+
+        button.setChecked(RadioUtil.isPlaying());
     }
 
     @Override

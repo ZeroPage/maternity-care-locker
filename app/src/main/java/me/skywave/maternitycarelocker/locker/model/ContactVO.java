@@ -36,4 +36,8 @@ public class ContactVO {
     public String getNumber() {
         return number;
     }
+
+    public boolean isEmpty() {
+        return name.isEmpty();
+    }
 }
