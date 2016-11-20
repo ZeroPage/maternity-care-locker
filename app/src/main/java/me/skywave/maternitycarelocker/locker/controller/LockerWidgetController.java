@@ -83,6 +83,7 @@ public class LockerWidgetController extends LockerController implements Location
 
     public void update() {
         setSwitches();
+        updateMusicButton();
         if (weatherSwitch) {
             prepareWeather(currentView);
         }
