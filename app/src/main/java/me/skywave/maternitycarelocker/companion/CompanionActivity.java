@@ -24,6 +24,7 @@ import java.util.List;
 import me.skywave.maternitycarelocker.R;
 import me.skywave.maternitycarelocker.companion.preference.SettingsActivity;
 import me.skywave.maternitycarelocker.locker.model.BabyfairVO;
+import me.skywave.maternitycarelocker.locker.model.TimerSetVO;
 import me.skywave.maternitycarelocker.utils.FirebaseHelper;
 
 public class CompanionActivity extends AppCompatActivity {
@@ -33,14 +34,8 @@ public class CompanionActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_companion);
-        final Button myTimerButton = (Button) findViewById(R.id.button_my_timer);
-        final Button partnerTimerButton = (Button) findViewById(R.id.button_partner_timer);
-        final Button sendNotiButton = (Button) findViewById(R.id.send_notification);
+
         final Button eventButton = (Button) findViewById(R.id.eventButton);
-
-        myTimerButton.setEnabled(false);
-        partnerTimerButton.setEnabled(false);
-
         eventButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -50,6 +45,17 @@ public class CompanionActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        final Button myTimerButton = (Button) findViewById(R.id.button_my_timer);
+        final Button partnerTimerButton = (Button) findViewById(R.id.button_partner_timer);
+
+        myTimerButton.setVisibility(View.GONE);
+        partnerTimerButton.setVisibility(View.GONE);
 
         FirebaseHelper.requestCurrentUser(new FirebaseHelper.RequestUserEventListener() {
             @Override
@@ -58,15 +64,24 @@ public class CompanionActivity extends AppCompatActivity {
                     return;
                 }
 
-                myTimerButton.setEnabled(true);
-                myTimerButton.setOnClickListener(new View.OnClickListener() {
-
+                FirebaseHelper.requestTimerSet(user.getUid(), new FirebaseHelper.RequestTimerSetEventListener() {
                     @Override
-                    public void onClick(View view) {
-                        Intent intent = new Intent(CompanionActivity.this, TimerActivity.class);
-                        intent.putExtra(TimerActivity.BUNDLE_STRING_UID, user.getUid());
+                    public void onEvent(List<TimerSetVO> timerSet) {
+                        if (timerSet.isEmpty()) {
+                            return;
+                        }
 
-                        startActivity(intent);
+                        myTimerButton.setVisibility(View.VISIBLE);
+                        myTimerButton.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                Intent intent = new Intent(CompanionActivity.this, TimerActivity.class);
+                                intent.putExtra(TimerActivity.BUNDLE_STRING_UID, user.getUid());
+
+                                startActivity(intent);
+                            }
+                        });
+
                     }
                 });
 
@@ -74,47 +89,28 @@ public class CompanionActivity extends AppCompatActivity {
                 final String partnerUid = preferences.getString(getString(R.string.pref_pair_uid), null);
 
                 if (partnerUid != null) {
-                    partnerTimerButton.setEnabled(true);
-                    partnerTimerButton.setOnClickListener(new View.OnClickListener() {
+                    FirebaseHelper.requestTimerSet(partnerUid, new FirebaseHelper.RequestTimerSetEventListener() {
                         @Override
-                        public void onClick(View view) {
-                            Intent intent = new Intent(CompanionActivity.this, TimerActivity.class);
+                        public void onEvent(List<TimerSetVO> timerSet) {
 
-                            intent.putExtra(TimerActivity.BUNDLE_STRING_UID, partnerUid);
+                            partnerTimerButton.setVisibility(View.VISIBLE);
+                            partnerTimerButton.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    Intent intent = new Intent(CompanionActivity.this, TimerActivity.class);
 
-                            startActivity(intent);
+                                    intent.putExtra(TimerActivity.BUNDLE_STRING_UID, partnerUid);
+
+                                    startActivity(intent);
+                                }
+                            });
                         }
                     });
                 }
             }
         });
 
-        final Intent intent = new Intent(this, TimerActivity.class);
-        sendNotiButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                PendingIntent resultPendingIntent =
-                        PendingIntent.getActivity(
-                                getApplicationContext(),
-                                0,
-                                intent,
-                                PendingIntent.FLAG_UPDATE_CURRENT
-                        );
-
-                NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext());
-                builder.setSmallIcon(android.R.drawable.ic_notification_clear_all);
-                builder.setContentTitle("테스트");
-                builder.setContentText("테스트");
-                builder.setContentIntent(resultPendingIntent);
-                builder.setAutoCancel(true);
-
-                NotificationManager notiManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-                notiManager.notify(001, builder.build());
-            }
-        });
-
         FirebaseHelper.requestBabyfairList(new FirebaseHelper.RequestBabyfairListEventListener() {
-
             @Override
             public void onEvent(final List<BabyfairVO> babyfairs) {
                 TextView fairTitle = (TextView) findViewById(R.id.fairTitle);
@@ -139,9 +135,6 @@ public class CompanionActivity extends AppCompatActivity {
 
             }
         });
-
-
-
     }
 
     @Override

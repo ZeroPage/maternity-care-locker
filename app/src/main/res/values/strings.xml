@@ -98,4 +98,5 @@
     <string name="pref_title_profile_etc_contact">기타 연락처</string>
     <string name="pref_title_profile_blood">혈액형</string>
     <string name="pref_pair_uid">pair_uid</string>
+    <string name="pref_title_profile_pregnancy_date">임신 일자</string>
 </resources>

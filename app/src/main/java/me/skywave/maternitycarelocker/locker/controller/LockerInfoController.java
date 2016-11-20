@@ -54,6 +54,13 @@ import me.skywave.maternitycarelocker.locker.view.InfoListAdapter;
             mlist.add(map);
         }
 
+        if (!infos.getPregnancyDate().isEmpty()) {
+            map = new HashMap<>();
+            map.put("item1", "임신일");
+            map.put("item2", infos.getPregnancyDate());
+            mlist.add(map);
+        }
+
         if (!infos.getRecords().isEmpty()) {
             map = new HashMap<>();
             map.put("item1", "의료기록");

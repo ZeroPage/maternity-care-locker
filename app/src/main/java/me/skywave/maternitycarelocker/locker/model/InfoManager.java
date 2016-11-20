@@ -27,6 +27,8 @@ public class InfoManager {
         info.setName((value == null) ? "":value);
         value = getValue("profile_birth");
         info.setBirth((value == null) ? "":value);
+        value = getValue("profile_pregnancy_date");
+        info.setPregnancyDate(value == null ? "" : value);
         value = getValue("profile_allergy");
         info.setAllergies((value == null) ? "":value);
         value = getValue("profile_record");
