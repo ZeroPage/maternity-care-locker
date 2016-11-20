@@ -64,13 +64,23 @@ public class DatePreference extends DialogPreference {
         super.onDialogClosed(positiveResult);
 
         if (positiveResult) {
-            String newValue = String.format("%d-%02d-%02d",
-                    datePicker.getYear(),
-                    datePicker.getMonth() + 1,
-                    datePicker.getDayOfMonth()
-            );
+            Calendar now = Calendar.getInstance();
+            Calendar selected = Calendar.getInstance();
 
-            setValue(newValue);
+            selected.set(datePicker.getYear(), datePicker.getMonth(), datePicker.getDayOfMonth());
+
+            if (selected.before(now)) {
+
+                String newValue = String.format("%d-%02d-%02d",
+                        datePicker.getYear(),
+                        datePicker.getMonth() + 1,
+                        datePicker.getDayOfMonth()
+                );
+
+                setValue(newValue);
+            } else {
+                setValue("");
+            }
         }
     }
 
