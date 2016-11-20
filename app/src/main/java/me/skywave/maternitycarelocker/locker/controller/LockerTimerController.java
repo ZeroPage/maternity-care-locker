@@ -22,7 +22,7 @@ public class LockerTimerController extends LockerController {
     private long startTime;
 
     public LockerTimerController(Context context) {
-        super(R.layout.view_timer, context);
+        super(R.layout.view_timer, context, "진통타이머");
         update();
         prepareTypeFaces();
         prepareTimer();

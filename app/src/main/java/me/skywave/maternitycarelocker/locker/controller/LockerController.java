@@ -14,17 +14,23 @@ public abstract class LockerController {
     public static final String FONT_NOTO_THIN = "NotoSansKR-Thin.otf";
     public static final String FONT_NOTO_REG = "NotoSansKR-Regular.otf";
 
+    private String title;
 
-    public LockerController(int resource, Context context) {
+    public LockerController(int resource, Context context, String title) {
         LayoutInflater inflater = LayoutInflater.from(context);
         this.currentView = inflater.inflate(resource, null);
         this.currentContext = context;
+        this.title = title;
     }
 
     public abstract void update();
 
     public View getView() {
         return currentView;
+    }
+
+    public String getTitle() {
+        return title;
     }
 
     protected void setTypeFaces(String fontName, List<TextView> textViews) {

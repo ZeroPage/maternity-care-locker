@@ -13,12 +13,14 @@ import android.preference.PreferenceManager;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import java.util.LinkedList;
 
@@ -127,24 +129,23 @@ public class LockerDialog {
         CURRENT_TIMER_CONTROLLER = new LockerTimerController(context);
 
         LockerPagerAdapter adapter = new LockerPagerAdapter();
-        adapter.addView(CURRENT_UNLOCK_CONTROLLER.getView());
-        adapter.addView(CURRENT_WIDGET_CONTROLLER.getView());
+        adapter.addView(CURRENT_UNLOCK_CONTROLLER.getView(), CURRENT_UNLOCK_CONTROLLER.getTitle());
+        adapter.addView(CURRENT_WIDGET_CONTROLLER.getView(), CURRENT_WIDGET_CONTROLLER.getTitle());
         if (!new InfoManager(context).getInfoVO().getPregnancyDate().isEmpty()) {
-            adapter.addView(CURRENT_TIMER_CONTROLLER.getView());
+            adapter.addView(CURRENT_TIMER_CONTROLLER.getView(), CURRENT_TIMER_CONTROLLER.getTitle());
         }
         if (!new InfoManager(context).getInfoVO().isEmpty()) {
-            adapter.addView(CURRENT_INFO_CONTROLLER.getView());
+            adapter.addView(CURRENT_INFO_CONTROLLER.getView(), CURRENT_INFO_CONTROLLER.getTitle());
         }
 
         return adapter;
     }
 
-    private static View prepareLockerView(Context context, PagerAdapter adapter, int initialIndex) {
-        View view = LayoutInflater.from(context).inflate(R.layout.dialog_locker, null);
+    private static View prepareLockerView(Context context, final PagerAdapter adapter, int initialIndex) {
+        final View view = LayoutInflater.from(context).inflate(R.layout.dialog_locker, null);
 
         CURRENT_VIEWPAGER = (CustomViewPager) view.findViewById(R.id.viewpager);
         CURRENT_VIEWPAGER.setAdapter(adapter);
-        CURRENT_VIEWPAGER.setCurrentItem(initialIndex);
         CURRENT_VIEWPAGER.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
             public void onPageSelected(int position) {
@@ -158,8 +159,27 @@ public class LockerDialog {
                         CURRENT_VIEWPAGER.setPagingEnabled(false);
                     }
                 }
+
+                TextView left = (TextView) view.findViewById(R.id.text_nav_left);
+                TextView right = (TextView) view.findViewById(R.id.text_nav_right);
+
+                String[] leftTitles = new String[position];
+                String[] rightTitles = new String[adapter.getCount() - (position + 1)];
+
+                for (int i = 0; i < adapter.getCount(); i++) {
+                    if (i < position) {
+                        leftTitles[i] = adapter.getPageTitle(i).toString();
+                    } else if (i > position) {
+                        rightTitles[i - (position + 1)] = adapter.getPageTitle(i).toString();
+                    }
+                }
+
+                left.setText(TextUtils.join(" / ", leftTitles));
+                right.setText(TextUtils.join(" / ", rightTitles));
             }
         });
+
+        CURRENT_VIEWPAGER.setCurrentItem(initialIndex);
 
         TabLayout tabLayout = (TabLayout) view.findViewById(R.id.sliding_tabs);
         tabLayout.setupWithViewPager(CURRENT_VIEWPAGER);
@@ -226,26 +246,33 @@ public class LockerDialog {
     }
 
     private static class LockerPagerAdapter extends PagerAdapter {
-        private LinkedList<View> list = new LinkedList<>();
+        private LinkedList<View> viewList = new LinkedList<>();
+        private LinkedList<String> viewTitle = new LinkedList<>();
 
-        public void addView(View view) {
-            list.add(view);
+        public void addView(View view, String title) {
+            viewList.add(view);
+            viewTitle.add(title);
         }
 
         @Override
         public Object instantiateItem(ViewGroup container, int position) {
-            container.addView(list.get(position));
-            return list.get(position);
+            container.addView(viewList.get(position));
+            return viewList.get(position);
         }
 
         @Override
         public void destroyItem(ViewGroup container, int position, Object object) {
-            container.removeView(list.get(position));
+            container.removeView(viewList.get(position));
         }
 
         @Override
         public int getCount() {
-            return list.size();
+            return viewList.size();
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return viewTitle.get(position);
         }
 
         @Override

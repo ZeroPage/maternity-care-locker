@@ -14,7 +14,7 @@ import me.skywave.maternitycarelocker.locker.view.InfoListAdapter;
 
     public class LockerInfoController extends LockerController {
         public LockerInfoController(Context context) {
-            super(R.layout.view_info, context);
+            super(R.layout.view_info, context, "의료정보");
             prepareTypeFaces();
             prepareInfo();
             update();
