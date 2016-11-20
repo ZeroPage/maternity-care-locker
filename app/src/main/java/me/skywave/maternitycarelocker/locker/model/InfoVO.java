@@ -1,5 +1,10 @@
 package me.skywave.maternitycarelocker.locker.model;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
 /**
  * Created by miri1 on 2016-10-14.
  */
@@ -109,5 +114,25 @@ public class InfoVO {
 
     public void setBlood(String blood) {
         this.blood = blood;
+    }
+
+    public long getDaysFromPragnancy() {
+        if (pregnancyDate == null || pregnancyDate.isEmpty()) {
+            return -1;
+        }
+
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+
+        try {
+            Date today = Calendar.getInstance().getTime();
+            Date pregnancy = format.parse(pregnancyDate);
+
+            long diff = today.getTime() - pregnancy.getTime();
+            diff /= 1000 * 60 * 60 * 24;
+
+            return diff;
+        } catch (ParseException e) {
+            return -1;
+        }
     }
 }
