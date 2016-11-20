@@ -34,13 +34,8 @@ public class CompanionActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_companion);
-        final Button myTimerButton = (Button) findViewById(R.id.button_my_timer);
-        final Button partnerTimerButton = (Button) findViewById(R.id.button_partner_timer);
+
         final Button eventButton = (Button) findViewById(R.id.eventButton);
-
-        myTimerButton.setVisibility(View.GONE);
-        partnerTimerButton.setVisibility(View.GONE);
-
         eventButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -50,6 +45,17 @@ public class CompanionActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        final Button myTimerButton = (Button) findViewById(R.id.button_my_timer);
+        final Button partnerTimerButton = (Button) findViewById(R.id.button_partner_timer);
+
+        myTimerButton.setVisibility(View.GONE);
+        partnerTimerButton.setVisibility(View.GONE);
 
         FirebaseHelper.requestCurrentUser(new FirebaseHelper.RequestUserEventListener() {
             @Override
@@ -105,7 +111,6 @@ public class CompanionActivity extends AppCompatActivity {
         });
 
         FirebaseHelper.requestBabyfairList(new FirebaseHelper.RequestBabyfairListEventListener() {
-
             @Override
             public void onEvent(final List<BabyfairVO> babyfairs) {
                 TextView fairTitle = (TextView) findViewById(R.id.fairTitle);
@@ -130,9 +135,6 @@ public class CompanionActivity extends AppCompatActivity {
 
             }
         });
-
-
-
     }
 
     @Override
