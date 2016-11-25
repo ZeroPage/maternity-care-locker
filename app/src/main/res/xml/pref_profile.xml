@@ -1,76 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <EditTextPreference
-        android:capitalize="words"
-        android:inputType="textCapWords"
-        android:key="profile_name"
-        android:maxLines="1"
-        android:selectAllOnFocus="true"
-        android:singleLine="true"
-        android:title="@string/pref_title_profile_name"
-    />
+    <PreferenceCategory android:title="임신 일자" >
+        <ListPreference
+            android:title="@string/pref_title_pregnancy_target"
+            android:key="profile_pregnancy_target"
+            android:entries="@array/pref_pregnancy_target_titles"
+            android:entryValues="@array/pref_pregnancy_target_values"
+            android:summary="%s"
+            android:defaultValue="self"
+            />
 
-    <me.skywave.maternitycarelocker.companion.preference.profile.DatePreference
-        android:key="profile_birth"
-        android:title="@string/pref_title_profile_birth"
-        />
+        <me.skywave.maternitycarelocker.companion.preference.profile.DatePreference
+            android:title="@string/pref_title_profile_pregnancy_date"
+            android:key="profile_pregnancy_date"
+            />
 
-    <me.skywave.maternitycarelocker.companion.preference.profile.DatePreference
-        android:title="@string/pref_title_profile_pregnancy_date"
-        android:key="profile_pregnancy_date"
-        />
+    </PreferenceCategory>
 
-    <EditTextPreference
-        android:capitalize="words"
-        android:inputType="textCapWords"
-        android:key="profile_record"
-        android:maxLines="1"
-        android:selectAllOnFocus="true"
-        android:singleLine="true"
-        android:title="@string/pref_title_profile_record"
-        />
+    <PreferenceCategory android:title="의료 정보" >
+        <EditTextPreference
+            android:capitalize="words"
+            android:inputType="textCapWords"
+            android:key="profile_name"
+            android:maxLines="1"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="@string/pref_title_profile_name"
+            />
 
-    <EditTextPreference
-        android:capitalize="sentences"
-        android:inputType="textCapWords"
-        android:key="profile_allergy"
-        android:selectAllOnFocus="true"
-        android:singleLine="true"
-        android:title="@string/pref_title_profile_allergy"
-        />
+        <me.skywave.maternitycarelocker.companion.preference.profile.DatePreference
+            android:key="profile_birth"
+            android:title="@string/pref_title_profile_birth"
+            />
 
-    <Preference
-        android:key="profile_com_contact"
-        android:title="@string/pref_title_profile_com_contact"
-        />
+        <EditTextPreference
+            android:capitalize="words"
+            android:inputType="textCapWords"
+            android:key="profile_record"
+            android:maxLines="1"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="@string/pref_title_profile_record"
+            />
 
-    <Preference
-        android:key="profile_hpt_contact"
-        android:title="@string/pref_title_profile_hpt_contact"
-        />
+        <EditTextPreference
+            android:capitalize="sentences"
+            android:inputType="textCapWords"
+            android:key="profile_allergy"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="@string/pref_title_profile_allergy"
+            />
 
-    <Preference
-        android:key="profile_etc_contact"
-        android:title="@string/pref_title_profile_etc_contact"
-        />
+        <Preference
+            android:key="profile_com_contact"
+            android:title="@string/pref_title_profile_com_contact"
+            />
 
-    <EditTextPreference
-        android:capitalize="sentences"
-        android:inputType="textCapWords"
-        android:key="profile_medicine"
-        android:selectAllOnFocus="true"
-        android:singleLine="true"
-        android:title="@string/pref_title_profile_medicine"
-        />
+        <Preference
+            android:key="profile_hpt_contact"
+            android:title="@string/pref_title_profile_hpt_contact"
+            />
 
-    <EditTextPreference
-        android:capitalize="sentences"
-        android:inputType="textCapWords"
-        android:key="profile_blood"
-        android:selectAllOnFocus="true"
-        android:singleLine="true"
-        android:title="@string/pref_title_profile_blood"
-        />
+        <Preference
+            android:key="profile_etc_contact"
+            android:title="@string/pref_title_profile_etc_contact"
+            />
+
+        <EditTextPreference
+            android:capitalize="sentences"
+            android:inputType="textCapWords"
+            android:key="profile_medicine"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="@string/pref_title_profile_medicine"
+            />
+
+        <EditTextPreference
+            android:capitalize="sentences"
+            android:inputType="textCapWords"
+            android:key="profile_blood"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="@string/pref_title_profile_blood"
+            />
+    </PreferenceCategory>
+
 
 </PreferenceScreen>

@@ -3,6 +3,7 @@ package me.skywave.maternitycarelocker.companion.preference.profile;
 import android.content.Context;
 import android.preference.DialogPreference;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.widget.DatePicker;
 
@@ -61,7 +62,6 @@ public class DatePreference extends DialogPreference {
 
     @Override
     protected void onDialogClosed(boolean positiveResult) {
-        super.onDialogClosed(positiveResult);
 
         if (positiveResult) {
             Calendar now = Calendar.getInstance();
@@ -82,6 +82,7 @@ public class DatePreference extends DialogPreference {
                 setValue("");
             }
         }
+        super.onDialogClosed(positiveResult);
     }
 
     @Override
@@ -93,8 +94,15 @@ public class DatePreference extends DialogPreference {
         }
     }
 
-    private void setValue(String newValue) {
+    public void setValue(String newValue) {
         persistString(newValue);
         setSummary(newValue);
+
+        notifyChanged();
+        callChangeListener(getPersistedString(""));
+    }
+
+    public String getValue() {
+        return getPersistedString("");
     }
 }

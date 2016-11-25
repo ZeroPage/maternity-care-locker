@@ -7,14 +7,19 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
+import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
 import android.provider.ContactsContract.CommonDataKinds.Phone;
+import android.util.Log;
 import android.view.MenuItem;
 
 import me.skywave.maternitycarelocker.R;
+import me.skywave.maternitycarelocker.companion.CompanionActivity;
 import me.skywave.maternitycarelocker.companion.preference.SettingsActivity;
+import me.skywave.maternitycarelocker.utils.FirebaseHelper;
 
 public class ProfilePreferenceFragment extends PreferenceFragment {
     static final int PICK_CONTACT = 1;
@@ -48,6 +53,80 @@ public class ProfilePreferenceFragment extends PreferenceFragment {
         SettingsActivity.bindPreferenceSummaryToValue(comContact);
         SettingsActivity.bindPreferenceSummaryToValue(hptContact);
         SettingsActivity.bindPreferenceSummaryToValue(etcContact);
+
+        final DatePreference pregnancyDatePreference = (DatePreference) findPreference("profile_pregnancy_date");
+        final ListPreference pregnancyTargetPreference = (ListPreference) findPreference("profile_pregnancy_target");
+
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        final String partnerUid = preferences.getString(getString(R.string.pref_pair_uid), null);
+
+        pregnancyTargetPreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newValue) {
+                if (newValue.equals("partner")) {
+                    FirebaseHelper.setPregnancyDate("");
+                } else if (newValue.equals("self")) {
+                    FirebaseHelper.setPregnancyDate(pregnancyDatePreference.getValue());
+                }
+
+                return true;
+            }
+        });
+
+        FirebaseHelper.requestPregnancyDate(partnerUid, new FirebaseHelper.RequestPregnancyDateEventListener() {
+            @Override
+            public void onEvent(final String date) {
+                if (date.isEmpty()) {
+                    return;
+                }
+
+                CharSequence[] entries = pregnancyTargetPreference.getEntries();
+                CharSequence[] newEntries = new CharSequence[entries.length + 1];
+                System.arraycopy(entries, 0, newEntries, 0, entries.length);
+                newEntries[entries.length] = String.format("배우자 - 자동 (%s)", date);
+                pregnancyTargetPreference.setEntries(newEntries);
+
+
+
+                CharSequence[] values = pregnancyTargetPreference.getEntryValues();
+                CharSequence[] newValues = new CharSequence[values.length + 1];
+                System.arraycopy(values, 0, newValues, 0, values.length);
+                newValues[values.length] = String.format("auto");
+                pregnancyTargetPreference.setEntryValues(newValues);
+
+                pregnancyTargetPreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                    @Override
+                    public boolean onPreferenceChange(Preference preference, Object newValue) {
+                        if (newValue.equals("auto")) {
+                            pregnancyDatePreference.setValue(date);
+                            pregnancyTargetPreference.setValue("partner");
+                            FirebaseHelper.setPregnancyDate("");
+
+                            return false;
+                        } else if (newValue.equals("partner")) {
+                            FirebaseHelper.setPregnancyDate("");
+                        } else if (newValue.equals("self")) {
+                            FirebaseHelper.setPregnancyDate(pregnancyDatePreference.getValue());
+                        }
+
+                        return true;
+                    }
+                });
+            }
+        });
+
+
+        pregnancyDatePreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newValue) {
+                if (pregnancyTargetPreference.getValue().equals("self")) {
+                    FirebaseHelper.setPregnancyDate((String) newValue);
+                }
+
+                return true;
+            }
+        });
+
     }
 
     @Override

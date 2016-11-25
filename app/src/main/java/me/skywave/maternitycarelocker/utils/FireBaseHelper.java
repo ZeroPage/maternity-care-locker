@@ -1,6 +1,7 @@
 package me.skywave.maternitycarelocker.utils;
 
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -80,6 +81,40 @@ public class FirebaseHelper {
                 if (user != null) {
                     FirebaseDatabase.getInstance().getReference("user/" + user.getUid() + "/token").setValue(token);
                 }
+            }
+        });
+    }
+
+    public static void setPregnancyDate(final String date) {
+        requestCurrentUser(new RequestUserEventListener() {
+            @Override
+            public void onEvent(FirebaseUser user) {
+                if (user != null) {
+                    Log.d("skywave", date);
+                    DatabaseReference reference = FirebaseDatabase.getInstance().getReference("user/" + user.getUid() + "/pregnancy_date");
+                    reference.setValue(date);
+                }
+            }
+        });
+    }
+
+    public interface RequestPregnancyDateEventListener {
+        void onEvent(String date);
+    }
+    public static void requestPregnancyDate(final String uid, final RequestPregnancyDateEventListener listener) {
+        if (uid == null) {
+            return;
+        }
+
+        FirebaseDatabase.getInstance().getReference("user/" + uid + "/pregnancy_date").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                listener.onEvent(dataSnapshot.getValue(String.class));
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                listener.onEvent(null);
             }
         });
     }

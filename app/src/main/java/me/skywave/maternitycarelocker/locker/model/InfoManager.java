@@ -28,7 +28,7 @@ public class InfoManager {
         value = getValue("profile_birth");
         info.setBirth((value == null) ? "":value);
         value = getValue("profile_pregnancy_date");
-        info.setPregnancyDate(value == null ? "" : value);
+        info.setPregnancyDate(!getValue("profile_pregnancy_target").equals("self") || value == null ? "" : value);
         value = getValue("profile_allergy");
         info.setAllergies((value == null) ? "":value);
         value = getValue("profile_record");
@@ -51,6 +51,5 @@ public class InfoManager {
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
         return pref.getString(key, null);
     }
-
 
 }
