@@ -68,8 +68,8 @@ public class CompanionActivity extends AppCompatActivity {
         final Button myTimerButton = (Button) findViewById(R.id.button_my_timer);
         final Button partnerTimerButton = (Button) findViewById(R.id.button_partner_timer);
 
-        myTimerButton.setVisibility(View.GONE);
-        partnerTimerButton.setVisibility(View.GONE);
+        myTimerButton.setEnabled(false);
+        partnerTimerButton.setEnabled(false);
 
         FirebaseHelper.requestCurrentUser(new FirebaseHelper.RequestUserEventListener() {
             @Override
@@ -85,7 +85,7 @@ public class CompanionActivity extends AppCompatActivity {
                             return;
                         }
 
-                        myTimerButton.setVisibility(View.VISIBLE);
+                        myTimerButton.setEnabled(true);
                         myTimerButton.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
@@ -107,7 +107,7 @@ public class CompanionActivity extends AppCompatActivity {
                         @Override
                         public void onEvent(List<TimerSetVO> timerSet) {
 
-                            partnerTimerButton.setVisibility(View.VISIBLE);
+                            partnerTimerButton.setEnabled(true);
                             partnerTimerButton.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {
