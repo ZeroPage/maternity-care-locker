@@ -79,9 +79,11 @@ public class LockerTimerController extends LockerController {
                     stopButton.setVisibility(View.GONE);
                     task.cancel(true);
 
-                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-                    TimerSetVO timerSetVO = new TimerSetVO(sdf.format(new Date()), timerListAdapter.getTimerList());
-                    FirebaseHelper.addTimerSet(timerSetVO);
+                    if (timerListAdapter.getCount() != 0) {
+                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                        TimerSetVO timerSetVO = new TimerSetVO(sdf.format(new Date()), timerListAdapter.getTimerList());
+                        FirebaseHelper.addTimerSet(timerSetVO);
+                    }
                 }
             }
         });
